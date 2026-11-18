@@ -1,12 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode, JSX } from 'react';
-import { memo, useCallback, useEffect, useEffectEvent } from 'react';
-import { type Placement } from 'react-aria';
-import { DialogTrigger } from 'react-aria-components';
+import { memo, useCallback, useEffect, useEffectEvent, useId } from 'react';
+import { Popover } from 'radix-ui';
 import { tinykeys } from 'tinykeys';
 import { FunPickerTabKey } from './constants.dom.tsx';
-import { FunPopover } from './base/FunPopover.dom.tsx';
+import {
+  FunPopover,
+  type FunPopoverPlacement,
+} from './base/FunPopover.dom.tsx';
 import {
   FunPickerTab,
   FunTabList,
@@ -38,7 +40,7 @@ export type FunPickerProps = Readonly<{
     stickerSelection: FunStickerSelection,
     markAsFavorite: boolean
   ) => void;
-  placement?: Placement;
+  placement?: FunPopoverPlacement;
   theme?: ThemeType;
   children: ReactNode;
 }>;
@@ -48,6 +50,7 @@ export const FunPicker = memo(function FunPicker(
 ): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
+  const triggerId = useId();
   const { i18n, onAnyOpenChange, onChangeTab } = fun;
 
   const handleOpenChange = useCallback(
@@ -99,9 +102,15 @@ export const FunPicker = memo(function FunPicker(
   }, []);
 
   return (
-    <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>
-      {props.children}
-      <FunPopover placement={props.placement} theme={props.theme}>
+    <Popover.Root open={props.open} onOpenChange={handleOpenChange} modal>
+      <Popover.Trigger id={triggerId} asChild>
+        {props.children}
+      </Popover.Trigger>
+      <FunPopover
+        aria-labelledby={triggerId}
+        placement={props.placement}
+        theme={props.theme}
+      >
         <FunTabs value={fun.tab} onChange={fun.onChangeTab}>
           <FunTabList>
             <FunPickerTab id={FunPickerTabKey.EmojisTab}>
@@ -145,6 +154,6 @@ export const FunPicker = memo(function FunPicker(
           </FunTabPanel>
         </FunTabs>
       </FunPopover>
-    </DialogTrigger>
+    </Popover.Root>
   );
 });

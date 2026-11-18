@@ -448,3 +448,25 @@ export const insertEmojiOps = (
 
   return result;
 };
+
+/** Lets screen readers announce the active option while focus stays in the editor */
+export function setActiveCompletionOption(
+  editor: HTMLElement,
+  listId: string,
+  optionId: string
+): void {
+  editor.setAttribute('aria-controls', listId);
+  editor.setAttribute('aria-activedescendant', optionId);
+}
+
+export function clearActiveCompletionOption(
+  editor: HTMLElement,
+  listId: string
+): void {
+  // only if listId is still the active list
+  if (editor.getAttribute('aria-controls') !== listId) {
+    return;
+  }
+  editor.removeAttribute('aria-controls');
+  editor.removeAttribute('aria-activedescendant');
+}

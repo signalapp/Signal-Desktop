@@ -88,6 +88,7 @@ describe('MentionCompletion', () => {
     };
 
     const options: MentionCompletionOptions = {
+      getAnchorElement: () => document.createElement('div'),
       getPreferredBadge: () => undefined,
       i18n: setupI18n('en', {}),
       ourConversationId: me.id,

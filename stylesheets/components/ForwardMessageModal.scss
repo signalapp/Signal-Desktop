@@ -5,14 +5,6 @@
 @use '../variables';
 
 .module-ForwardMessageModal {
-  .module-Modal {
-    flex-direction: column;
-    margin-block: 0;
-    margin-inline: auto;
-    max-width: 360px;
-    width: 95%;
-  }
-
   .module-conversation-list {
     // remove horizontal padding so ListTiles extend to the edges
     padding: 0;
@@ -44,20 +36,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  // Disable vertical scrolling on the modal pages
-  // since the elements inside are scrollable themselves
-  .module-Modal__body {
-    overflow-y: hidden;
-  }
-
-  &__footer {
-    @include mixins.font-body-2;
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    justify-content: space-between;
   }
 
   // Disable cursor since images are non-clickable

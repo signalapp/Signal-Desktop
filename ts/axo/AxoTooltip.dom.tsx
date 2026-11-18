@@ -21,6 +21,7 @@ import { Tooltip, Direction } from 'radix-ui';
 import { computeAccessibleName } from 'dom-accessibility-api';
 import { tw } from './tw.dom.tsx';
 import { assert } from './_internal/assert.std.tsx';
+import { isInBrowsingContext } from './_internal/browsingContext.dom.tsx';
 import {
   getElementAriaRole,
   isAriaWidgetRole,
@@ -408,6 +409,9 @@ export namespace AxoTooltip {
           triggerRef.current instanceof HTMLElement,
           `<AxoTooltip.Root> child must forward ref`
         );
+        if (!isInBrowsingContext(triggerRef.current)) {
+          return;
+        }
         assert(
           isAriaWidgetRole(getElementAriaRole(triggerRef.current)),
           `<AxoTooltip.Root> child must have a widget role like 'button'`
@@ -467,7 +471,7 @@ export namespace AxoTooltip {
               className={tw(
                 'group flex items-baseline justify-center gap-2 overflow-hidden',
                 'px-2.5 py-1.5 type-body-small',
-                'legacy-z-index-above-popup',
+                'legacy-z-index-tooltip',
                 'text-primary-oncolor',
                 'min-w-12',
                 hasAccessory ? 'max-w-[228px]' : 'max-w-[192px]',

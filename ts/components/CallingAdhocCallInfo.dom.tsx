@@ -8,7 +8,8 @@ import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import type { CallLinkType } from '../types/CallLink.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { sortByTitle } from '../util/sortByTitle.std.ts';
-import { ModalHost } from './ModalHost.dom.tsx';
+import { Dialog } from 'radix-ui';
+import { CallingSidePanel } from './CallingSidePanel.dom.tsx';
 import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Avatar.std.ts';
 import { CallingParticipantListItem } from './CallingParticipantListItem.dom.tsx';
 import type {
@@ -186,20 +187,18 @@ export function CallingAdhocCallInfo({
         <AxoConfirmDialog.Ok />
       </AxoConfirmDialog.Root>
 
-      <ModalHost
-        modalName="CallingAdhocCallInfo"
-        className="CallingAdhocCallInfo__modal"
-        onClose={onClose}
-      >
+      <CallingSidePanel onClose={onClose}>
         <div className="CallingAdhocCallInfo module-calling-participants-list">
           <div className="module-calling-participants-list__header">
-            <div className="module-calling-participants-list__title">
-              {participants.length
-                ? i18n('icu:calling__in-this-call', {
-                    people: participants.length,
-                  })
-                : i18n('icu:calling__in-this-call--zero')}
-            </div>
+            <Dialog.Title asChild>
+              <div className="module-calling-participants-list__title">
+                {participants.length
+                  ? i18n('icu:calling__in-this-call', {
+                      people: participants.length,
+                    })
+                  : i18n('icu:calling__in-this-call--zero')}
+              </div>
+            </Dialog.Title>
             <button
               type="button"
               className="module-calling-participants-list__close"
@@ -247,7 +246,7 @@ export function CallingAdhocCallInfo({
             </button>
           </div>
         </div>
-      </ModalHost>
+      </CallingSidePanel>
     </>
   );
 }

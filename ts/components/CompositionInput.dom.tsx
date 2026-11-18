@@ -18,7 +18,6 @@ import type {
   JSX,
 } from 'react';
 import classNames from 'classnames';
-import { Manager, Reference } from 'react-popper';
 import Quill, { Delta } from '@signalapp/quill-cjs';
 import {
   matchText,
@@ -242,6 +241,7 @@ export function CompositionInput(props: Props): ReactElement {
 
   const emojiCompletionRef = useRef<EmojiCompletion>(undefined);
   const mentionCompletionRef = useRef<MentionCompletion>(undefined);
+  const inputContainerRef = useRef<HTMLDivElement>(null);
   const quillRef = useRef<Quill>(undefined);
 
   const propsRef = useRef<Props>(props);
@@ -775,22 +775,6 @@ export function CompositionInput(props: Props): ReactElement {
     emojiCompletion.options.emojiSkinToneDefault = emojiSkinToneDefault;
   }, [emojiSkinToneDefault]);
 
-  useEffect(
-    () => () => {
-      const emojiCompletion = emojiCompletionRef.current;
-      const mentionCompletion = mentionCompletionRef.current;
-
-      if (emojiCompletion !== undefined) {
-        emojiCompletion.destroy();
-      }
-
-      if (mentionCompletion !== undefined) {
-        mentionCompletion.destroy();
-      }
-    },
-    []
-  );
-
   const removeStaleMentions = (
     currentMembers: ReadonlyArray<ConversationType>
   ) => {
@@ -923,6 +907,7 @@ export function CompositionInput(props: Props): ReactElement {
               setFormattingChooserElement,
             },
             mentionCompletion: {
+              getAnchorElement: () => inputContainerRef.current,
               getPreferredBadge,
               memberRepositoryRef,
               setMentionPickerElement: setMentionCompletionElement,
@@ -946,6 +931,11 @@ export function CompositionInput(props: Props): ReactElement {
             }
 
             quillRef.current = quill;
+
+            // Completion lists set `aria-activedescendant` on the editor
+            quill.root.setAttribute('role', 'textbox');
+            quill.root.setAttribute('aria-multiline', 'true');
+            quill.root.setAttribute('aria-autocomplete', 'list');
 
             quill.on(Emitter.events.COMPOSITION_START, () => {
               quill.root.classList.toggle('ql-blank', false);
@@ -1044,119 +1034,107 @@ export function CompositionInput(props: Props): ReactElement {
   const isInputEnabled = !disabled && !isViewOnceActive;
 
   return (
-    <Manager>
-      <Reference>
-        {({ ref }) => (
-          <div
-            className={classNames(
-              'module-composition-input__input',
-              showViewOnceButton &&
-                'module-composition-input__input--with-view-once',
-              isViewOnceActive &&
-                'module-composition-input__input--view-once-active',
-              className
-            )}
-            data-supertab
-            ref={ref}
-            data-testid="CompositionInput"
-            data-enabled={isInputEnabled ? 'true' : 'false'}
-            data-focus-visible={isFocusVisibleWithin}
-            {...mergeProps(focusVisibleWithinProps, { onMouseDown })}
+    <div
+      className={classNames(
+        'module-composition-input__input',
+        showViewOnceButton && 'module-composition-input__input--with-view-once',
+        isViewOnceActive && 'module-composition-input__input--view-once-active',
+        className
+      )}
+      data-supertab
+      ref={inputContainerRef}
+      data-testid="CompositionInput"
+      data-enabled={isInputEnabled ? 'true' : 'false'}
+      data-focus-visible={isFocusVisibleWithin}
+      {...mergeProps(focusVisibleWithinProps, { onMouseDown })}
+    >
+      {onRecoveryKeyPasteConfirm ? (
+        <RecoveryKeyPasteWarning
+          i18n={i18n}
+          onCancel={() => setOnRecoveryKeyPasteConfirm(null)}
+          onConfirm={() => {
+            setOnRecoveryKeyPasteConfirm(null);
+            onRecoveryKeyPasteConfirm.onAllowPaste();
+          }}
+        />
+      ) : null}
+      {draftEditMessage && (
+        <div className="module-composition-input__editing-message">
+          {i18n('icu:CompositionInput__editing-message')}
+        </div>
+      )}
+      {draftEditMessage?.attachmentThumbnail && (
+        <div className="module-composition-input__editing-message__attachment">
+          <img
+            alt={i18n('icu:stagedImageAttachment', {
+              path: draftEditMessage.attachmentThumbnail,
+            })}
+            src={draftEditMessage.attachmentThumbnail}
+          />
+        </div>
+      )}
+      {conversationId && linkPreviewLoading && linkPreviewResult && (
+        <StagedLinkPreview
+          {...linkPreviewResult}
+          className="CompositionInput__link-preview"
+          i18n={i18n}
+          onClose={() => onCloseLinkPreview?.(conversationId)}
+        />
+      )}
+      {children}
+      {isViewOnceActive && (
+        <div className="module-composition-input__view-once-placeholder">
+          {i18n('icu:CompositionArea--viewOnceMediaPlaceholder')}
+        </div>
+      )}
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+      <div
+        onClick={focus}
+        onScroll={onScroll}
+        className={classNames(
+          'module-composition-input__input__scroller',
+          !large && linkPreviewResult
+            ? 'module-composition-input__input__scroller--link-preview'
+            : null,
+          large ? 'module-composition-input__input__scroller--large' : null,
+          children ? 'module-composition-input__input--with-children' : null
+        )}
+      >
+        {reactQuill}
+        {shouldHidePopovers ? null : (
+          <>
+            {emojiCompletionElement}
+            {mentionCompletionElement}
+            {formattingChooserElement}
+          </>
+        )}
+      </div>
+      {showViewOnceButton && (
+        <div className="module-composition-input__view-once-button">
+          <AxoTooltip.Root
+            label={i18n('icu:CompositionArea--viewOnceToggle')}
+            tooltipRepeatsTriggerAccessibleName
           >
-            {onRecoveryKeyPasteConfirm ? (
-              <RecoveryKeyPasteWarning
-                i18n={i18n}
-                onCancel={() => setOnRecoveryKeyPasteConfirm(null)}
-                onConfirm={() => {
-                  setOnRecoveryKeyPasteConfirm(null);
-                  onRecoveryKeyPasteConfirm.onAllowPaste();
-                }}
-              />
-            ) : null}
-            {draftEditMessage && (
-              <div className="module-composition-input__editing-message">
-                {i18n('icu:CompositionInput__editing-message')}
-              </div>
-            )}
-            {draftEditMessage?.attachmentThumbnail && (
-              <div className="module-composition-input__editing-message__attachment">
-                <img
-                  alt={i18n('icu:stagedImageAttachment', {
-                    path: draftEditMessage.attachmentThumbnail,
-                  })}
-                  src={draftEditMessage.attachmentThumbnail}
-                />
-              </div>
-            )}
-            {conversationId && linkPreviewLoading && linkPreviewResult && (
-              <StagedLinkPreview
-                {...linkPreviewResult}
-                className="CompositionInput__link-preview"
-                i18n={i18n}
-                onClose={() => onCloseLinkPreview?.(conversationId)}
-              />
-            )}
-            {children}
-            {isViewOnceActive && (
-              <div className="module-composition-input__view-once-placeholder">
-                {i18n('icu:CompositionArea--viewOnceMediaPlaceholder')}
-              </div>
-            )}
-            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div
-              onClick={focus}
-              onScroll={onScroll}
-              className={classNames(
-                'module-composition-input__input__scroller',
-                !large && linkPreviewResult
-                  ? 'module-composition-input__input__scroller--link-preview'
-                  : null,
-                large
-                  ? 'module-composition-input__input__scroller--large'
-                  : null,
-                children
-                  ? 'module-composition-input__input--with-children'
-                  : null
+            <button
+              type="button"
+              aria-label={i18n('icu:CompositionArea--viewOnceToggle')}
+              onClick={onToggleViewOnce}
+              className={tw(
+                'flex cursor-default items-center justify-center rounded-full',
+                'focus-visible:axo-focus-ring',
+                'forced-colors:border forced-colors:border-[ButtonBorder]'
               )}
             >
-              {reactQuill}
-              {shouldHidePopovers ? null : (
-                <>
-                  {emojiCompletionElement}
-                  {mentionCompletionElement}
-                  {formattingChooserElement}
-                </>
-              )}
-            </div>
-            {showViewOnceButton && (
-              <div className="module-composition-input__view-once-button">
-                <AxoTooltip.Root
-                  label={i18n('icu:CompositionArea--viewOnceToggle')}
-                  tooltipRepeatsTriggerAccessibleName
-                >
-                  <button
-                    type="button"
-                    aria-label={i18n('icu:CompositionArea--viewOnceToggle')}
-                    onClick={onToggleViewOnce}
-                    className={tw(
-                      'flex cursor-default items-center justify-center rounded-full',
-                      'focus-visible:axo-focus-ring',
-                      'forced-colors:border forced-colors:border-[ButtonBorder]'
-                    )}
-                  >
-                    <AxoSymbol.Icon
-                      size={20}
-                      symbol={isViewOnceActive ? 'viewonce' : 'viewonce-slash'}
-                      label={null}
-                    />
-                  </button>
-                </AxoTooltip.Root>
-              </div>
-            )}
-          </div>
-        )}
-      </Reference>
-    </Manager>
+              <AxoSymbol.Icon
+                size={20}
+                symbol={isViewOnceActive ? 'viewonce' : 'viewonce-slash'}
+                label={null}
+              />
+            </button>
+          </AxoTooltip.Root>
+        </div>
+      )}
+    </div>
   );
 }
 

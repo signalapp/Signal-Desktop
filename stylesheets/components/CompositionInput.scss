@@ -200,40 +200,6 @@
         }
       }
 
-      &__popover {
-        @include mixins.font-subtitle-bold;
-        & {
-          padding-block: 5px;
-          padding-inline: 8px;
-          text-align: center;
-          border-radius: 4px;
-          margin-bottom: 8px;
-
-          opacity: 0;
-          transition: opacity 120ms ease-out;
-        }
-
-        @include mixins.light-theme {
-          background-color: variables.$color-black;
-          color: variables.$color-gray-05;
-        }
-        @include mixins.dark-theme {
-          background-color: variables.$color-gray-65;
-          color: variables.$color-gray-05;
-        }
-
-        &__shortcut {
-          @include mixins.font-caption-bold;
-
-          @include mixins.light-theme {
-            color: variables.$color-gray-15;
-          }
-          @include mixins.dark-theme {
-            color: variables.$color-gray-25;
-          }
-        }
-      }
-
       &__icon {
         height: 20px;
         width: 20px;

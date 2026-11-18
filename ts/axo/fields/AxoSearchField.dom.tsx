@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC, FocusEvent, ReactNode } from 'react';
+import type { FC, FocusEvent, ReactNode, RefObject } from 'react';
 import { memo } from 'react';
 import { AxoBaseField } from './_AxoBaseField.dom.tsx';
 import { UnitBytes } from '@signalapp/types';
@@ -73,6 +73,8 @@ export namespace AxoSearchField {
    */
 
   export type InputProps = Readonly<{
+    /** Ref to the underlying `<input>` element. */
+    ref?: RefObject<HTMLInputElement | null>;
     /** Placeholder text shown when the input is empty. */
     placeholder: string;
     /** Focuses the input on mount. */
@@ -84,9 +86,10 @@ export namespace AxoSearchField {
   }>;
 
   export const Input: FC<InputProps> = memo(props => {
-    const { placeholder, autoFocus, onFocus, onBlur } = props;
+    const { ref, placeholder, autoFocus, onFocus, onBlur } = props;
     return (
       <AxoBaseField.Input
+        ref={ref}
         type="search"
         placeholder={placeholder}
         autoFocus={autoFocus}

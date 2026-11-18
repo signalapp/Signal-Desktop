@@ -3,7 +3,7 @@
 
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { useState, type JSX } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
@@ -105,11 +105,25 @@ function renderUsernameEditor(props: { onClose: () => void }): JSX.Element {
 
 const Template: StoryFn<PropsType> = args => {
   const [editState, setEditState] = useState(args.editState);
+  const [
+    hasCompletedUsernameLinkOnboarding,
+    setHasCompletedUsernameLinkOnboarding,
+  ] = useState(args.hasCompletedUsernameLinkOnboarding);
+  const { markCompletedUsernameLinkOnboarding } = args;
+
+  const handleMarkCompletedUsernameLinkOnboarding = useCallback(() => {
+    markCompletedUsernameLinkOnboarding();
+    setHasCompletedUsernameLinkOnboarding(true);
+  }, [markCompletedUsernameLinkOnboarding]);
 
   return (
     <ProfileEditor
       {...args}
       editState={editState}
+      hasCompletedUsernameLinkOnboarding={hasCompletedUsernameLinkOnboarding}
+      markCompletedUsernameLinkOnboarding={
+        handleMarkCompletedUsernameLinkOnboarding
+      }
       renderUsernameEditor={renderUsernameEditor}
       setEditState={setEditState}
     />
@@ -138,6 +152,13 @@ WithCustomAbout.args = {
 export const WithUsername = Template.bind({});
 WithUsername.args = {
   username: 'signaluser.123',
+};
+
+export const UsernameLinkOnboarding = Template.bind({});
+UsernameLinkOnboarding.args = {
+  username: 'signaluser.123',
+  usernameLink: undefined,
+  hasCompletedUsernameLinkOnboarding: false,
 };
 
 export const DeletingUsername = Template.bind({});

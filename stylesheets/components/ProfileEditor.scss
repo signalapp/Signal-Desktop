@@ -7,8 +7,12 @@
 .ProfileEditor {
   &__username-link {
     &__tooltip {
-      padding: 0;
-      background-color: unset;
+      border-radius: 8px;
+      color: variables.$color-gray-75;
+      z-index: variables.$z-index-tooltip;
+      @include mixins.dark-theme {
+        color: variables.$color-gray-05;
+      }
 
       --container-padding: 12px;
 
@@ -97,17 +101,25 @@
           height: 20px;
           padding: 0;
           margin: 0;
+          border-radius: 4px;
         }
 
-        @include mixins.color-svg(
-          '../images/icons/v3/x/x.svg',
-          variables.$color-gray-45
-        );
-        @include mixins.dark-theme {
+        // The icon's mask would also hide the button's focus ring
+        &::before {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 100%;
           @include mixins.color-svg(
             '../images/icons/v3/x/x.svg',
-            variables.$color-gray-25
+            variables.$color-gray-45
           );
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
+              '../images/icons/v3/x/x.svg',
+              variables.$color-gray-25
+            );
+          }
         }
       }
     }

@@ -1,10 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode, JSX } from 'react';
-import { memo, useCallback } from 'react';
-import type { Placement } from 'react-aria';
-import { DialogTrigger } from 'react-aria-components';
-import { FunPopover } from './base/FunPopover.dom.tsx';
+import { memo, useCallback, useId } from 'react';
+import { Popover } from 'radix-ui';
+import {
+  FunPopover,
+  type FunPopoverPlacement,
+} from './base/FunPopover.dom.tsx';
 import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.tsx';
 import { FunPanelEmojis } from './panels/FunPanelEmojis.dom.tsx';
 import { useFunContext } from './FunProvider.dom.tsx';
@@ -15,7 +17,7 @@ import type { Emoji } from '../../axo/emoji.std.ts';
 export type FunEmojiPickerProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  placement?: Placement;
+  placement?: FunPopoverPlacement;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   theme?: ThemeType;
   showCustomizePreferredReactionsButton?: boolean;
@@ -29,6 +31,7 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
 ): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
+  const triggerId = useId();
   const { onAnyOpenChange } = fun;
 
   const handleOpenChange = useCallback(
@@ -44,9 +47,15 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
   }, [handleOpenChange]);
 
   return (
-    <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>
-      {props.children}
-      <FunPopover placement={props.placement} theme={props.theme}>
+    <Popover.Root open={props.open} onOpenChange={handleOpenChange} modal>
+      <Popover.Trigger id={triggerId} asChild>
+        {props.children}
+      </Popover.Trigger>
+      <FunPopover
+        aria-labelledby={triggerId}
+        placement={props.placement}
+        theme={props.theme}
+      >
         <FunErrorBoundary>
           <FunPanelEmojis
             onSelectEmoji={props.onSelectEmoji}
@@ -59,6 +68,6 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
           />
         </FunErrorBoundary>
       </FunPopover>
-    </DialogTrigger>
+    </Popover.Root>
   );
 });

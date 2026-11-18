@@ -11,7 +11,7 @@ const options = {
   content: ['{app,ts}/**/*.{ts,tsx}', '*.html'],
   css: ['stylesheets/manifest.css'],
   rejected: true,
-  dynamicAttributes: ['data-focus-visible', 'data-dragging'],
+  dynamicAttributes: ['data-focus-visible', 'data-dragging', 'data-state'],
   safelist: {
     standard: ['ql-container', ':has', ':empty', ':focus-visible', ':disabled'],
   },

@@ -229,18 +229,11 @@
   &__popper {
     background: variables.$color-gray-80;
     border-radius: 10px;
-    margin-bottom: 18px;
     padding: 8px;
     width: 144px;
 
     &__arrow {
-      border-inline-start: 14px solid transparent;
-      border-inline-end: 14px solid transparent;
-      border-top: 14px solid variables.$color-gray-80;
-      @include mixins.position-absolute-center-x;
-      bottom: -14px;
-      height: 0;
-      width: 0;
+      fill: variables.$color-gray-80;
     }
   }
 

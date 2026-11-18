@@ -1,14 +1,14 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'motion/react';
 
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { ContactName } from './conversation/ContactName.dom.tsx';
-import { InContactsIcon } from './InContactsIcon.dom.tsx';
+import { AxoContactName } from '../axo/AxoContactName.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { isInSystemContacts } from '../util/isInSystemContacts.std.ts';
@@ -18,7 +18,7 @@ import type {
 } from '../state/ducks/calling.preload.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
+import { Dialog } from 'radix-ui';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
@@ -61,8 +61,6 @@ export function CallingPendingParticipants({
   const [serviceIdsStagedForAction, setServiceIdsStagedForAction] = useState<
     Array<ServiceIdString>
   >([]);
-
-  const expandedListRef = useRef<HTMLDivElement>(null);
 
   const handleHideAllRequests = useCallback(() => {
     setIsExpanded(false);
@@ -156,22 +154,6 @@ export function CallingPendingParticipants({
     [i18n, handleApprove, handleDeny]
   );
 
-  useEffect(() => {
-    if (!isExpanded) {
-      return noop;
-    }
-    return handleOutsideClick(
-      () => {
-        handleHideAllRequests();
-        return true;
-      },
-      {
-        containerElements: [expandedListRef],
-        name: 'CallingPendingParticipantsList.expandedList',
-      }
-    );
-  }, [isExpanded, handleHideAllRequests]);
-
   if (confirmDialogState === ConfirmDialogState.ApproveAll) {
     return (
       <AxoConfirmDialog.Root
@@ -226,94 +208,102 @@ export function CallingPendingParticipants({
 
   if (isExpanded) {
     return (
-      <div
-        className="CallingPendingParticipants CallingPendingParticipants--Expanded module-calling-participants-list"
-        ref={expandedListRef}
-      >
-        <div className="module-calling-participants-list__header">
-          <div className="module-calling-participants-list__title">
-            {i18n('icu:CallingPendingParticipants__RequestsToJoin', {
-              count: participantCount,
-            })}
-          </div>
-          <button
-            type="button"
-            className="module-calling-participants-list__close"
-            onClick={handleHideAllRequests}
-            tabIndex={0}
-            aria-label={i18n('icu:close')}
-          />
-        </div>
-        <ul className="module-calling-participants-list__list">
-          {participants.map((participant: ConversationType, index: number) => (
-            <li
-              className="module-calling-participants-list__contact"
-              // oxlint-disable-next-line react/no-array-index-key
-              key={index}
-            >
+      <Dialog.Root open onOpenChange={setIsExpanded} modal={false}>
+        {/* No portal: the list is positioned by the call screen's CSS */}
+        <Dialog.Content
+          asChild
+          aria-describedby={undefined}
+          // Only clicks outside close it
+          onFocusOutside={event => event.preventDefault()}
+        >
+          <div className="CallingPendingParticipants CallingPendingParticipants--Expanded module-calling-participants-list">
+            <div className="module-calling-participants-list__header">
+              <Dialog.Title asChild>
+                <div className="module-calling-participants-list__title">
+                  {i18n('icu:CallingPendingParticipants__RequestsToJoin', {
+                    count: participantCount,
+                  })}
+                </div>
+              </Dialog.Title>
               <button
                 type="button"
-                onClick={ev => {
-                  ev.preventDefault();
-                  ev.stopPropagation();
-                  toggleCallLinkPendingParticipantModal(participant.id);
+                className="module-calling-participants-list__close"
+                onClick={handleHideAllRequests}
+                tabIndex={0}
+                aria-label={i18n('icu:close')}
+              />
+            </div>
+            <ul className="module-calling-participants-list__list">
+              {participants.map(
+                (participant: ConversationType, index: number) => (
+                  <li
+                    className="module-calling-participants-list__contact"
+                    // oxlint-disable-next-line react/no-array-index-key
+                    key={index}
+                  >
+                    <button
+                      type="button"
+                      onClick={ev => {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        toggleCallLinkPendingParticipantModal(participant.id);
+                      }}
+                      className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
+                    >
+                      <Avatar
+                        avatarPlaceholderGradient={
+                          participant.avatarPlaceholderGradient
+                        }
+                        avatarUrl={participant.avatarUrl}
+                        badge={undefined}
+                        color={participant.color}
+                        conversationType="direct"
+                        i18n={i18n}
+                        profileName={participant.profileName}
+                        title={participant.title}
+                        size={AvatarSize.THIRTY_SIX}
+                      />
+                      <ContactName
+                        className="module-calling-participants-list__name"
+                        title={participant.title}
+                      />
+                      {isInSystemContacts(participant) ? (
+                        <>
+                          &nbsp;
+                          <AxoContactName.SystemContactEmblemStatic />
+                        </>
+                      ) : null}
+                    </button>
+                    {renderApprovalButtons(participant)}
+                  </li>
+                )
+              )}
+            </ul>
+            <div className="CallingPendingParticipants__ActionPanel">
+              <Button
+                className="CallingPendingParticipants__ActionPanelButton"
+                variant={ButtonVariant.Destructive}
+                onClick={() => {
+                  stageServiceIdsForAction();
+                  setConfirmDialogState(ConfirmDialogState.DenyAll);
                 }}
-                className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
               >
-                <Avatar
-                  avatarPlaceholderGradient={
-                    participant.avatarPlaceholderGradient
-                  }
-                  avatarUrl={participant.avatarUrl}
-                  badge={undefined}
-                  color={participant.color}
-                  conversationType="direct"
-                  i18n={i18n}
-                  profileName={participant.profileName}
-                  title={participant.title}
-                  size={AvatarSize.THIRTY_SIX}
-                />
-                <ContactName
-                  className="module-calling-participants-list__name"
-                  title={participant.title}
-                />
-                {isInSystemContacts(participant) ? (
-                  <span>
-                    {' '}
-                    <InContactsIcon
-                      className="module-calling-participants-list__contact-icon"
-                      i18n={i18n}
-                    />
-                  </span>
-                ) : null}
-              </button>
-              {renderApprovalButtons(participant)}
-            </li>
-          ))}
-        </ul>
-        <div className="CallingPendingParticipants__ActionPanel">
-          <Button
-            className="CallingPendingParticipants__ActionPanelButton"
-            variant={ButtonVariant.Destructive}
-            onClick={() => {
-              stageServiceIdsForAction();
-              setConfirmDialogState(ConfirmDialogState.DenyAll);
-            }}
-          >
-            {i18n('icu:CallingPendingParticipants__DenyAll')}
-          </Button>
-          <Button
-            className="CallingPendingParticipants__ActionPanelButton"
-            variant={ButtonVariant.Calling}
-            onClick={() => {
-              stageServiceIdsForAction();
-              setConfirmDialogState(ConfirmDialogState.ApproveAll);
-            }}
-          >
-            {i18n('icu:CallingPendingParticipants__ApproveAll')}
-          </Button>
-        </div>
-      </div>
+                {i18n('icu:CallingPendingParticipants__DenyAll')}
+              </Button>
+              <Button
+                className="CallingPendingParticipants__ActionPanelButton"
+                variant={ButtonVariant.Calling}
+                onClick={() => {
+                  stageServiceIdsForAction();
+                  setConfirmDialogState(ConfirmDialogState.ApproveAll);
+                }}
+              >
+                {i18n('icu:CallingPendingParticipants__ApproveAll')}
+              </Button>
+            </div>
+          </div>
+        </Dialog.Content>
+      </Dialog.Root>
     );
   }
 
@@ -372,10 +362,10 @@ export function CallingPendingParticipants({
                 <div className="CallingPendingParticipants__ParticipantName">
                   <ContactName title={participant.title} />
                   {isInSystemContacts(participant) ? (
-                    <InContactsIcon
-                      className="module-calling-participants-list__contact-icon"
-                      i18n={i18n}
-                    />
+                    <>
+                      &nbsp;
+                      <AxoContactName.SystemContactEmblemStatic />
+                    </>
                   ) : null}
                   <span className="CallingPendingParticipants__ParticipantAboutIcon" />
                 </div>

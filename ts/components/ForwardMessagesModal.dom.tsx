@@ -2,14 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentType, JSX } from 'react';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  Fragment,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState, Fragment } from 'react';
+import classNames from 'classnames';
 import { AttachmentList } from './conversation/AttachmentList.dom.tsx';
 import type { AttachmentForUIType } from '../types/Attachment.std.ts';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
@@ -19,7 +13,6 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.tsx';
-import { SearchInput } from './SearchInput.dom.tsx';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.tsx';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
 import {
@@ -31,7 +24,10 @@ import { ToastType } from '../types/Toast.std.ts';
 import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
 import { UserText } from './UserText.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
+import { AxoSearchField } from '../axo/fields/AxoSearchField.dom.tsx';
+import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import {
   isDraftEditable,
@@ -39,10 +35,9 @@ import {
   type MessageForwardDraft,
 } from '../types/ForwardDraft.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { Theme } from '../util/theme.std.ts';
+import { Theme, themeClassName } from '../util/theme.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
-import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export enum ForwardMessagesModalType {
   Forward,
@@ -99,7 +94,6 @@ export function ForwardMessagesModal({
   theme,
   regionCode,
 }: PropsType): JSX.Element {
-  const inputRef = useRef<null | HTMLInputElement>(null);
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
   >([]);
@@ -237,45 +231,14 @@ export function ForwardMessagesModal({
     };
   };
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  const footer = (
-    <div className="module-ForwardMessageModal__footer">
-      <div>
-        {selectedContacts.map((contact, index) => {
-          return (
-            <Fragment key={contact.id}>
-              <UserText text={contact.title} />
-              {index < selectedContacts.length - 1 ? ', ' : ''}
-            </Fragment>
-          );
-        })}
-      </div>
-      <div>
-        {isEditingMessage || !isLonelyDraftEditable ? (
-          <AxoIconButton.Root
-            size="md"
-            variant="strong-primary"
-            symbol="send-fill"
-            label={i18n('icu:ForwardMessageModal--continue')}
-            disabled={!canForwardMessages}
-            onClick={forwardMessages}
-          />
-        ) : (
-          <AxoIconButton.Root
-            size="md"
-            variant="strong-primary"
-            symbol="arrow-[end]"
-            label={i18n('icu:forwardMessage')}
-            disabled={!hasContactsSelected}
-            onClick={() => setIsEditingMessage(true)}
-          />
-        )}
-      </div>
-    </div>
-  );
+  const selectedContactNames = selectedContacts.map((contact, index) => {
+    return (
+      <Fragment key={contact.id}>
+        <UserText text={contact.title} />
+        {index < selectedContacts.length - 1 ? ', ' : ''}
+      </Fragment>
+    );
+  });
 
   let title: string;
   if (
@@ -289,7 +252,20 @@ export function ForwardMessagesModal({
     throw missingCaseError(type);
   }
 
-  const modalTheme = isInFullScreenCall ? Theme.Dark : undefined;
+  // Legacy children (ConversationList, the composer) need a `.dark-theme`
+  // ancestor; AxoTheme.Override only covers Axo parts
+  const legacyThemeClassName = isInFullScreenCall
+    ? themeClassName(Theme.Dark)
+    : undefined;
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
   return (
     <>
@@ -302,109 +278,169 @@ export function ForwardMessagesModal({
       >
         <AxoConfirmDialog.Ok />
       </AxoConfirmDialog.Root>
-      <Modal
-        modalName="ForwardMessageModal"
-        hasXButton
-        i18n={i18n}
-        onClose={onClose}
-        onBackButtonClick={isEditingMessage ? handleBackOrClose : undefined}
-        className="module-ForwardMessageModal"
-        title={title}
-        theme={modalTheme}
-        padded={false}
-        modalFooter={footer}
-        noMouseClose
-      >
-        {isEditingMessage && lonelyDraft != null ? (
-          <ForwardMessageEditor
-            draft={lonelyDraft}
-            linkPreview={lonelyLinkPreview}
-            onChange={(messageBody, bodyRanges) => {
-              onChange([{ ...lonelyDraft, messageBody, bodyRanges }]);
-            }}
-            onChangeAttachments={attachments => {
-              onChange([{ ...lonelyDraft, attachments }]);
-            }}
-            removeLinkPreview={removeLinkPreview}
-            theme={theme}
-            i18n={i18n}
-            RenderCompositionTextArea={RenderCompositionTextArea}
-            onSubmit={forwardMessages}
-          />
-        ) : (
-          <div className="module-ForwardMessageModal__main-body">
-            <SearchInput
-              disabled={candidateConversations.length === 0}
-              i18n={i18n}
-              placeholder={i18n('icu:contactSearchPlaceholder')}
-              onChange={event => {
-                setSearchTerm(event.target.value);
-              }}
-              ref={inputRef}
-              value={searchTerm}
-            />
-            {candidateConversations.length ? (
-              <SizeObserver>
-                {(ref, size) => (
-                  <div
-                    className="module-ForwardMessageModal__list-wrapper"
-                    ref={ref}
-                  >
-                    <ConversationList
-                      dimensions={size?.hidden === false ? size : undefined}
-                      getPreferredBadge={getPreferredBadge}
-                      getRow={getRow}
-                      i18n={i18n}
-                      onClickArchiveButton={shouldNeverBeCalled}
-                      onClickContactCheckbox={(
-                        conversationId: string,
-                        disabledReason:
-                          | undefined
-                          | ContactCheckboxDisabledReason
-                      ) => {
-                        if (
-                          disabledReason !==
-                          ContactCheckboxDisabledReason.MaximumContactsSelected
-                        ) {
-                          toggleSelectedConversation(conversationId);
-                        }
-                      }}
-                      lookupConversationWithoutServiceId={
-                        asyncShouldNeverBeCalled
-                      }
-                      showConversation={shouldNeverBeCalled}
-                      showUserNotFoundModal={shouldNeverBeCalled}
-                      setIsFetchingUUID={shouldNeverBeCalled}
-                      onClickClearFilterButton={shouldNeverBeCalled}
-                      onPreloadConversation={shouldNeverBeCalled}
-                      onSelectConversation={shouldNeverBeCalled}
-                      blockConversation={shouldNeverBeCalled}
-                      removeConversation={shouldNeverBeCalled}
-                      onOutgoingAudioCallInConversation={shouldNeverBeCalled}
-                      onOutgoingVideoCallInConversation={shouldNeverBeCalled}
-                      renderMessageSearchResult={() => {
-                        shouldNeverBeCalled();
-                        return <div />;
-                      }}
-                      rowCount={rowCount}
-                      shouldRecomputeRowHeights={false}
-                      resetShouldRecomputeRowHeights={shouldNeverBeCalled}
-                      showChooseGroupMembers={shouldNeverBeCalled}
-                      showFindByUsername={shouldNeverBeCalled}
-                      showFindByPhoneNumber={shouldNeverBeCalled}
-                      theme={theme}
-                    />
-                  </div>
-                )}
-              </SizeObserver>
-            ) : (
-              <div className="module-ForwardMessageModal__no-candidate-contacts">
-                {i18n('icu:noContactsFound')}
-              </div>
+      <AxoTheme.Override theme={isInFullScreenCall ? 'force-dark' : 'auto'}>
+        <AxoDialog.Root open onOpenChange={handleOpenChange}>
+          <AxoDialog.Content
+            size="md"
+            escape={
+              hasContactsSelected || isEditingMessage
+                ? 'cancel-is-destructive'
+                : 'cancel-is-noop'
+            }
+          >
+            <AxoDialog.Header>
+              {isEditingMessage && (
+                <AxoDialog.Back onClick={handleBackOrClose} />
+              )}
+              <AxoDialog.Title>{title}</AxoDialog.Title>
+              <AxoDialog.Close />
+            </AxoDialog.Header>
+            {!isEditingMessage && (
+              <AxoDialog.Search>
+                <AxoSearchField.Root
+                  value={searchTerm}
+                  onValueChange={setSearchTerm}
+                  disabled={candidateConversations.length === 0}
+                >
+                  <AxoSearchField.Icon />
+                  <AxoSearchField.Input
+                    placeholder={i18n('icu:contactSearchPlaceholder')}
+                    autoFocus
+                  />
+                  <AxoSearchField.Clear />
+                </AxoSearchField.Root>
+              </AxoDialog.Search>
             )}
-          </div>
-        )}
-      </Modal>
+            <AxoDialog.Body
+              scrollbarWidth="none"
+              // The list and the composer have their own scroll containers
+              padding="deprecated-only-scrollbar-gutter"
+            >
+              <div
+                className={classNames(
+                  'module-ForwardMessageModal',
+                  legacyThemeClassName,
+                  tw('flex h-90 flex-col')
+                )}
+              >
+                {isEditingMessage && lonelyDraft != null ? (
+                  <ForwardMessageEditor
+                    draft={lonelyDraft}
+                    linkPreview={lonelyLinkPreview}
+                    onChange={(messageBody, bodyRanges) => {
+                      onChange([{ ...lonelyDraft, messageBody, bodyRanges }]);
+                    }}
+                    onChangeAttachments={attachments => {
+                      onChange([{ ...lonelyDraft, attachments }]);
+                    }}
+                    removeLinkPreview={removeLinkPreview}
+                    theme={theme}
+                    i18n={i18n}
+                    RenderCompositionTextArea={RenderCompositionTextArea}
+                    onSubmit={forwardMessages}
+                  />
+                ) : (
+                  <>
+                    {candidateConversations.length ? (
+                      <SizeObserver>
+                        {(ref, size) => (
+                          <div
+                            className="module-ForwardMessageModal__list-wrapper"
+                            ref={ref}
+                          >
+                            <ConversationList
+                              dimensions={
+                                size?.hidden === false ? size : undefined
+                              }
+                              getPreferredBadge={getPreferredBadge}
+                              getRow={getRow}
+                              i18n={i18n}
+                              onClickArchiveButton={shouldNeverBeCalled}
+                              onClickContactCheckbox={(
+                                conversationId: string,
+                                disabledReason:
+                                  | undefined
+                                  | ContactCheckboxDisabledReason
+                              ) => {
+                                if (
+                                  disabledReason !==
+                                  ContactCheckboxDisabledReason.MaximumContactsSelected
+                                ) {
+                                  toggleSelectedConversation(conversationId);
+                                }
+                              }}
+                              lookupConversationWithoutServiceId={
+                                asyncShouldNeverBeCalled
+                              }
+                              showConversation={shouldNeverBeCalled}
+                              showUserNotFoundModal={shouldNeverBeCalled}
+                              setIsFetchingUUID={shouldNeverBeCalled}
+                              onClickClearFilterButton={shouldNeverBeCalled}
+                              onPreloadConversation={shouldNeverBeCalled}
+                              onSelectConversation={shouldNeverBeCalled}
+                              blockConversation={shouldNeverBeCalled}
+                              removeConversation={shouldNeverBeCalled}
+                              onOutgoingAudioCallInConversation={
+                                shouldNeverBeCalled
+                              }
+                              onOutgoingVideoCallInConversation={
+                                shouldNeverBeCalled
+                              }
+                              renderMessageSearchResult={() => {
+                                shouldNeverBeCalled();
+                                return <div />;
+                              }}
+                              rowCount={rowCount}
+                              shouldRecomputeRowHeights={false}
+                              resetShouldRecomputeRowHeights={
+                                shouldNeverBeCalled
+                              }
+                              showChooseGroupMembers={shouldNeverBeCalled}
+                              showFindByUsername={shouldNeverBeCalled}
+                              showFindByPhoneNumber={shouldNeverBeCalled}
+                              theme={theme}
+                            />
+                          </div>
+                        )}
+                      </SizeObserver>
+                    ) : (
+                      <div className="module-ForwardMessageModal__no-candidate-contacts">
+                        {i18n('icu:noContactsFound')}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </AxoDialog.Body>
+            <AxoDialog.Footer>
+              <AxoDialog.FooterContent>
+                <span className={legacyThemeClassName}>
+                  {selectedContactNames}
+                </span>
+              </AxoDialog.FooterContent>
+              <AxoDialog.Actions>
+                {isEditingMessage || !isLonelyDraftEditable ? (
+                  <AxoDialog.IconAction
+                    variant="strong-primary"
+                    symbol="send-fill"
+                    label={i18n('icu:ForwardMessageModal--continue')}
+                    disabled={!canForwardMessages}
+                    onClick={forwardMessages}
+                  />
+                ) : (
+                  <AxoDialog.IconAction
+                    variant="strong-primary"
+                    symbol="arrow-[end]"
+                    label={i18n('icu:forwardMessage')}
+                    disabled={!hasContactsSelected}
+                    onClick={() => setIsEditingMessage(true)}
+                  />
+                )}
+              </AxoDialog.Actions>
+            </AxoDialog.Footer>
+          </AxoDialog.Content>
+        </AxoDialog.Root>
+      </AxoTheme.Override>
     </>
   );
 }

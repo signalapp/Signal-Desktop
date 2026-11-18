@@ -4646,6 +4646,10 @@
     "messageformat": "Spoiler",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
+  "icu:FormatMenu__ToolbarLabel": {
+    "messageformat": "Text formatting",
+    "description": "Accessibility label for the toolbar of formatting buttons (bold, italic, etc.) that appears above selected text in the message composer"
+  },
   "icu:Keyboard--scroll-to-top": {
     "messageformat": "Scroll to top of list",
     "description": "Shown in the shortcuts guide"
@@ -4753,6 +4757,10 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "All",
     "description": "Shown in reaction viewer as the title for the 'all' category"
+  },
+  "icu:ReactionViewer__Label": {
+    "messageformat": "Reactions",
+    "description": "Accessibility label for the popup that lists who reacted to a message, opened by clicking a message's reactions"
   },
   "icu:SafetyTipsModal__Title-v2": {
     "messageformat": "Safety tips",
@@ -5377,6 +5385,10 @@
   "icu:calling__pip--off": {
     "messageformat": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
+  },
+  "icu:CallingPip__RegionLabel": {
+    "messageformat": "Call with {conversationTitle}",
+    "description": "Accessibility label for the small floating call window (picture-in-picture) that stays visible while navigating the app. conversationTitle is the contact or group name."
   },
   "icu:calling__preview--maximize": {
     "messageformat": "Maximize preview",

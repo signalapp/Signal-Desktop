@@ -9,7 +9,8 @@ import { ContactName } from './conversation/ContactName.dom.tsx';
 import type { ConversationsByDemuxIdType } from '../types/Calling.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { ModalHost } from './ModalHost.dom.tsx';
+import { Dialog } from 'radix-ui';
+import { CallingSidePanel } from './CallingSidePanel.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { usePrevious, usePreviousEffect } from '../hooks/usePrevious.std.ts';
@@ -70,18 +71,19 @@ export function CallingRaisedHandsList({
   }, [raisedHands, conversationsByDemuxId]);
 
   return (
-    <ModalHost
-      modalName="CallingRaisedHandsList"
-      className="CallingRaisedHandsList__modal"
+    <CallingSidePanel
       onClose={onClose}
+      rowClassName="CallingRaisedHandsList__Row"
     >
       <div className="CallingRaisedHandsList module-calling-participants-list">
         <div className="module-calling-participants-list__header">
-          <div className="module-calling-participants-list__title">
-            {i18n('icu:CallingRaisedHandsList__Title', {
-              count: raisedHandsForDisplay.length,
-            })}
-          </div>
+          <Dialog.Title asChild>
+            <div className="module-calling-participants-list__title">
+              {i18n('icu:CallingRaisedHandsList__Title', {
+                count: raisedHandsForDisplay.length,
+              })}
+            </div>
+          </Dialog.Title>
           <button
             type="button"
             className="module-calling-participants-list__close"
@@ -150,7 +152,7 @@ export function CallingRaisedHandsList({
           })}
         </ul>
       </div>
-    </ModalHost>
+    </CallingSidePanel>
   );
 }
 

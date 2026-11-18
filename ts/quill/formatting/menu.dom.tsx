@@ -1,27 +1,23 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useState, useCallback, useRef, useEffect, type JSX } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import classNames from 'classnames';
-import { Popper } from 'react-popper';
-import { createPortal } from 'react-dom';
+import { Popover, Toolbar } from 'radix-ui';
 import lodash from 'lodash';
 import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
 import type { Op } from '@signalapp/quill-cjs';
-import type { VirtualElement } from '@popperjs/core';
 import { createLogger } from '../../logging/log.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
 import { createKeybindingsHandler } from 'tinykeys';
+import { AxoTooltip } from '../../axo/AxoTooltip.dom.tsx';
 
 const { isString } = lodash;
 
 const log = createLogger('menu');
 
 const MENU_FADE_OUT_MS = 200;
-const POPUP_GUIDE_FADE_MS = 120;
-const BUTTON_HOVER_TIMEOUT_MS = 900;
 const MENU_TEXT_BUFFER = 12; // pixels
 
 type FormattingPickerOptions = {
@@ -40,13 +36,21 @@ export enum QuillFormattingStyle {
   spoiler = 'spoiler',
 }
 
-function getMetaKey(platform: string, i18n: LocalizerType) {
-  const isMacOS = platform === 'darwin';
-
-  if (isMacOS) {
-    return '⌘';
+/** "⌘⇧B" on macOS, "Ctrl+Shift+B" elsewhere */
+function formatShortcut(
+  platform: string,
+  i18n: LocalizerType,
+  key: string,
+  modifiers: Readonly<{ shift: boolean }> = { shift: false }
+): string {
+  if (platform === 'darwin') {
+    return `⌘${modifiers.shift ? '⇧' : ''}${key}`;
   }
-  return i18n('icu:Keyboard--Key--ctrl');
+  const ctrl = i18n('icu:Keyboard--Key--ctrl');
+  if (modifiers.shift) {
+    return `${ctrl}+${i18n('icu:Keyboard--Key--shift')}+${key}`;
+  }
+  return `${ctrl}+${key}`;
 }
 
 function isAllNewlines(ops: Array<Op>): boolean {
@@ -65,19 +69,13 @@ export class FormattingMenu {
   // Keep a references to our originally passed (or updated) options
   options: FormattingPickerOptions;
 
-  // Used to dismiss our menu if we click outside it
-  outsideClickDestructor?: () => void;
-
   readonly #handleKeyDown: (event: KeyboardEvent) => void;
 
   // Maintaining a direct reference to quill
   quill: Quill;
 
-  // The element we hand to Popper to position the menu
-  referenceElement: VirtualElement | undefined;
-
-  // The host for our portal
-  root: HTMLDivElement;
+  // The virtual element the menu is positioned against
+  referenceElement: { getBoundingClientRect: () => DOMRect } | undefined;
 
   // Timer to track an animated fade-out, then DOM removal
   fadingOutTimeout?: NodeJS.Timeout;
@@ -85,7 +83,6 @@ export class FormattingMenu {
   constructor(quill: Quill, options: FormattingPickerOptions) {
     this.quill = quill;
     this.options = options;
-    this.root = document.body.appendChild(document.createElement('div'));
 
     this.quill.on(Emitter.events.EDITOR_CHANGE, this.onEditorChange.bind(this));
 
@@ -122,7 +119,6 @@ export class FormattingMenu {
 
   destroy(): void {
     this.quill.root.removeEventListener('keydown', this.#handleKeyDown);
-    this.root.remove();
   }
 
   updateOptions(options: Partial<FormattingPickerOptions>): void {
@@ -273,129 +269,126 @@ export class FormattingMenu {
     this.quill.format(style, !this.isStyleEnabledInSelection(style));
   }
 
+  readonly #handleOpenChange = (open: boolean): void => {
+    if (!open) {
+      this.scheduleRemoval();
+    }
+  };
+
   render(): void {
     if (!this.referenceElement) {
-      this.outsideClickDestructor?.();
-      this.outsideClickDestructor = undefined;
-
       this.options.setFormattingChooserElement(null);
-
       return;
     }
 
-    const { i18n, platform } = this.options;
-    const metaKey = getMetaKey(platform, i18n);
-    const shiftKey = i18n('icu:Keyboard--Key--shift');
-
-    // showing the popup format menu
-    const isStyleEnabledInSelection = this.isStyleEnabledInSelection.bind(this);
-    const toggleForStyle = this.toggleForStyle.bind(this);
-    const element = createPortal(
-      <Popper placement="top" referenceElement={this.referenceElement}>
-        {({ ref, style }) => {
-          const opacity =
-            style.transform &&
-            !this.options.isMouseDown &&
-            !this.fadingOutTimeout
-              ? 1
-              : 0;
-
-          const [hasLongHovered, setHasLongHovered] = useState<boolean>(false);
-          const onLongHover = useCallback(
-            (value: boolean) => {
-              setHasLongHovered(value);
-            },
-            [setHasLongHovered]
-          );
-
-          return (
-            <div
-              ref={ref}
-              className="module-composition-input__format-menu"
-              style={{ ...style, opacity }}
-              role="menu"
-              tabIndex={0}
-              onMouseLeave={() => setHasLongHovered(false)}
-            >
-              <FormattingButton
-                hasLongHovered={hasLongHovered}
-                isActive={isStyleEnabledInSelection(QuillFormattingStyle.bold)}
-                label={i18n('icu:Keyboard--composer--bold')}
-                onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + B`}
-                popupGuideText={i18n('icu:FormatMenu--guide--bold')}
-                style={QuillFormattingStyle.bold}
-                toggleForStyle={toggleForStyle}
-              />
-              <FormattingButton
-                hasLongHovered={hasLongHovered}
-                isActive={isStyleEnabledInSelection(
-                  QuillFormattingStyle.italic
-                )}
-                label={i18n('icu:Keyboard--composer--italic')}
-                onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + I`}
-                popupGuideText={i18n('icu:FormatMenu--guide--italic')}
-                style={QuillFormattingStyle.italic}
-                toggleForStyle={toggleForStyle}
-              />
-              <FormattingButton
-                hasLongHovered={hasLongHovered}
-                isActive={isStyleEnabledInSelection(
-                  QuillFormattingStyle.strike
-                )}
-                label={i18n('icu:Keyboard--composer--strikethrough')}
-                onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + ${shiftKey} + X`}
-                popupGuideText={i18n('icu:FormatMenu--guide--strikethrough')}
-                style={QuillFormattingStyle.strike}
-                toggleForStyle={toggleForStyle}
-              />
-              <FormattingButton
-                hasLongHovered={hasLongHovered}
-                isActive={isStyleEnabledInSelection(
-                  QuillFormattingStyle.monospace
-                )}
-                label={i18n('icu:Keyboard--composer--monospace')}
-                onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + E`}
-                popupGuideText={i18n('icu:FormatMenu--guide--monospace')}
-                style={QuillFormattingStyle.monospace}
-                toggleForStyle={toggleForStyle}
-              />
-              <FormattingButton
-                hasLongHovered={hasLongHovered}
-                isActive={isStyleEnabledInSelection(
-                  QuillFormattingStyle.spoiler
-                )}
-                onLongHover={onLongHover}
-                popupGuideShortcut={`${metaKey} + ${shiftKey} + B`}
-                popupGuideText={i18n('icu:FormatMenu--guide--spoiler')}
-                label={i18n('icu:Keyboard--composer--spoiler')}
-                style={QuillFormattingStyle.spoiler}
-                toggleForStyle={toggleForStyle}
-              />
-            </div>
-          );
-        }}
-      </Popper>,
-      this.root
-    );
-
-    // Just to make sure that we don't propagate outside clicks until this is closed.
-    this.outsideClickDestructor?.();
-    this.outsideClickDestructor = handleOutsideClick(
-      () => {
-        return true;
-      },
-      {
-        name: 'quill.emoji.completion',
-        containerElements: [this.root],
-      }
+    const element = (
+      <Popover.Root open onOpenChange={this.#handleOpenChange} modal={false}>
+        <Popover.Anchor virtualRef={{ current: this.referenceElement }} />
+        <Popover.Portal>
+          <FormattingMenuContent
+            i18n={this.options.i18n}
+            platform={this.options.platform}
+            isVisible={!this.options.isMouseDown && !this.fadingOutTimeout}
+            isStyleEnabledInSelection={this.isStyleEnabledInSelection.bind(
+              this
+            )}
+            toggleForStyle={this.toggleForStyle.bind(this)}
+          />
+        </Popover.Portal>
+      </Popover.Root>
     );
 
     this.options.setFormattingChooserElement(element);
   }
+}
+
+type FormattingMenuContentProps = Readonly<{
+  i18n: LocalizerType;
+  platform: string;
+  isVisible: boolean;
+  isStyleEnabledInSelection: (style: QuillFormattingStyle) => boolean;
+  toggleForStyle: (style: QuillFormattingStyle) => void;
+}>;
+
+function FormattingMenuContent(props: FormattingMenuContentProps): JSX.Element {
+  const { i18n, isStyleEnabledInSelection, toggleForStyle } = props;
+  const { platform } = props;
+
+  // Stays transparent until positioned, so it fades in where it's placed
+  const [isPlaced, setIsPlaced] = useState(false);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setIsPlaced(true);
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return (
+    <Popover.Content
+      asChild
+      side="top"
+      // Shows and hides with the selection; focus stays in the editor
+      onOpenAutoFocus={event => event.preventDefault()}
+      onCloseAutoFocus={event => event.preventDefault()}
+      onFocusOutside={event => event.preventDefault()}
+      onInteractOutside={event => event.preventDefault()}
+    >
+      <Toolbar.Root
+        // Otherwise Popover.Content's role="dialog" passes through
+        role="toolbar"
+        className="module-composition-input__format-menu"
+        style={{ opacity: isPlaced && props.isVisible ? 1 : 0 }}
+        aria-label={i18n('icu:FormatMenu__ToolbarLabel')}
+      >
+        <FormattingButton
+          isActive={isStyleEnabledInSelection(QuillFormattingStyle.bold)}
+          label={i18n('icu:Keyboard--composer--bold')}
+          popupGuideShortcut={formatShortcut(platform, i18n, 'B')}
+          popupGuideText={i18n('icu:FormatMenu--guide--bold')}
+          style={QuillFormattingStyle.bold}
+          toggleForStyle={toggleForStyle}
+        />
+        <FormattingButton
+          isActive={isStyleEnabledInSelection(QuillFormattingStyle.italic)}
+          label={i18n('icu:Keyboard--composer--italic')}
+          popupGuideShortcut={formatShortcut(platform, i18n, 'I')}
+          popupGuideText={i18n('icu:FormatMenu--guide--italic')}
+          style={QuillFormattingStyle.italic}
+          toggleForStyle={toggleForStyle}
+        />
+        <FormattingButton
+          isActive={isStyleEnabledInSelection(QuillFormattingStyle.strike)}
+          label={i18n('icu:Keyboard--composer--strikethrough')}
+          popupGuideShortcut={formatShortcut(platform, i18n, 'X', {
+            shift: true,
+          })}
+          popupGuideText={i18n('icu:FormatMenu--guide--strikethrough')}
+          style={QuillFormattingStyle.strike}
+          toggleForStyle={toggleForStyle}
+        />
+        <FormattingButton
+          isActive={isStyleEnabledInSelection(QuillFormattingStyle.monospace)}
+          label={i18n('icu:Keyboard--composer--monospace')}
+          popupGuideShortcut={formatShortcut(platform, i18n, 'E')}
+          popupGuideText={i18n('icu:FormatMenu--guide--monospace')}
+          style={QuillFormattingStyle.monospace}
+          toggleForStyle={toggleForStyle}
+        />
+        <FormattingButton
+          isActive={isStyleEnabledInSelection(QuillFormattingStyle.spoiler)}
+          popupGuideShortcut={formatShortcut(platform, i18n, 'B', {
+            shift: true,
+          })}
+          popupGuideText={i18n('icu:FormatMenu--guide--spoiler')}
+          label={i18n('icu:Keyboard--composer--spoiler')}
+          style={QuillFormattingStyle.spoiler}
+          toggleForStyle={toggleForStyle}
+        />
+      </Toolbar.Root>
+    </Popover.Content>
+  );
 }
 
 const FORMATTING_STYLE_ICONS: Record<QuillFormattingStyle, string> = {
@@ -412,125 +405,53 @@ const FORMATTING_STYLE_ICONS: Record<QuillFormattingStyle, string> = {
 };
 
 function FormattingButton({
-  hasLongHovered,
   isActive,
   label,
-  onLongHover,
   popupGuideText,
   popupGuideShortcut,
   style,
   toggleForStyle,
 }: {
-  hasLongHovered: boolean;
   isActive: boolean | undefined;
   label: string;
-  onLongHover: (value: boolean) => unknown;
   popupGuideText: string;
   popupGuideShortcut: string;
   style: QuillFormattingStyle;
   toggleForStyle: (style: QuillFormattingStyle) => unknown;
 }): JSX.Element {
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-
-  const [isHovered, setIsHovered] = useState<boolean>(false);
-  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
-  const fadeOutTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (hoverTimerRef.current) {
-        clearTimeout(hoverTimerRef.current);
-        hoverTimerRef.current = null;
-      }
-
-      if (fadeOutTimerRef.current) {
-        clearTimeout(fadeOutTimerRef.current);
-        fadeOutTimerRef.current = null;
-      }
-    };
-  }, []);
-
   return (
-    <>
-      {/* oxlint-disable-next-line react/refs */}
-      {(isFadingOut || (hasLongHovered && isHovered)) && buttonRef.current ? (
-        // oxlint-disable-next-line react/refs
-        <Popper placement="top" referenceElement={buttonRef.current}>
-          {({ ref, style: popperStyles }) => {
-            const opacity = !popperStyles.transform || isFadingOut ? 0 : 1;
-
-            return (
-              <div
-                className="module-composition-input__format-menu__item__popover"
-                ref={ref}
-                style={{ ...popperStyles, opacity }}
-              >
-                {popupGuideText}
-                <div className="module-composition-input__format-menu__item__popover__shortcut">
-                  {popupGuideShortcut}
-                </div>
-              </div>
-            );
-          }}
-        </Popper>
-      ) : null}
-      <button
-        ref={buttonRef}
-        type="button"
-        className={classNames(
-          'module-composition-input__format-menu__item',
-          isActive
-            ? 'module-composition-input__format-menu__item--active'
-            : null
-        )}
-        aria-label={label}
-        onClick={event => {
-          event.preventDefault();
-          event.stopPropagation();
-          onLongHover(false);
-          toggleForStyle(style);
-        }}
-        onMouseEnter={() => {
-          if (hoverTimerRef.current) {
-            clearTimeout(hoverTimerRef.current);
-            hoverTimerRef.current = null;
-          }
-
-          hoverTimerRef.current = setTimeout(() => {
-            onLongHover(true);
-          }, BUTTON_HOVER_TIMEOUT_MS);
-
-          setIsHovered(true);
-        }}
-        onMouseLeave={() => {
-          if (hoverTimerRef.current) {
-            clearTimeout(hoverTimerRef.current);
-            hoverTimerRef.current = null;
-          }
-
-          if (hasLongHovered && isHovered) {
-            fadeOutTimerRef.current = setTimeout(() => {
-              setIsFadingOut(false);
-              fadeOutTimerRef.current = null;
-            }, POPUP_GUIDE_FADE_MS);
-            setIsFadingOut(true);
-          }
-
-          setIsHovered(false);
-        }}
-      >
-        <div
+    <AxoTooltip.Root
+      label={popupGuideText}
+      keyboardShortcut={popupGuideShortcut}
+    >
+      <Toolbar.Button asChild>
+        <button
+          type="button"
+          aria-pressed={isActive ?? false}
           className={classNames(
-            'module-composition-input__format-menu__item__icon',
-            FORMATTING_STYLE_ICONS[style],
+            'module-composition-input__format-menu__item',
             isActive
-              ? 'module-composition-input__format-menu__item__icon--active'
+              ? 'module-composition-input__format-menu__item--active'
               : null
           )}
-        />
-      </button>
-    </>
+          aria-label={label}
+          onClick={event => {
+            event.preventDefault();
+            event.stopPropagation();
+            toggleForStyle(style);
+          }}
+        >
+          <div
+            className={classNames(
+              'module-composition-input__format-menu__item__icon',
+              FORMATTING_STYLE_ICONS[style],
+              isActive
+                ? 'module-composition-input__format-menu__item__icon--active'
+                : null
+            )}
+          />
+        </button>
+      </Toolbar.Button>
+    </AxoTooltip.Root>
   );
 }

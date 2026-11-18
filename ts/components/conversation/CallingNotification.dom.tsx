@@ -21,7 +21,6 @@ import {
   getCallingNotificationText,
 } from '../../util/callingNotification.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
-import { Tooltip, TooltipPlacement } from '../Tooltip.dom.tsx';
 import { createLogger } from '../../logging/log.std.ts';
 import { MessageContextMenu } from './MessageContextMenu.dom.tsx';
 import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.preload.ts';
@@ -29,6 +28,7 @@ import { MINUTE } from '../../util/durations/index.std.ts';
 import { isMoreRecentThan } from '../../util/timestamp.std.ts';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
+import { AxoTooltip } from '../../axo/AxoTooltip.dom.tsx';
 
 const { noop } = lodash;
 
@@ -241,9 +241,7 @@ function renderCallingNotificationButton(
 
   if (disabledTooltipText) {
     return (
-      <Tooltip content={disabledTooltipText} direction={TooltipPlacement.Top}>
-        {button}
-      </Tooltip>
+      <AxoTooltip.Root label={disabledTooltipText}>{button}</AxoTooltip.Root>
     );
   }
 

@@ -5,9 +5,8 @@ import type { JSX } from 'react';
 
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
 
 export type PropsType = {
   title: string;
@@ -36,9 +35,6 @@ export function Megaphone({
   onClickPrimaryCta,
   onClickSecondaryCta,
 }: PropsType): JSX.Element {
-  const isRTL = i18n.getLocaleDirection() === 'rtl';
-
-  // We need to provide this to <Tooltip> to render correctly
   const wrapperClassName = tw(
     '@container flex flex-col',
     'max-w-[500px] curved-3xl p-3',
@@ -111,20 +107,15 @@ export function Megaphone({
   }
 
   // Narrow collapsed sidebar
-  const tooltipContent: JSX.Element = (
-    <div className={tw('text-start text-primary')}>
-      <h2 className={tw('mt-1 type-body-medium font-semibold')}>{title}</h2>
-      <p className={tw('mt-1 mb-2 type-body-medium')}>{body}</p>
-    </div>
+  const tooltipLabel: JSX.Element = (
+    <>
+      <span className={tw('block font-semibold')}>{title}</span>
+      <span className={tw('block')}>{body}</span>
+    </>
   );
 
   return (
-    <Tooltip
-      content={tooltipContent}
-      className="MegaphoneTooltip"
-      direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
-      popperModifiers={[offsetDistanceModifier(15)]}
-    >
+    <AxoTooltip.Root label={tooltipLabel} side="inline-end">
       <button
         aria-label={i18n('icu:Megaphone__ExpandNarrowSidebar')}
         className={wrapperClassName}
@@ -133,6 +124,6 @@ export function Megaphone({
       >
         {image}
       </button>
-    </Tooltip>
+    </AxoTooltip.Root>
   );
 }

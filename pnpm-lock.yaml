@@ -366,9 +366,6 @@ importers:
       '@octokit/openapi-types':
         specifier: 29.0.1
         version: 29.0.1
-      '@popperjs/core':
-        specifier: 2.11.8
-        version: 2.11.8
       '@react-aria/focus':
         specifier: 3.21.5
         version: 3.21.5(react-dom@19.3.0)(react@19.3.0)
@@ -852,9 +849,6 @@ importers:
       react-intl:
         specifier: 10.1.0
         version: 10.1.0(@types/react@19.2.14)(@typescript/typescript6@6.0.2)(react@19.3.0)
-      react-popper:
-        specifier: 2.3.0
-        version: 2.3.0(patch_hash=31853f1935158d259c801b8fbbe0316c7e86a315b9969f5f61ae19d67bb826d6)(@popperjs/core@2.11.8)(react-dom@19.3.0)(react@19.3.0)
       react-redux:
         specifier: 9.3.0
         version: 9.3.0(@types/react@19.2.14)(react@19.3.0)(redux@5.0.1)
@@ -22360,14 +22354,6 @@ snapshots:
       '@popperjs/core': 2.11.8
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
-      react-fast-compare: 3.2.2
-      warning: 4.0.3
-
-  react-popper@2.3.0(patch_hash=31853f1935158d259c801b8fbbe0316c7e86a315b9969f5f61ae19d67bb826d6)(@popperjs/core@2.11.8)(react-dom@19.3.0)(react@19.3.0):
-    dependencies:
-      '@popperjs/core': 2.11.8
-      react: 19.3.0
-      react-dom: 19.3.0(react@19.3.0)
       react-fast-compare: 3.2.2
       warning: 4.0.3
 

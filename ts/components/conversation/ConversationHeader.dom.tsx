@@ -1,14 +1,13 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RefObject, JSX, ReactNode } from 'react';
+import type { JSX, ReactNode } from 'react';
 import {
   memo,
   useCallback,
   useEffect,
   useEffectEvent,
   useMemo,
-  useRef,
   useState,
 } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
@@ -27,7 +26,7 @@ import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 import { DisappearingTimeDialog } from '../DisappearingTimeDialog.dom.tsx';
-import { InContactsIcon } from '../InContactsIcon.dom.tsx';
+import { AxoContactName } from '../../axo/AxoContactName.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import type { ContactNameData } from './ContactName.dom.tsx';
 import {
@@ -73,7 +72,6 @@ function HeaderInfoTitle({
   i18n,
   isMe,
   isSignalConversation,
-  headerRef,
 }: {
   name: string | null;
   title: string;
@@ -81,7 +79,6 @@ function HeaderInfoTitle({
   i18n: LocalizerType;
   isMe: boolean;
   isSignalConversation: boolean;
-  headerRef: RefObject<HTMLDivElement | null>;
 }) {
   if (isSignalConversation) {
     return (
@@ -107,11 +104,10 @@ function HeaderInfoTitle({
     <div className="module-ConversationHeader__header__info__title">
       <UserText text={title} />
       {isInSystemContacts({ name: name ?? undefined, type }) ? (
-        <InContactsIcon
-          className="module-ConversationHeader__header__info__title__in-contacts-icon"
-          i18n={i18n}
-          tooltipContainerRef={headerRef}
-        />
+        <>
+          &nbsp;
+          <AxoContactName.SystemContactEmblemStatic />
+        </>
       ) : null}
     </div>
   );
@@ -252,9 +248,6 @@ export const ConversationHeader = memo(function ConversationHeader({
 
   renderPinnedMessagesBar,
 }: PropsType): JSX.Element | null {
-  // Comes from a third-party dependency
-  const headerRef = useRef<HTMLDivElement>(null);
-
   const [
     hasCustomDisappearingTimeoutModal,
     setHasCustomDisappearingTimeoutModal,
@@ -364,7 +357,6 @@ export const ConversationHeader = memo(function ConversationHeader({
               conversation={conversation}
               badge={badge ?? null}
               hasStories={hasStories ?? null}
-              headerRef={headerRef}
               i18n={i18n}
               theme={theme}
               onViewUserStories={onViewUserStories}
@@ -511,7 +503,6 @@ function HeaderContent({
   conversation,
   badge,
   hasStories,
-  headerRef,
   i18n,
   theme,
   isSignalConversation,
@@ -521,7 +512,6 @@ function HeaderContent({
   conversation: MinimalConversation;
   badge: BadgeType | null;
   hasStories: HasStories | null;
-  headerRef: RefObject<HTMLDivElement | null>;
   i18n: LocalizerType;
   theme: ThemeType;
   isSignalConversation: boolean;
@@ -581,7 +571,6 @@ function HeaderContent({
         i18n={i18n}
         isMe={conversation.isMe}
         isSignalConversation={isSignalConversation}
-        headerRef={headerRef}
       />
       {(isOfficialChat ||
         conversation.expireTimer != null ||
@@ -628,7 +617,7 @@ function HeaderContent({
   }
 
   return (
-    <div className="module-ConversationHeader__header" ref={headerRef}>
+    <div className="module-ConversationHeader__header">
       {avatar}
       {contents}
     </div>

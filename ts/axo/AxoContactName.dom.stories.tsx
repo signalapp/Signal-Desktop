@@ -20,3 +20,13 @@ export function SystemContactEmblem(): ReactNode {
     </>
   );
 }
+
+export function SystemContactEmblemStatic(): ReactNode {
+  return (
+    <button type="button">
+      <span dir="auto">Jamie</span>
+      &nbsp;
+      <AxoContactName.SystemContactEmblemStatic />
+    </button>
+  );
+}

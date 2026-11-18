@@ -6,7 +6,8 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { sortByTitle } from '../util/sortByTitle.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
-import { ModalHost } from './ModalHost.dom.tsx';
+import { Dialog } from 'radix-ui';
+import { CallingSidePanel } from './CallingSidePanel.dom.tsx';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import { CallingParticipantListItem } from './CallingParticipantListItem.dom.tsx';
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
@@ -72,20 +73,18 @@ export const CallingParticipantsList = memo(
     );
 
     return (
-      <ModalHost
-        modalName="CallingParticipantsList"
-        className="CallingParticipantsList__modal"
-        onClose={onClose}
-      >
+      <CallingSidePanel onClose={onClose}>
         <div className="CallingParticipantsList module-calling-participants-list">
           <div className="module-calling-participants-list__header">
-            <div className="module-calling-participants-list__title">
-              {participants.length
-                ? i18n('icu:calling__in-this-call', {
-                    people: participants.length,
-                  })
-                : i18n('icu:calling__in-this-call--zero')}
-            </div>
+            <Dialog.Title asChild>
+              <div className="module-calling-participants-list__title">
+                {participants.length
+                  ? i18n('icu:calling__in-this-call', {
+                      people: participants.length,
+                    })
+                  : i18n('icu:calling__in-this-call--zero')}
+              </div>
+            </Dialog.Title>
             <button
               type="button"
               className="module-calling-participants-list__close"
@@ -98,7 +97,7 @@ export const CallingParticipantsList = memo(
             {sortedParticipants.map(renderParticipant)}
           </div>
         </div>
-      </ModalHost>
+      </CallingSidePanel>
     );
   }
 );

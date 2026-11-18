@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { tw } from '../axo/tw.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { ContactName } from './conversation/ContactName.dom.tsx';
-import { InContactsIcon } from './InContactsIcon.dom.tsx';
+import { AxoContactName } from '../axo/AxoContactName.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -137,13 +137,10 @@ export function CallingParticipantListItem({
                 title={participant.title}
               />
               {isInSystemContacts(participant) ? (
-                <span>
-                  {' '}
-                  <InContactsIcon
-                    className="module-calling-participants-list__contact-icon"
-                    i18n={i18n}
-                  />
-                </span>
+                <>
+                  &nbsp;
+                  <AxoContactName.SystemContactEmblemStatic />
+                </>
               ) : null}
             </div>
             {participant.presenting && (

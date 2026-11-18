@@ -39,24 +39,6 @@
 
 .FunPanelEmojis__CellPopover {
   box-shadow: 0 7px 18px variables.$color-black-alpha-30;
-
-  &[data-placement='bottom'] {
-    .FunPanelEmojis__CellPopoverOverlayArrow svg {
-      transform: rotate(180deg);
-    }
-  }
-
-  &[data-placement='right'] {
-    .FunPanelEmojis__CellPopoverOverlayArrow svg {
-      transform: rotate(90deg);
-    }
-  }
-
-  &[data-placement='left'] {
-    .FunPanelEmojis__CellPopoverOverlayArrow svg {
-      transform: rotate(-90deg);
-    }
-  }
 }
 
 .FunPanelEmojis__CellPopoverDialog {
@@ -70,7 +52,7 @@
   }
 }
 
-.FunPanelEmojis__CellPopoverOverlayArrow svg {
+.FunPanelEmojis__CellPopoverOverlayArrow {
   display: block;
   fill: FunConstants.$Fun__BgColor;
   backdrop-filter: FunConstants.$Fun__BgFilter;

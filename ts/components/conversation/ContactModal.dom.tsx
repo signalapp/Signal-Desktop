@@ -21,7 +21,7 @@ import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirma
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { UserText } from '../UserText.dom.tsx';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
-import { InContactsIcon } from '../InContactsIcon.dom.tsx';
+import { AxoContactName } from '../../axo/AxoContactName.dom.tsx';
 import { canHaveNicknameAndNote } from '../../util/nicknames.dom.ts';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
 import type { ToggleGroupMemberLabelInfoModalType } from '../../state/ducks/globalModals.preload.ts';
@@ -476,13 +476,10 @@ export function ContactModal({
                   <span className="ContactModal__name__text">
                     <UserText text={contact.title} />
                     {isInSystemContacts(contact) && (
-                      <span>
-                        {' '}
-                        <InContactsIcon
-                          className="ContactModal__name__contact-icon"
-                          i18n={i18n}
-                        />
-                      </span>
+                      <>
+                        &nbsp;
+                        <AxoContactName.SystemContactEmblemStatic />
+                      </>
                     )}
                   </span>
                   <i className="ContactModal__name__chevron" />

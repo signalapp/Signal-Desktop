@@ -14,7 +14,7 @@ import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
-import { InContactsIcon } from '../InContactsIcon.dom.tsx';
+import { AxoContactName } from '../../axo/AxoContactName.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoDropdownMenu } from '../../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
@@ -272,13 +272,10 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
                 systemGivenName,
                 systemFamilyName,
               }) && (
-                <span>
-                  {' '}
-                  <InContactsIcon
-                    className="ContactListItem__contact-icon"
-                    i18n={i18n}
-                  />
-                </span>
+                <>
+                  &nbsp;
+                  <AxoContactName.SystemContactEmblemStatic />
+                </>
               )}
             </>
           }

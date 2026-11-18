@@ -9,7 +9,6 @@ import {
   forwardRef,
   useEffectEvent,
 } from 'react';
-import { Button } from 'react-aria-components';
 import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import {
@@ -132,7 +131,8 @@ export const ReactionPicker = forwardRef<HTMLDivElement, Props>(
             closeOnSelect
             messageEmojis={messageEmojis}
           >
-            <Button
+            <button
+              type="button"
               aria-label={i18n('icu:Reactions--more')}
               className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
             />

@@ -37,7 +37,6 @@ import { CallingHeader, getCallViewModeIcon } from './CallingHeader.dom.tsx';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.tsx';
 import { CallingButton, CallingButtonType } from './CallingButton.dom.tsx';
 import { Button, ButtonVariant } from './Button.dom.tsx';
-import { TooltipPlacement } from './Tooltip.dom.tsx';
 import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
 import type {
   ActiveCallType,
@@ -83,7 +82,7 @@ import {
   PersistentCallingToast,
   useCallingToasts,
 } from './CallingToast.dom.tsx';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
+import { Dialog } from 'radix-ui';
 import { Spinner } from './Spinner.dom.tsx';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker.dom.tsx';
 import {
@@ -326,11 +325,10 @@ export function CallScreen({
 
   const reactButtonRef = useRef<null | HTMLDivElement>(null);
   const reactionPickerRef = useRef<null | HTMLDivElement>(null);
-  const reactionPickerContainerRef = useRef<null | HTMLDivElement>(null);
   const [showReactionPicker, setShowReactionPicker] = useState(false);
   const toggleReactionPicker = useCallback(() => {
     setShowReactionPicker(prevValue => !prevValue);
-  }, []);
+  }, [setShowReactionPicker]);
 
   const [showRaisedHandsList, setShowRaisedHandsList] = useState(false);
   const toggleRaisedHandsList = useCallback(() => {
@@ -407,27 +405,13 @@ export function CallScreen({
     selfViewHover,
   ]);
 
-  useEffect(() => {
-    if (!showReactionPicker) {
-      return noop;
+  // Let the react button toggle the picker instead of Radix closing it first
+  const handleReactionPickerPointerDownOutside = useCallback((event: Event) => {
+    const { target } = event;
+    if (target instanceof Node && reactButtonRef.current?.contains(target)) {
+      event.preventDefault();
     }
-    return handleOutsideClick(
-      target => {
-        if (
-          target instanceof Element &&
-          target.closest('[data-fun-overlay]') != null
-        ) {
-          return true;
-        }
-        setShowReactionPicker(false);
-        return true;
-      },
-      {
-        containerElements: [reactButtonRef, reactionPickerContainerRef],
-        name: 'CallScreen.reactionPicker',
-      }
-    );
-  }, [showReactionPicker]);
+  }, []);
 
   useScreenSharingStoppedToast({ activeCall, i18n });
   useViewModeChangedToast({ activeCall, i18n });
@@ -723,6 +707,7 @@ export function CallScreen({
             }
             i18n={i18n}
             onClick={handlePreviewClick}
+            tooltipSide="bottom"
           />
         </div>
         {myRaisedHandOrder !== undefined && (
@@ -1253,25 +1238,40 @@ export function CallScreen({
             <div className="CallControls__Status">{callStatus}</div>
           </div>
 
-          {showReactionPicker && (
-            <div
-              className="CallControls__ReactionPickerContainer"
-              ref={reactionPickerContainerRef}
+          <Dialog.Root
+            open={showReactionPicker}
+            onOpenChange={setShowReactionPicker}
+            modal={false}
+          >
+            {/* No portal: the container is positioned by CallScreen's CSS */}
+            <Dialog.Content
+              asChild
+              aria-describedby={undefined}
+              // ReactionPicker manages its own focus
+              onOpenAutoFocus={event => event.preventDefault()}
+              onCloseAutoFocus={event => event.preventDefault()}
+              onFocusOutside={event => event.preventDefault()}
+              onPointerDownOutside={handleReactionPickerPointerDownOutside}
             >
-              {renderReactionPicker({
-                ref: reactionPickerRef,
-                onClose: () => setShowReactionPicker(false),
-                onPick: emoji => {
-                  setShowReactionPicker(false);
-                  sendGroupCallReaction({
-                    callMode: activeCall.callMode,
-                    conversationId: conversation.id,
-                    value: emoji,
-                  });
-                },
-              })}
-            </div>
-          )}
+              <div className="CallControls__ReactionPickerContainer">
+                <Dialog.Title className={tw('sr-only')}>
+                  {i18n('icu:calling__button--react')}
+                </Dialog.Title>
+                {renderReactionPicker({
+                  ref: reactionPickerRef,
+                  onClose: () => setShowReactionPicker(false),
+                  onPick: emoji => {
+                    setShowReactionPicker(false);
+                    sendGroupCallReaction({
+                      callMode: activeCall.callMode,
+                      conversationId: conversation.id,
+                      value: emoji,
+                    });
+                  },
+                })}
+              </div>
+            </Dialog.Content>
+          </Dialog.Root>
 
           <div className="CallControls__ButtonContainer">
             <CallingButton
@@ -1280,7 +1280,6 @@ export function CallScreen({
               onMouseEnter={onControlsMouseEnter}
               onMouseLeave={onControlsMouseLeave}
               onClick={toggleVideo}
-              tooltipDirection={TooltipPlacement.Top}
             />
             <CallingButton
               buttonType={audioButtonType}
@@ -1288,7 +1287,6 @@ export function CallScreen({
               onMouseEnter={onControlsMouseEnter}
               onMouseLeave={onControlsMouseLeave}
               onClick={toggleAudio}
-              tooltipDirection={TooltipPlacement.Top}
             />
             {raiseHandButtonType && (
               <CallingButton
@@ -1297,7 +1295,6 @@ export function CallScreen({
                 onMouseEnter={onControlsMouseEnter}
                 onMouseLeave={onControlsMouseLeave}
                 onClick={() => toggleRaiseHand()}
-                tooltipDirection={TooltipPlacement.Top}
               />
             )}
             <CallingButton
@@ -1306,7 +1303,6 @@ export function CallScreen({
               onMouseEnter={onControlsMouseEnter}
               onMouseLeave={onControlsMouseLeave}
               onClick={togglePresenting}
-              tooltipDirection={TooltipPlacement.Top}
             />
             {reactButtonType && (
               <div ref={reactButtonRef}>
@@ -1316,7 +1312,6 @@ export function CallScreen({
                   onMouseEnter={onControlsMouseEnter}
                   onMouseLeave={onControlsMouseLeave}
                   onClick={toggleReactionPicker}
-                  tooltipDirection={TooltipPlacement.Top}
                 />
               </div>
             )}

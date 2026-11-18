@@ -2,14 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import {
-  useCallback,
-  useState,
-  useMemo,
-  useEffect,
-  type JSX,
-  type ChangeEvent,
-} from 'react';
+import classNames from 'classnames';
+import { useCallback, useState, useMemo, useEffect, type JSX } from 'react';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -21,9 +15,9 @@ import {
   DisabledReason,
   GroupListItem,
 } from './conversationList/GroupListItem.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
-import { SearchInput } from './SearchInput.dom.tsx';
-import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
+import { AxoSearchField } from '../axo/fields/AxoSearchField.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 import { ListView } from './ListView.dom.tsx';
 import { ListTile } from './ListTile.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
@@ -81,8 +75,6 @@ export function AddUserToAnotherGroupModal({
     return map;
   }, [candidateConversations]);
 
-  const [inputRef] = useRestoreFocus();
-
   const normalizedSearchTerm = searchTerm.trim();
 
   useEffect(() => {
@@ -109,11 +101,13 @@ export function AddUserToAnotherGroupModal({
     ? groupLookup.get(selectedGroupId)
     : undefined;
 
-  const handleSearchInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        toggleAddUserToAnotherGroupModal(undefined);
+      }
     },
-    [setSearchTerm]
+    [toggleAddUserToAnotherGroupModal]
   );
 
   const handleGetRow = useCallback(
@@ -171,50 +165,56 @@ export function AddUserToAnotherGroupModal({
   );
 
   return (
-    <>
-      {!selectedGroup && (
-        <Modal
-          modalName="AddUserToAnotherGroupModal"
-          hasXButton
-          i18n={i18n}
-          onClose={toggleAddUserToAnotherGroupModal}
-          title={i18n('icu:AddUserToAnotherGroupModal__title')}
-          className="AddUserToAnotherGroupModal"
-          padded={false}
-        >
-          <div className="AddUserToAnotherGroupModal__main-body">
-            <SearchInput
-              i18n={i18n}
+    <AxoDialog.Root open onOpenChange={handleOpenChange}>
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:AddUserToAnotherGroupModal__title')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Search>
+          <AxoSearchField.Root value={searchTerm} onValueChange={setSearchTerm}>
+            <AxoSearchField.Icon />
+            <AxoSearchField.Input
               placeholder={i18n(
                 'icu:AddUserToAnotherGroupModal__search-placeholder'
               )}
-              onChange={handleSearchInputChange}
-              ref={inputRef}
-              value={searchTerm}
+              autoFocus
             />
-            <SizeObserver>
-              {(ref, size) => {
-                return (
-                  <div
-                    className="AddUserToAnotherGroupModal__list-wrapper"
-                    ref={ref}
-                  >
-                    {size != null && !size.hidden && (
-                      <ListView
-                        width={size.width}
-                        height={size.height}
-                        rowCount={filteredConversations.length}
-                        calculateRowHeight={handleCalculateRowHeight}
-                        rowRenderer={renderGroupListItem}
-                      />
-                    )}
-                  </div>
-                );
-              }}
-            </SizeObserver>
-          </div>
-        </Modal>
-      )}
+            <AxoSearchField.Clear />
+          </AxoSearchField.Root>
+        </AxoDialog.Search>
+        <AxoDialog.Body
+          scrollbarWidth="none"
+          // ListView has its own scroll container
+          padding="deprecated-only-scrollbar-gutter"
+        >
+          <SizeObserver>
+            {(ref, size) => {
+              return (
+                <div
+                  ref={ref}
+                  className={classNames(
+                    'AddUserToAnotherGroupModal',
+                    tw('h-110 w-full')
+                  )}
+                >
+                  {size != null && !size.hidden && (
+                    <ListView
+                      width={size.width}
+                      height={size.height}
+                      rowCount={filteredConversations.length}
+                      calculateRowHeight={handleCalculateRowHeight}
+                      rowRenderer={renderGroupListItem}
+                    />
+                  )}
+                </div>
+              );
+            }}
+          </SizeObserver>
+        </AxoDialog.Body>
+      </AxoDialog.Content>
 
       {selectedGroupId && selectedGroup && (
         <AxoConfirmDialog.Root
@@ -254,6 +254,6 @@ export function AddUserToAnotherGroupModal({
           </AxoConfirmDialog.Action>
         </AxoConfirmDialog.Root>
       )}
-    </>
+    </AxoDialog.Root>
   );
 }

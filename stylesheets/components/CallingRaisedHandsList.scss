@@ -11,28 +11,17 @@
   overflow: auto;
 }
 
-.CallingRaisedHandsList__modal .module-modal-host__width-container {
-  display: flex;
+.CallingSidePanel__Row.CallingRaisedHandsList__Row {
   flex-direction: column;
   width: 320px;
-  height: auto;
-  padding-block: 1px;
   padding-inline: 1px;
   // This should be above .CallingRaisedHandsList__Button
   margin-block-end: 72px;
   margin-inline-start: 8px;
-  overflow: hidden;
-}
 
-.CallingRaisedHandsList__modal .module-modal-host__overlay {
-  background: transparent;
-}
-
-.CallingRaisedHandsList__modal .module-modal-host__overlay-container {
-  flex-direction: column;
-  padding: 0;
-  justify-content: flex-end;
-  align-items: start;
+  &::after {
+    content: none;
+  }
 }
 
 .CallingRaisedHandsList .module-calling-participants-list__contact:last-child {

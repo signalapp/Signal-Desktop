@@ -940,6 +940,66 @@
             "importNames": ["expect", "should", "Should"],
             "message": "Please use assert",
             "allowTypeImports": true
+          },
+          {
+            "name": "react-aria-components",
+            "importNames": [
+              "ComboBox",
+              "Dialog",
+              "DialogTrigger",
+              "Menu",
+              "MenuTrigger",
+              "Modal",
+              "ModalOverlay",
+              "OverlayArrow",
+              "Popover",
+              "Select",
+              "SubmenuTrigger",
+              "Tooltip",
+              "TooltipTrigger"
+            ],
+            "message": "Overlays must be Radix layers (radix-ui or Axo) so focus scoping, aria-hidden and dismissal share one stack"
+          },
+          {
+            "name": "react-aria",
+            "importNames": [
+              "DismissButton",
+              "FocusScope",
+              "Overlay",
+              "OverlayContainer",
+              "OverlayProvider",
+              "useDialog",
+              "useInteractOutside",
+              "useMenuTrigger",
+              "useModal",
+              "useModalOverlay",
+              "useOverlay",
+              "useOverlayPosition",
+              "useOverlayTrigger",
+              "usePopover",
+              "usePreventScroll",
+              "useTooltip",
+              "useTooltipTrigger"
+            ],
+            "message": "Overlays must be Radix layers (radix-ui or Axo) so focus scoping, aria-hidden and dismissal share one stack"
+          },
+          {
+            "name": "@react-aria/focus",
+            "importNames": ["FocusScope", "useFocusManager"],
+            "message": "Use FocusScope from radix-ui/internal so it shares a stack with Radix layers"
+          },
+          {
+            "name": "@react-aria/interactions",
+            "importNames": ["useInteractOutside"],
+            "message": "Use a Radix layer's onInteractOutside/onPointerDownOutside"
+          },
+          {
+            "name": "@react-aria/overlays",
+            "message": "Overlays must be Radix layers (radix-ui or Axo) so focus scoping, aria-hidden and dismissal share one stack"
+          },
+          {
+            "name": "@react-aria/dialog",
+            "message": "Use a Radix Dialog or AxoDialog"
           }
         ]
       }

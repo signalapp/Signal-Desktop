@@ -7,7 +7,6 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingButton.dom.tsx';
 import { CallingButton, CallingButtonType } from './CallingButton.dom.tsx';
-import { TooltipPlacement } from './Tooltip.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -19,9 +18,9 @@ export default {
       control: { type: 'select' },
       options: Object.values(CallingButtonType),
     },
-    tooltipDirection: {
+    tooltipSide: {
       control: { type: 'select' },
-      options: Object.values(TooltipPlacement),
+      options: ['top', 'bottom', 'inline-start', 'inline-end'],
     },
   },
   args: {
@@ -30,7 +29,7 @@ export default {
     onClick: action('on-click'),
     onMouseEnter: action('on-mouse-enter'),
     onMouseLeave: action('on-mouse-leave'),
-    tooltipDirection: TooltipPlacement.Bottom,
+    tooltipSide: 'bottom',
   },
 } satisfies Meta<PropsType>;
 
@@ -73,7 +72,7 @@ export function VideoDisabled(args: PropsType): JSX.Element {
 }
 
 export function TooltipRight(args: PropsType): JSX.Element {
-  return <CallingButton {...args} tooltipDirection={TooltipPlacement.Right} />;
+  return <CallingButton {...args} tooltipSide="inline-end" />;
 }
 
 export function PresentingOn(args: PropsType): JSX.Element {

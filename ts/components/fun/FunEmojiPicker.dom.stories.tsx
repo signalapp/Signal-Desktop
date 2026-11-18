@@ -1,7 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useCallback, useState, type JSX } from 'react';
-import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
 import type { FunEmojiPickerProps } from './FunEmojiPicker.dom.tsx';
@@ -84,7 +83,7 @@ function Template(props: TemplateProps): JSX.Element {
           onChange={handleSkinToneChange}
         />
         <FunEmojiPicker {...props} open={open} onOpenChange={handleOpenChange}>
-          <Button>Open EmojiPicker</Button>
+          <button type="button">Open EmojiPicker</button>
         </FunEmojiPicker>
       </div>
     </FunProvider>

@@ -33,14 +33,6 @@
     white-space: nowrap;
   }
 
-  &__name__contact-icon {
-    height: 22px;
-    width: 22px;
-    @include mixins.any-theme {
-      background-color: currentColor;
-    }
-  }
-
   &__name__chevron {
     flex-shrink: 0;
 

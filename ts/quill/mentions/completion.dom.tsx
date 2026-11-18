@@ -7,21 +7,25 @@ import { Delta } from '@signalapp/quill-cjs';
 import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
 import type { RefObject, JSX } from 'react';
-import { Popper } from 'react-popper';
+import { Popover } from 'radix-ui';
 import classNames from 'classnames';
-import { createPortal } from 'react-dom';
 
 import { Avatar, AvatarSize } from '../../components/Avatar.dom.tsx';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import type { MemberType, MemberRepository } from '../memberRepository.std.ts';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
-import { matchBlotTextPartitions } from '../util.dom.ts';
+import {
+  clearActiveCompletionOption,
+  matchBlotTextPartitions,
+  setActiveCompletionOption,
+} from '../util.dom.ts';
 import type { MentionBlotValue } from '../util.dom.ts';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
-import { sameWidthModifier } from '../../util/popperUtil.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import { UserText } from '../../components/UserText.dom.tsx';
 
 export type MentionCompletionOptions = {
+  /** Results sit above it at the same width. A getter since Quill clones options before mount */
+  getAnchorElement: () => HTMLElement | null;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
@@ -39,21 +43,18 @@ export class MentionCompletion {
 
   index: number;
 
-  root: HTMLDivElement;
-
   quill: Quill;
 
   options: MentionCompletionOptions;
 
   suggestionListRef: RefObject<HTMLDivElement | null>;
 
-  outsideClickDestructor?: () => void;
+  readonly #listId = `mention-completion-${crypto.randomUUID()}`;
 
   constructor(quill: Quill, options: MentionCompletionOptions) {
     this.results = [];
     this.index = 0;
     this.options = options;
-    this.root = document.body.appendChild(document.createElement('div'));
     this.quill = quill;
     this.suggestionListRef = createRef<HTMLDivElement>();
 
@@ -89,12 +90,11 @@ export class MentionCompletion {
     );
   }
 
-  destroy(): void {
-    this.outsideClickDestructor?.();
-    this.outsideClickDestructor = undefined;
-
-    this.root.remove();
-  }
+  readonly #handleOpenChange = (open: boolean): void => {
+    if (!open) {
+      this.clearResults();
+    }
+  };
 
   changeIndex(by: number): void {
     this.index = (this.index + by + this.results.length) % this.results.length;
@@ -248,8 +248,7 @@ export class MentionCompletion {
   }
 
   onUnmount(): void {
-    this.outsideClickDestructor?.();
-    this.outsideClickDestructor = undefined;
+    clearActiveCompletionOption(this.quill.root, this.#listId);
     this.options.setMentionPickerElement(null);
   }
 
@@ -262,81 +261,80 @@ export class MentionCompletion {
       return;
     }
 
-    const element = createPortal(
-      <Popper placement="top-start" modifiers={[sameWidthModifier]}>
-        {({ ref, style }) => (
-          <div
-            ref={ref}
-            className="module-composition-input__suggestions"
-            style={style}
-            role="listbox"
-            aria-expanded
-            aria-activedescendant={`mention-result--${
-              memberResults.length
-                ? (memberResults[memberResultsIndex]?.name ?? '')
-                : ''
-            }`}
-            tabIndex={0}
+    const anchor = this.options.getAnchorElement();
+    strictAssert(anchor, 'MentionCompletion: Missing anchor element');
+
+    const element = (
+      <Popover.Root open onOpenChange={this.#handleOpenChange} modal={false}>
+        <Popover.Anchor virtualRef={{ current: anchor }} />
+        <Popover.Portal>
+          <Popover.Content
+            asChild
+            side="top"
+            align="start"
+            // Focus stays in the editor
+            onOpenAutoFocus={event => event.preventDefault()}
+            onCloseAutoFocus={event => event.preventDefault()}
+            onFocusOutside={event => event.preventDefault()}
           >
             <div
-              ref={this.suggestionListRef}
-              className="module-composition-input__suggestions--scroller"
+              id={this.#listId}
+              className="module-composition-input__suggestions"
+              style={{ width: 'var(--radix-popper-anchor-width)' }}
+              role="listbox"
             >
-              {memberResults.map((member, index) => (
-                <button
-                  type="button"
-                  key={member.aci}
-                  id={`mention-result--${member.name}`}
-                  role="option button"
-                  aria-selected={memberResultsIndex === index}
-                  onClick={() => {
-                    this.completeMention(index);
-                  }}
-                  className={classNames(
-                    'module-composition-input__suggestions__row',
-                    'module-composition-input__suggestions__row--mention',
-                    memberResultsIndex === index
-                      ? 'module-composition-input__suggestions__row--selected'
-                      : null
-                  )}
-                >
-                  <Avatar
-                    avatarPlaceholderGradient={member.avatarPlaceholderGradient}
-                    avatarUrl={member.avatarUrl}
-                    badge={getPreferredBadge(member.badges)}
-                    conversationType="direct"
-                    hasAvatar={member.hasAvatar}
-                    i18n={this.options.i18n}
-                    size={AvatarSize.TWENTY_EIGHT}
-                    theme={theme}
-                    title={member.title}
-                  />
-                  <div className="module-composition-input__suggestions__title">
-                    <UserText text={member.title} />
-                  </div>
-                </button>
-              ))}
+              <div
+                ref={this.suggestionListRef}
+                className="module-composition-input__suggestions--scroller"
+              >
+                {memberResults.map((member, index) => (
+                  <button
+                    type="button"
+                    key={member.aci}
+                    id={`${this.#listId}-${index}`}
+                    role="option"
+                    aria-selected={memberResultsIndex === index}
+                    onClick={() => {
+                      this.completeMention(index);
+                    }}
+                    className={classNames(
+                      'module-composition-input__suggestions__row',
+                      'module-composition-input__suggestions__row--mention',
+                      memberResultsIndex === index
+                        ? 'module-composition-input__suggestions__row--selected'
+                        : null
+                    )}
+                  >
+                    <Avatar
+                      avatarPlaceholderGradient={
+                        member.avatarPlaceholderGradient
+                      }
+                      avatarUrl={member.avatarUrl}
+                      badge={getPreferredBadge(member.badges)}
+                      conversationType="direct"
+                      hasAvatar={member.hasAvatar}
+                      i18n={this.options.i18n}
+                      size={AvatarSize.TWENTY_EIGHT}
+                      theme={theme}
+                      title={member.title}
+                    />
+                    <div className="module-composition-input__suggestions__title">
+                      <UserText text={member.title} />
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-      </Popper>,
-      this.root
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
     );
 
-    // Just to make sure that we don't propagate outside clicks until this
-    // is closed.
-    this.outsideClickDestructor?.();
-    this.outsideClickDestructor = handleOutsideClick(
-      () => {
-        this.onUnmount();
-        return true;
-      },
-      {
-        name: 'quill.mentions.completion',
-        containerElements: [this.root],
-      }
+    setActiveCompletionOption(
+      this.quill.root,
+      this.#listId,
+      `${this.#listId}-${memberResultsIndex}`
     );
-
     this.options.setMentionPickerElement(element);
   }
 }

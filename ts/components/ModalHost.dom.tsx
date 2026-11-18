@@ -2,29 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
+  useCallback,
   useContext,
-  useEffect,
   createContext,
   memo,
-  useRef,
   type ReactElement,
 } from 'react';
 import { createPortal } from 'react-dom';
 import type { SpringValues } from '@react-spring/web';
 import { animated } from '@react-spring/web';
 import classNames from 'classnames';
-import lodash from 'lodash';
-import { FocusScope } from 'react-aria';
+import { DismissableLayer, FocusScope } from 'radix-ui/internal';
 import type { ModalConfigType } from '../hooks/useAnimated.dom.tsx';
 import type { Theme } from '../util/theme.std.ts';
 import { assertDev } from '../util/assert.std.ts';
 import { themeClassName } from '../util/theme.std.ts';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { createLogger } from '../logging/log.std.ts';
-
-const { noop } = lodash;
 
 const log = createLogger('ModalHost');
 
@@ -56,7 +50,6 @@ export const ModalHost = memo(function ModalHostInner({
   overlayStyles,
   theme,
 }: PropsType) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const previousModalName = usePreviousDeprecated(modalName, modalName);
   const modalContainer = useContext(ModalContainerContext) ?? document.body;
 
@@ -68,43 +61,44 @@ export const ModalHost = memo(function ModalHostInner({
     assertDev(false, 'Modal conflict');
   }
 
-  useEscapeHandling(noEscapeClose ? noop : onEscape || onClose);
-  useEffect(() => {
-    if (noMouseClose) {
-      return noop;
-    }
-    return handleOutsideClick(
-      node => {
-        // In strange event propagation situations we can get the actual document.body
-        // node here. We don't want to handle those events.
-        if (node === document.body || node === document.documentElement) {
-          return false;
-        }
+  const handleEscapeKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      // The modal handles Escape itself, even when it doesn't close
+      event.preventDefault();
+      if (!noEscapeClose) {
+        (onEscape ?? onClose)();
+      }
+    },
+    [noEscapeClose, onEscape, onClose]
+  );
 
-        // ignore clicks that originate in the calling/pip
-        // when we're not handling a component in the calling/pip
-        if (
-          (modalContainer === document.body ||
-            modalContainer.classList.contains(
-              'module-calling__modal-container'
-            )) &&
-          node instanceof Element &&
-          node.closest(
-            [
-              '.module-calling__modal-container',
-              '[data-fun-overlay]',
-              '[data-radix-popper-content-wrapper]',
-            ].join(', ')
-          ) != null
-        ) {
-          return false;
-        }
-        onClose();
-        return true;
-      },
-      { containerElements: [containerRef], name: modalName }
-    );
-  }, [noMouseClose, onClose, containerRef, modalName, modalContainer]);
+  const handlePointerDownOutside = useCallback(
+    (event: Event) => {
+      const { target } = event;
+      if (noMouseClose) {
+        event.preventDefault();
+        return;
+      }
+      // In strange event propagation situations we can get the actual
+      // document.body node here. We don't want to handle those events.
+      if (target === document.body || target === document.documentElement) {
+        event.preventDefault();
+        return;
+      }
+      // Ignore clicks in the call screen/PiP when this modal isn't part of it
+      if (
+        (modalContainer === document.body ||
+          modalContainer.classList.contains(
+            'module-calling__modal-container'
+          )) &&
+        target instanceof Element &&
+        target.closest('.module-calling__modal-container') != null
+      ) {
+        event.preventDefault();
+      }
+    },
+    [noMouseClose, modalContainer]
+  );
 
   const modalContent = (
     <div
@@ -122,17 +116,22 @@ export const ModalHost = memo(function ModalHostInner({
         style={overlayStyles}
       />
       <div className="module-modal-host__overlay-container">
-        <div ref={containerRef} className="module-modal-host__width-container">
-          {children}
-        </div>
+        <DismissableLayer.Root
+          asChild
+          onEscapeKeyDown={handleEscapeKeyDown}
+          onPointerDownOutside={handlePointerDownOutside}
+          onFocusOutside={event => event.preventDefault()}
+          onDismiss={onClose}
+        >
+          <div className="module-modal-host__width-container">{children}</div>
+        </DismissableLayer.Root>
       </div>
     </div>
   );
 
   return createPortal(
-    <FocusScope contain={false} autoFocus restoreFocus>
-      {modalContent}
-    </FocusScope>,
+    // Moves focus in and back out, without trapping it
+    <FocusScope.Root asChild>{modalContent}</FocusScope.Root>,
     document.body
   );
 });

@@ -4,13 +4,13 @@ import { useCallback, useId, useMemo, useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { CallQualitySurvey } from '../types/CallQualitySurvey.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { AxoCheckbox } from '../axo/AxoCheckbox.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 
 import Issue = CallQualitySurvey.Issue;
@@ -262,13 +262,12 @@ export function CallQualitySurveyDialog(
                     )}
                   </AxoButton.Root>
                 ) : (
-                  <Tooltip
-                    content={i18n(
+                  <AxoTooltip.Root
+                    label={i18n(
                       !isOtherInputValid
                         ? 'icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText'
                         : 'icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip'
                     )}
-                    direction={TooltipPlacement.Top}
                   >
                     <AxoButton.Root
                       variant="strong-primary"
@@ -280,7 +279,7 @@ export function CallQualitySurveyDialog(
                         'icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton'
                       )}
                     </AxoButton.Root>
-                  </Tooltip>
+                  </AxoTooltip.Root>
                 )}
               </AxoDialog.Actions>
             </AxoDialog.Footer>

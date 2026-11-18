@@ -70,6 +70,7 @@ export namespace AxoItem {
   export type Variant = 'secondary' | 'destructive';
 
   export type RootProps = Readonly<{
+    ref?: Ref<HTMLDivElement>;
     id?: string;
     variant?: Variant;
     /**
@@ -83,7 +84,11 @@ export namespace AxoItem {
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AriaList.Item asChild id={props.id}>
-        <AxoBaseItem.Root variant={props.variant} disabled={props.disabled}>
+        <AxoBaseItem.Root
+          ref={props.ref}
+          variant={props.variant}
+          disabled={props.disabled}
+        >
           {props.children}
         </AxoBaseItem.Root>
       </AriaList.Item>

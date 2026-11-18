@@ -148,3 +148,14 @@ export const NarrowError = {
     containerWidthBreakpoint: WidthBreakpoint.Narrow,
   },
 };
+
+export const NarrowNotClickable = {
+  args: {
+    type: 'error',
+    icon: 'warning',
+    onClick: undefined,
+    clickLabel: undefined,
+    hasAction: false,
+    containerWidthBreakpoint: WidthBreakpoint.Narrow,
+  },
+};

@@ -44,4 +44,23 @@ export namespace AxoContactName {
   });
 
   SystemContactEmblem.displayName = 'AxoContactName.SystemContactEmblem';
+
+  /**
+   * <AxoContactName.SystemContactEmblemStatic>
+   * ------------------------------------------
+   */
+
+  /** `SystemContactEmblem` without a button, for use inside other controls */
+  export const SystemContactEmblemStatic: FC = memo(() => {
+    const intl = useAxoIntl();
+    const label = intl.get('AxoContactName.InSystemContactsLabel');
+    return (
+      <span className={tw('inline-flex leading-none')}>
+        <AxoSymbol.InlineGlyph label={label} symbol="person-circle" />
+      </span>
+    );
+  });
+
+  SystemContactEmblemStatic.displayName =
+    'AxoContactName.SystemContactEmblemStatic';
 }

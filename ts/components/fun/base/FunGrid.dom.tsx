@@ -1,9 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { CSSProperties, ReactNode, JSX } from 'react';
-import { FocusScope } from 'react-aria';
+import type { CSSProperties, ReactNode, JSX, Ref } from 'react';
 import classNames from 'classnames';
-import { Button, Dialog, Header, Popover } from 'react-aria-components';
+import { Popover } from 'radix-ui';
+import { forwardExtraPropsForRadix } from '../../../axo/_internal/props.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoBaseLayer } from '../../../axo/_internal/AxoBaseLayer.dom.tsx';
 import { FunScrollerSection } from './FunScroller.dom.tsx';
 
 /**
@@ -20,21 +22,19 @@ export type FunGridContainerProps = Readonly<{
 
 export function FunGridContainer(props: FunGridContainerProps): JSX.Element {
   return (
-    <FocusScope restoreFocus>
-      <div
-        className="FunGrid__Container"
-        style={
-          {
-            '--fun-grid-container-total-size': `${props.totalSize}px`,
-            '--fun-grid-container-column-count': props.columnCount,
-            '--fun-grid-container-cell-width': `${props.cellWidth}px`,
-            '--fun-grid-container-cell-height': `${props.cellHeight}px`,
-          } as CSSProperties
-        }
-      >
-        {props.children}
-      </div>
-    </FocusScope>
+    <div
+      className="FunGrid__Container"
+      style={
+        {
+          '--fun-grid-container-total-size': `${props.totalSize}px`,
+          '--fun-grid-container-column-count': props.columnCount,
+          '--fun-grid-container-cell-width': `${props.cellWidth}px`,
+          '--fun-grid-container-cell-height': `${props.cellHeight}px`,
+        } as CSSProperties
+      }
+    >
+      {props.children}
+    </div>
   );
 }
 
@@ -113,23 +113,25 @@ export function FunGridHeaderText(props: FunGridHeaderTextProps): JSX.Element {
  */
 
 export type FunGridHeaderButtonProps = Readonly<{
+  ref?: Ref<HTMLButtonElement>;
   label: string;
-  onPress?: () => void;
   children: ReactNode;
 }>;
 
 export function FunGridHeaderButton(
   props: FunGridHeaderButtonProps
 ): JSX.Element {
+  const { ref, label, children, ...rest } = props;
   return (
-    <Button
+    <button
+      ref={ref}
       type="button"
-      aria-label={props.label}
+      aria-label={label}
       className="FunGrid__HeaderButton"
-      onPress={props.onPress}
+      {...forwardExtraPropsForRadix(rest)}
     >
-      {props.children}
-    </Button>
+      {children}
+    </button>
   );
 }
 
@@ -155,13 +157,24 @@ export type FunGridHeaderPopoverProps = Readonly<{
   children: ReactNode;
 }>;
 
+/** Must be rendered inside a `Popover.Root` */
 export function FunGridHeaderPopover(
   props: FunGridHeaderPopoverProps
 ): JSX.Element {
   return (
-    <Popover data-fun-overlay placement="bottom end" offset={6}>
-      <Dialog className="FunGrid__HeaderPopoverDialog">{props.children}</Dialog>
-    </Popover>
+    <Popover.Portal>
+      <AxoBaseLayer>
+        <Popover.Content
+          className={tw('legacy-z-index-above-popup')}
+          side="bottom"
+          align="end"
+          sideOffset={6}
+          collisionPadding={12}
+        >
+          <div className="FunGrid__HeaderPopoverDialog">{props.children}</div>
+        </Popover.Content>
+      </AxoBaseLayer>
+    </Popover.Portal>
   );
 }
 
@@ -173,7 +186,7 @@ export function FunGridHeaderPopoverHeader(
   props: FunGridHeaderPopoverTextProps
 ): JSX.Element {
   return (
-    <Header className="FunGrid__HeaderPopoverHeader">{props.children}</Header>
+    <header className="FunGrid__HeaderPopoverHeader">{props.children}</header>
   );
 }
 

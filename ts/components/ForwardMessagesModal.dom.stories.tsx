@@ -53,7 +53,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   getPreferredBadge: () => undefined,
   i18n,
   isInFullScreenCall: false,
-  linkPreview: undefined,
+  linkPreview: overrideProps.linkPreview,
   onClose: action('onClose'),
   onChange: action('onChange'),
   removeLinkPreview: action('removeLinkPreview'),
@@ -127,30 +127,31 @@ export function WithAContact(): JSX.Element {
 }
 
 export function LinkPreview(): JSX.Element {
+  const preview = {
+    description: LONG_DESCRIPTION,
+    // oxlint-disable-next-line react/purity
+    date: Date.now(),
+    domain: 'https://www.signal.org',
+    url: 'signal.org',
+    image: createAttachment({
+      pending: false,
+      url: '/fixtures/kitten-4-112-112.jpg',
+      contentType: IMAGE_JPEG,
+    }),
+    isStickerPack: false,
+    isCallLink: false,
+    title: LONG_TITLE,
+  };
   return (
     <ForwardMessagesModal
       {...useProps({
         drafts: [
           getMessageForwardDraft({
             messageBody: 'signal.org',
-            previews: [
-              {
-                description: LONG_DESCRIPTION,
-                // oxlint-disable-next-line react/purity
-                date: Date.now(),
-                domain: 'https://www.signal.org',
-                url: 'signal.org',
-                image: createAttachment({
-                  url: '/fixtures/kitten-4-112-112.jpg',
-                  contentType: IMAGE_JPEG,
-                }),
-                isStickerPack: false,
-                isCallLink: false,
-                title: LONG_TITLE,
-              },
-            ],
+            previews: [preview],
           }),
         ],
+        linkPreview: preview,
       })}
     />
   );

@@ -321,6 +321,7 @@ export function StoryCreator({
             <TextStoryCreator
               debouncedMaybeGrabLinkPreview={debouncedMaybeGrabLinkPreview}
               i18n={i18n}
+              isCoveredByModal={isReadyToSend}
               isSending={isSending}
               linkPreview={linkPreview}
               onClose={onClose}

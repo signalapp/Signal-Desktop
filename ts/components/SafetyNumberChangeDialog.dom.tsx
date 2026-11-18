@@ -3,7 +3,7 @@
 
 import { useState, useEffect, type JSX, useCallback } from 'react';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { InContactsIcon } from './InContactsIcon.dom.tsx';
+import { AxoContactName } from '../axo/AxoContactName.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -476,10 +476,10 @@ function ContactRow({
         <div className="module-SafetyNumberChangeDialog__row--name">
           <UserText text={contact.title} />
           {isInSystemContacts(contact) && (
-            <span>
-              {' '}
-              <InContactsIcon i18n={i18n} />
-            </span>
+            <>
+              &nbsp;
+              <AxoContactName.SystemContactEmblem />
+            </>
           )}
         </div>
         {shouldShowNumber || contact.isVerified ? (

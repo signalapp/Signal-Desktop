@@ -9,7 +9,6 @@ import { SharedGroupNames } from '../SharedGroupNames.dom.tsx';
 import { About } from './About.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import { canHaveNicknameAndNote } from '../../util/nicknames.dom.ts';
-import { Tooltip, TooltipPlacement } from '../Tooltip.dom.tsx';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -149,23 +148,7 @@ export function AboutContactModal({
           id="icu:AboutContactModal__TitleAndTitleWithoutNickname"
           components={{
             nickname: <UserText text={contact.title} />,
-            titleNoNickname: (
-              <Tooltip
-                direction={TooltipPlacement.Top}
-                content={
-                  <I18n
-                    i18n={i18n}
-                    id="icu:AboutContactModal__TitleWithoutNickname__Tooltip"
-                    components={{
-                      title: <UserText text={contact.titleNoNickname} />,
-                    }}
-                  />
-                }
-                delay={0}
-              >
-                <UserText text={contact.titleNoNickname} />
-              </Tooltip>
-            ),
+            titleNoNickname: <UserText text={contact.titleNoNickname} />,
             muted,
           }}
         />

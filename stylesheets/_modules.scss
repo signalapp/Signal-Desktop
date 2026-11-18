@@ -1767,37 +1767,6 @@ $timer-icons:
   }
 }
 
-// Module: In Contacts Icon
-
-.module-in-contacts-icon__icon {
-  display: inline-block;
-  height: 14px;
-  width: 14px;
-
-  margin-bottom: 2px;
-  vertical-align: middle;
-
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/person/person-circle-compact.svg',
-      variables.$color-gray-60
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/person/person-circle-compact.svg',
-      variables.$color-gray-25
-    );
-  }
-
-  &:focus-visible {
-    @include mixins.color-svg(
-      '../images/icons/v3/person/person-circle-compact.svg',
-      variables.$color-ultramarine
-    );
-  }
-}
-
 // Module: Image
 
 .module-image {
@@ -3613,7 +3582,8 @@ button.module-image__border-overlay:focus-visible {
 
   position: fixed;
   z-index: variables.$z-index-calling-pip;
-  overflow: hidden;
+  // Focusing the offscreen controls must not scroll the PiP
+  overflow: clip;
 
   & .module-ongoing-call__group-call-remote-participant {
     border-radius: 0;
@@ -3814,11 +3784,6 @@ button.module-image__border-overlay:focus-visible {
 
   &__title {
     @include mixins.font-body-2-bold;
-  }
-
-  &__contact-icon {
-    margin-inline-start: 0.3em;
-    background-color: variables.$color-gray-25;
   }
 
   &__list {
@@ -5118,102 +5083,6 @@ button.module-calling-participants-list__contact {
   .module-modal-host__overlay,
   .module-modal-host__overlay-container {
     z-index: $loading-screen-modal-overlay;
-  }
-}
-
-.module-tooltip {
-  --tooltip-text-color: #{variables.$color-gray-75};
-  --tooltip-background-color: #{variables.$color-gray-02};
-
-  @mixin tooltip-dark-theme-variables {
-    --tooltip-text-color: #{variables.$color-gray-05};
-    --tooltip-background-color: #{variables.$color-gray-65};
-  }
-  &--dark-theme {
-    @include tooltip-dark-theme-variables;
-  }
-  @include mixins.dark-theme {
-    @include tooltip-dark-theme-variables;
-  }
-
-  & {
-    background-color: var(--tooltip-background-color);
-    border-radius: 8px;
-    color: var(--tooltip-text-color);
-    display: inline-block;
-    padding-block: 8px;
-    padding-inline: 21px;
-    position: fixed;
-    text-align: center;
-    z-index: variables.$z-index-tooltip;
-  }
-
-  .module-tooltip-arrow {
-    position: absolute;
-    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
-    direction: ltr;
-  }
-
-  .module-tooltip-arrow::after {
-    border: solid 6px transparent;
-    content: '';
-    display: block;
-    height: 0;
-    /* stylelint-disable-next-line liberty/use-logical-spec */
-    margin-left: -6px;
-    margin-top: -6px;
-    position: absolute;
-    width: 0;
-  }
-
-  &[data-placement='top'] {
-    .module-tooltip-arrow {
-      bottom: 0;
-    }
-
-    .module-tooltip-arrow::after {
-      bottom: -12px;
-      border-top-color: var(--tooltip-background-color);
-    }
-  }
-
-  &[data-placement='right'] {
-    .module-tooltip-arrow {
-      /* stylelint-disable-next-line liberty/use-logical-spec */
-      left: 0;
-    }
-
-    .module-tooltip-arrow::after {
-      /* stylelint-disable-next-line liberty/use-logical-spec */
-      left: -6px;
-      /* stylelint-disable-next-line liberty/use-logical-spec */
-      border-right-color: var(--tooltip-background-color);
-    }
-  }
-
-  &[data-placement='bottom'] {
-    .module-tooltip-arrow {
-      top: 0;
-    }
-
-    .module-tooltip-arrow::after {
-      top: -6px;
-      border-bottom-color: var(--tooltip-background-color);
-    }
-  }
-
-  &[data-placement='left'] {
-    .module-tooltip-arrow {
-      /* stylelint-disable-next-line liberty/use-logical-spec */
-      right: 0;
-    }
-
-    .module-tooltip-arrow::after {
-      /* stylelint-disable-next-line liberty/use-logical-spec */
-      right: -12px;
-      /* stylelint-disable-next-line liberty/use-logical-spec */
-      border-left-color: var(--tooltip-background-color);
-    }
   }
 }
 

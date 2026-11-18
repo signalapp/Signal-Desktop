@@ -230,10 +230,18 @@
   }
 
   &__tooltip {
-    --tooltip-background-color: #{$default-background-color};
-    --tooltip-text-color: #{$default-text-color};
+    --LeftPaneDialog__tooltip-background: #{$default-background-color};
+    background-color: var(--LeftPaneDialog__tooltip-background);
+    color: $default-text-color;
     min-width: 280px;
-    text-align: inherit;
+    padding-block: 8px;
+    padding-inline: 16px;
+    border-radius: 8px;
+    z-index: variables.$z-index-tooltip;
+  }
+
+  &__tooltip-arrow {
+    fill: var(--LeftPaneDialog__tooltip-background);
   }
 
   & {
@@ -243,8 +251,7 @@
       color: $error-text-color;
 
       @include mixins.any-theme {
-        --tooltip-background-color: #{$error-background-color};
-        --tooltip-text-color: #{$error-text-color};
+        --LeftPaneDialog__tooltip-background: #{$error-background-color};
       }
 
       a {
@@ -267,11 +274,12 @@
 
       @include mixins.light-theme {
         background-color: variables.$color-white;
-        --tooltip-background-color: #{variables.$color-white};
+        --LeftPaneDialog__tooltip-background: #{variables.$color-white};
         border: 1px solid variables.$color-gray-20;
       }
       @include mixins.dark-theme {
         background: variables.$color-gray-75;
+        --LeftPaneDialog__tooltip-background: #{variables.$color-gray-75};
         border: 1px solid variables.$color-gray-60;
       }
       .LeftPaneDialog__close-button::before {
@@ -303,8 +311,7 @@
       color: $warning-text-color;
 
       @include mixins.any-theme {
-        --tooltip-background-color: #{$warning-background-color};
-        --tooltip-text-color: #{$warning-text-color};
+        --LeftPaneDialog__tooltip-background: #{$warning-background-color};
       }
 
       a {

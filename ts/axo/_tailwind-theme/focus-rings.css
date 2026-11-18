@@ -9,3 +9,12 @@
   @apply ring-offset-[1.5px] ring-offset-(--axo-color-border-focused-inner);
   @apply forced-colors:outline-2 forced-colors:outline-[Highlight] forced-colors:outline-solid;
 }
+
+/* For elements inside a scroll or clip container, where an outset ring is cut off */
+@utility axo-focus-ring-inset {
+  @apply outline-none;
+  box-shadow:
+    inset 0 0 0 2.5px var(--axo-color-border-focused-outer),
+    inset 0 0 0 4px var(--axo-color-border-focused-inner);
+  @apply forced-colors:outline-2 forced-colors:-outline-offset-2 forced-colors:outline-[Highlight] forced-colors:outline-solid;
+}

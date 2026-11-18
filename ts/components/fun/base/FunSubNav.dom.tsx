@@ -307,8 +307,16 @@ export function FunSubNavListBoxItem(
                   transition={FunSubNavListBoxItemTransition}
                 />
               )}
-              {!isSelected && isFocusVisible && (
-                <div className="FunSubNav__ListBoxItem__ButtonIndicator" />
+              {!isSelected && (
+                // Stays mounted: removing it on blur makes Radix's focus trap
+                // pull focus to the popover mid-Tab
+                <div
+                  className={classNames(
+                    'FunSubNav__ListBoxItem__ButtonIndicator',
+                    !isFocusVisible &&
+                      'FunSubNav__ListBoxItem__ButtonIndicator--Hidden'
+                  )}
+                />
               )}
             </FunSubNavListBoxItemButton>
           </>

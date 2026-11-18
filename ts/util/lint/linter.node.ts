@@ -102,7 +102,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/react-dom/.+',
     '^node_modules/react-icon-base/.+',
     '^node_modules/react-input-autosize/.+',
-    '^node_modules/react-popper/.+',
     '^node_modules/react-redux/.+',
     '^node_modules/react-router/.+',
     '^node_modules/react-select/.+',

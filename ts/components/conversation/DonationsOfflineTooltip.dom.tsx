@@ -3,8 +3,7 @@
 
 import type { ReactNode, JSX } from 'react';
 
-import { offsetDistanceModifier } from '../../util/popperUtil.std.ts';
-import { Tooltip, TooltipPlacement } from '../Tooltip.dom.tsx';
+import { AxoTooltip } from '../../axo/AxoTooltip.dom.tsx';
 
 import type { LocalizerType } from '../../types/I18N.std.ts';
 
@@ -22,13 +21,8 @@ export function DonationsOfflineTooltip({
   children,
 }: Props): JSX.Element {
   return (
-    <Tooltip
-      className="InAnotherCallTooltip"
-      content={getTooltipContent(i18n)}
-      direction={TooltipPlacement.Top}
-      popperModifiers={[offsetDistanceModifier(15)]}
-    >
+    <AxoTooltip.Root label={getTooltipContent(i18n)}>
       {children}
-    </Tooltip>
+    </AxoTooltip.Root>
   );
 }

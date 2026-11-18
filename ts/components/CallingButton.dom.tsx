@@ -4,9 +4,7 @@
 import { useMemo, useCallback, type JSX, type MouseEvent } from 'react';
 import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
-import type { TooltipPlacement } from './Tooltip.dom.tsx';
-import { Tooltip } from './Tooltip.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 
 export enum CallingButtonType {
@@ -41,7 +39,7 @@ export type PropsType = {
   onClick: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
-  tooltipDirection?: TooltipPlacement;
+  tooltipSide?: AxoTooltip.Side;
 };
 
 export function CallingButton({
@@ -51,7 +49,7 @@ export function CallingButton({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  tooltipDirection,
+  tooltipSide,
 }: PropsType): JSX.Element {
   const uniqueButtonId = useMemo(() => uuid(), []);
 
@@ -164,18 +162,20 @@ export function CallingButton({
       {tooltipContent === '' ? (
         <div className="CallingButton__button-container">{buttonContent}</div>
       ) : (
-        <Tooltip
-          className="CallingButton__tooltip"
-          wrapperClassName={classNames(
+        <div
+          className={classNames(
             'CallingButton__button-container',
             !isVisible && 'CallingButton__button-container--hidden'
           )}
-          content={tooltipContent}
-          direction={tooltipDirection}
-          theme={Theme.Dark}
         >
-          {buttonContent}
-        </Tooltip>
+          <AxoTooltip.Root
+            label={tooltipContent}
+            side={tooltipSide}
+            tooltipRepeatsTriggerAccessibleName
+          >
+            {buttonContent}
+          </AxoTooltip.Root>
+        </div>
       )}
     </div>
   );

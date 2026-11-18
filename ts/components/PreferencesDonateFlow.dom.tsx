@@ -67,9 +67,8 @@ import { I18n } from './I18n.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.tsx';
 import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom.tsx';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
-import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
@@ -807,16 +806,13 @@ function AmountPicker({
     );
   } else if (error === 'amount-below-minimum') {
     continueButtonWithTooltip = (
-      <Tooltip
-        className="InAnotherCallTooltip"
-        content={i18n('icu:DonateFlow__custom-amount-below-minimum-tooltip', {
+      <AxoTooltip.Root
+        label={i18n('icu:DonateFlow__custom-amount-below-minimum-tooltip', {
           formattedCurrencyAmount: formattedMinimumAmount,
         })}
-        direction={TooltipPlacement.Top}
-        popperModifiers={[offsetDistanceModifier(20)]}
       >
         {continueButton}
-      </Tooltip>
+      </AxoTooltip.Root>
     );
   }
 

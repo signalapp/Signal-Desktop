@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode, FC } from 'react';
+import type { ReactNode, FC, Ref } from 'react';
 import { memo, useId } from 'react';
 import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { AxoItem } from './AxoItem.dom.tsx';
@@ -16,6 +16,7 @@ export namespace AxoClickableItem {
   export type ArrowKind = 'next' | 'external-link';
 
   export type RootProps = Readonly<{
+    ref?: Ref<HTMLDivElement>;
     variant?: Variant;
     symbol?: AxoSymbol.Name;
     label: ReactNode;
@@ -47,7 +48,11 @@ export namespace AxoClickableItem {
     }
 
     return (
-      <AxoItem.Root variant={props.variant} disabled={props.disabled}>
+      <AxoItem.Root
+        ref={props.ref}
+        variant={props.variant}
+        disabled={props.disabled}
+      >
         {props.symbol != null && (
           <AxoItem.Leading>
             <AxoItem.Icon symbol={props.symbol} />

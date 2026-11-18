@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { FocusScope } from 'react-aria';
+import { FocusScope } from 'radix-ui/internal';
 import type { UIEvent, JSX, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import {
   useCallback,
@@ -593,7 +593,8 @@ export function StoryViewer({
   };
 
   return (
-    <FocusScope contain={currentViewTarget == null} autoFocus>
+    // Untrapped while the legacy replies modal (not a Radix layer) is open
+    <FocusScope.Root asChild trapped={currentViewTarget == null} loop>
       {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         tabIndex={0}
@@ -1058,6 +1059,6 @@ export function StoryViewer({
           </AxoConfirmDialog.Action>
         </AxoConfirmDialog.Root>
       </div>
-    </FocusScope>
+    </FocusScope.Root>
   );
 }

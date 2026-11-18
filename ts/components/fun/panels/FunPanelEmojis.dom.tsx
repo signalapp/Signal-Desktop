@@ -1,16 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useId, useMemo, useRef, useState } from 'react';
 import type { MouseEvent, PointerEvent, JSX } from 'react';
-import {
-  Dialog,
-  DialogTrigger,
-  Heading,
-  OverlayArrow,
-  Popover,
-} from 'react-aria-components';
 import { VisuallyHidden } from 'react-aria';
-import { Tooltip } from 'radix-ui';
+import { Popover, Tooltip } from 'radix-ui';
+import classNames from 'classnames';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoBaseLayer } from '../../../axo/_internal/AxoBaseLayer.dom.tsx';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { strictAssert } from '../../../util/assert.std.ts';
 import { missingCaseError } from '../../../util/missingCaseError.std.ts';
@@ -600,9 +596,15 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
   } = props;
 
   const popoverTriggerRef = useRef<HTMLButtonElement>(null);
+  const popoverTitleId = useId();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const handlePopoverOpenChange = useCallback((open: boolean) => {
     setPopoverOpen(open);
+  }, []);
+  const handlePopoverCloseAutoFocus = useCallback((event: Event) => {
+    // There's no `Popover.Trigger` for Radix to return focus to
+    event.preventDefault();
+    popoverTriggerRef.current?.focus();
   }, []);
 
   const emojiParent = useMemo(() => {
@@ -667,67 +669,96 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     return Emoji.getCompletionLabel(emoji);
   }, [emoji]);
 
+  const cellButton = (
+    <FunItemButton
+      ref={popoverTriggerRef}
+      excludeFromTabOrder={!props.isTabbable}
+      aria-label={emojiDisplayLabel}
+      onClick={handleClick}
+      onLongPress={handleLongPress}
+      onContextMenu={handleContextMenu}
+      longPressAccessibilityDescription={i18n(
+        'icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription'
+      )}
+    >
+      <FunStaticEmoji role="presentation" size={32} emoji={emoji} />
+    </FunItemButton>
+  );
+
+  const cellWithTooltip = (
+    <FunTooltip
+      side="top"
+      content={`:${emojiCompletionLabel}:`}
+      collisionBoundarySelector=".FunScroller__Viewport"
+      collisionPadding={6}
+      // `skipDelayDuration=0` doesn't work with `disableHoverableContent`
+      // FIX: https://github.com/radix-ui/primitives/pull/3562
+      // disableHoverableContent
+    >
+      {emojiHasSkinToneVariants ? (
+        <Popover.Anchor asChild>{cellButton}</Popover.Anchor>
+      ) : (
+        cellButton
+      )}
+    </FunTooltip>
+  );
+
   return (
     <FunGridCell
       data-key={props.cellKey}
       colIndex={props.colIndex}
       rowIndex={props.rowIndex}
     >
-      <FunTooltip
-        side="top"
-        content={`:${emojiCompletionLabel}:`}
-        collisionBoundarySelector=".FunScroller__Viewport"
-        collisionPadding={6}
-        // `skipDelayDuration=0` doesn't work with `disableHoverableContent`
-        // FIX: https://github.com/radix-ui/primitives/pull/3562
-        // disableHoverableContent
-      >
-        <FunItemButton
-          ref={popoverTriggerRef}
-          excludeFromTabOrder={!props.isTabbable}
-          aria-label={emojiDisplayLabel}
-          onClick={handleClick}
-          onLongPress={handleLongPress}
-          onContextMenu={handleContextMenu}
-          longPressAccessibilityDescription={i18n(
-            'icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription'
-          )}
-        >
-          <FunStaticEmoji role="presentation" size={32} emoji={emoji} />
-        </FunItemButton>
-      </FunTooltip>
-      {emojiHasSkinToneVariants && (
-        <Popover
-          data-fun-overlay
-          isOpen={popoverOpen}
+      {emojiHasSkinToneVariants ? (
+        <Popover.Root
+          open={popoverOpen}
           onOpenChange={handlePopoverOpenChange}
-          triggerRef={popoverTriggerRef}
-          className="FunPanelEmojis__CellPopover"
-          placement="bottom"
-          offset={6}
+          modal
         >
-          <OverlayArrow className="FunPanelEmojis__CellPopoverOverlayArrow">
-            <svg width={12} height={12} viewBox="0 0 12 12">
-              <path d="M0 0 L6 6 L12 0" />
-            </svg>
-          </OverlayArrow>
-          <Dialog className="FunPanelEmojis__CellPopoverDialog">
-            <VisuallyHidden>
-              <Heading slot="title">
-                {i18n(
-                  'icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji',
-                  { emojiName: emojiDisplayLabel }
+          {cellWithTooltip}
+          <Popover.Portal>
+            <AxoBaseLayer>
+              <Popover.Content
+                className={classNames(
+                  'FunPanelEmojis__CellPopover',
+                  tw('legacy-z-index-above-popup')
                 )}
-              </Heading>
-            </VisuallyHidden>
-            <FunSkinTonesList
-              i18n={i18n}
-              emoji={emojiParent}
-              skinTone={null}
-              onSelectSkinTone={handleSelectSkinTone}
-            />
-          </Dialog>
-        </Popover>
+                side="bottom"
+                sideOffset={6}
+                collisionPadding={12}
+                aria-labelledby={popoverTitleId}
+                onCloseAutoFocus={handlePopoverCloseAutoFocus}
+              >
+                <Popover.Arrow asChild width={12} height={6}>
+                  <svg
+                    className="FunPanelEmojis__CellPopoverOverlayArrow"
+                    viewBox="0 0 12 6"
+                  >
+                    <path d="M0 0 L6 6 L12 0" />
+                  </svg>
+                </Popover.Arrow>
+                <div className="FunPanelEmojis__CellPopoverDialog">
+                  <VisuallyHidden>
+                    <h2 id={popoverTitleId}>
+                      {i18n(
+                        'icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji',
+                        { emojiName: emojiDisplayLabel }
+                      )}
+                    </h2>
+                  </VisuallyHidden>
+                  <FunSkinTonesList
+                    i18n={i18n}
+                    emoji={emojiParent}
+                    skinTone={null}
+                    onSelectSkinTone={handleSelectSkinTone}
+                  />
+                </div>
+              </Popover.Content>
+            </AxoBaseLayer>
+          </Popover.Portal>
+        </Popover.Root>
+      ) : (
+        cellWithTooltip
       )}
     </FunGridCell>
   );
@@ -754,12 +785,14 @@ function SectionSkinToneHeaderPopover(
   );
 
   return (
-    <DialogTrigger isOpen={props.open} onOpenChange={props.onOpenChange}>
-      <FunGridHeaderButton
-        label={i18n('icu:FunPanelEmojis__ChangeSkinToneButtonLabel')}
-      >
-        <FunGridHeaderIcon iconClassName="FunGrid__HeaderIcon--More" />
-      </FunGridHeaderButton>
+    <Popover.Root open={props.open} onOpenChange={props.onOpenChange} modal>
+      <Popover.Trigger asChild>
+        <FunGridHeaderButton
+          label={i18n('icu:FunPanelEmojis__ChangeSkinToneButtonLabel')}
+        >
+          <FunGridHeaderIcon iconClassName="FunGrid__HeaderIcon--More" />
+        </FunGridHeaderButton>
+      </Popover.Trigger>
       <FunGridHeaderPopover>
         <FunGridHeaderPopoverHeader>
           {i18n('icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel')}
@@ -771,6 +804,6 @@ function SectionSkinToneHeaderPopover(
           onSelectSkinTone={handleSelectSkinTone}
         />
       </FunGridHeaderPopover>
-    </DialogTrigger>
+    </Popover.Root>
   );
 }

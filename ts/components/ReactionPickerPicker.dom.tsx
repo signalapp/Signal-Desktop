@@ -4,7 +4,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import classNames from 'classnames';
-import { Button } from 'react-aria-components';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import { createLogger } from '../logging/log.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
@@ -25,7 +24,7 @@ export const ReactionPickerPickerEmojiButton = forwardRef<
     title?: string;
   }
 >(function ReactionPickerPickerEmojiButtonInner(
-  { emoji, onClick, isSelected, title },
+  { emoji, onClick, isSelected, title, ...rest },
   ref
 ) {
   if (!Emoji.isEmoji(emoji)) {
@@ -36,14 +35,16 @@ export const ReactionPickerPickerEmojiButton = forwardRef<
   }
 
   return (
-    <Button
+    <button
       ref={ref}
+      type="button"
       className={classNames(
         'module-ReactionPickerPicker__button',
         'module-ReactionPickerPicker__button--emoji',
         isSelected && 'module-ReactionPickerPicker__button--selected'
       )}
-      onPress={onClick}
+      onClick={onClick}
+      {...rest}
     >
       <FunStaticEmoji
         role="img"
@@ -51,7 +52,7 @@ export const ReactionPickerPickerEmojiButton = forwardRef<
         size={48}
         emoji={emoji}
       />
-    </Button>
+    </button>
   );
 });
 

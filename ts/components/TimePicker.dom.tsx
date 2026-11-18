@@ -1,15 +1,10 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { JSX } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  DateInput,
-  DateSegment,
-  Popover,
-  TimeField,
-} from 'react-aria-components';
-import { Dialog as RadixDialog } from 'radix-ui';
+import type { JSX, MouseEvent } from 'react';
+import { useCallback, useId, useMemo, useRef, useState } from 'react';
+import { DateInput, DateSegment, TimeField } from 'react-aria-components';
+import { Popover } from 'radix-ui';
 import { Time } from '@internationalized/date';
 import { range } from 'lodash';
 import classNames from 'classnames';
@@ -144,220 +139,214 @@ export function TimePicker(props: PropsType): JSX.Element {
       PM: i18n('icu:NotificationProfile--pm'),
     };
   }, [i18n]);
-  const timeFieldRef = useRef<HTMLDivElement | null>(null);
+  const popupTitleId = useId();
   const { minutes, hours, period } = getTimeDetails(time, use24HourTime);
   const selectedHour = useRef<HTMLButtonElement | null>(null);
   const selectedMinute = useRef<HTMLButtonElement | null>(null);
 
-  useEffect(() => {
-    if (!isShowingPopup) {
-      return;
-    }
-    if (selectedHour.current) {
-      selectedHour.current.focus();
-    }
-    if (selectedMinute.current) {
-      selectedMinute.current.scrollIntoView();
-    }
-  }, [isShowingPopup]);
+  const handleOpenAutoFocus = useCallback((event: Event) => {
+    event.preventDefault();
+    selectedHour.current?.focus();
+    selectedMinute.current?.scrollIntoView();
+  }, []);
+
+  const handleTriggerClick = useCallback(
+    (event: MouseEvent) => {
+      if (isDisabled) {
+        // Stops Radix from toggling the popup
+        event.preventDefault();
+      }
+    },
+    [isDisabled]
+  );
 
   return (
-    <>
-      {/* We wrap React Aria's Popover with a "dummy" RadixDialog to help them play nicely together.
-      See DatePicker for more info. */}
-      <RadixDialog.Root open={isShowingPopup} modal>
-        <RadixDialog.Overlay asChild>{null}</RadixDialog.Overlay>
-        <RadixDialog.Content
-          asChild
-          aria-labelledby={undefined}
-          data-state={undefined}
+    <Popover.Root open={isShowingPopup} onOpenChange={setIsShowingPopup} modal>
+      <Popover.Portal>
+        <Popover.Content
+          side="bottom"
+          align="end"
+          sideOffset={6}
+          collisionPadding={12}
+          aria-labelledby={popupTitleId}
+          onOpenAutoFocus={handleOpenAutoFocus}
+          className={classNames(
+            'TimePickerPopup',
+            tw(
+              'flex h-[244px] rounded-[10px] bg-surface-secondary p-1 shadow-elevation-1',
+              'legacy-z-index-above-popup',
+              'focus-visible:axo-focus-ring'
+            ),
+            use24HourTime ? tw('w-[102px]') : tw('w-[150px]'),
+            theme ? themeClassName(theme) : undefined
+          )}
         >
-          <Popover
-            triggerRef={timeFieldRef}
-            isOpen={isShowingPopup}
-            onOpenChange={setIsShowingPopup}
-            placement="bottom end"
-            offset={6}
-            className={classNames(
-              'TimePickerPopup',
-              tw(
-                'flex h-[244px] rounded-[10px] bg-surface-secondary p-1 shadow-elevation-1'
-              ),
-              use24HourTime ? tw('w-[102px]') : tw('w-[150px]'),
-              theme ? themeClassName(theme) : undefined
+          <h2 id={popupTitleId} className={tw('sr-only')}>
+            {i18n('icu:TimePicker__popupTitle')}
+          </h2>
+          <div
+            className={tw('w-[46px] scrollbar-width-none overflow-y-scroll')}
+          >
+            {(use24HourTime ? HOURS_24 : HOURS_12).map(hour => {
+              const isSelected = hour === hours;
+
+              return (
+                <button
+                  key={hour.toString()}
+                  ref={isSelected ? selectedHour : null}
+                  className={classNames(
+                    tw(
+                      'w-[46px] rounded-lg border-[2.5px] border-transparent py-[7px] type-body-medium',
+                      'focus-visible:axo-focus-ring-inset'
+                    ),
+                    isSelected ? tw('bg-primary') : null
+                  )}
+                  type="button"
+                  onClick={() => {
+                    const newTime = makeTime(hour, minutes, period);
+                    onUpdateTime(newTime);
+                  }}
+                >
+                  {hour}
+                </button>
+              );
+            })}
+          </div>
+          <div
+            className={tw(
+              'ms-0.5 w-[46px] scrollbar-width-none overflow-y-scroll'
             )}
           >
-            {/* Radix warns without a title, and labels the popup with it */}
-            <RadixDialog.Title className={tw('sr-only')}>
-              {i18n('icu:TimePicker__popupTitle')}
-            </RadixDialog.Title>
-            <div
-              className={tw('w-[46px] scrollbar-width-none overflow-y-scroll')}
-            >
-              {(use24HourTime ? HOURS_24 : HOURS_12).map(hour => {
-                const isSelected = hour === hours;
+            {MINUTES.map(minute => {
+              const isSelected = minute === minutes;
 
-                return (
-                  <button
-                    key={hour.toString()}
-                    ref={isSelected ? selectedHour : null}
-                    className={classNames(
-                      tw(
-                        'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
-                        'focus-visible:axo-focus-ring'
-                      ),
-                      isSelected ? tw('bg-primary') : null
-                    )}
-                    type="button"
-                    onClick={() => {
-                      const newTime = makeTime(hour, minutes, period);
-                      onUpdateTime(newTime);
-                    }}
-                  >
-                    {hour}
-                  </button>
-                );
-              })}
-            </div>
+              return (
+                <button
+                  key={minute.toString()}
+                  ref={isSelected ? selectedMinute : null}
+                  className={classNames(
+                    tw(
+                      'w-[46px] rounded-lg border-[2.5px] border-transparent py-[7px] type-body-medium',
+                      'focus-visible:axo-focus-ring-inset'
+                    ),
+                    isSelected ? tw('bg-primary') : null
+                  )}
+                  type="button"
+                  onClick={() => {
+                    const newTime = makeTime(hours, minute, period);
+                    onUpdateTime(newTime);
+                  }}
+                >
+                  {addLeadingZero(minute)}
+                </button>
+              );
+            })}
+          </div>
+          {!use24HourTime ? (
             <div
               className={tw(
                 'ms-0.5 w-[46px] scrollbar-width-none overflow-y-scroll'
               )}
             >
-              {MINUTES.map(minute => {
-                const isSelected = minute === minutes;
+              {AM_PM.map(item => {
+                const isSelected = item === period;
 
                 return (
                   <button
-                    key={minute.toString()}
-                    ref={isSelected ? selectedMinute : null}
+                    key={item}
                     className={classNames(
                       tw(
-                        'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
-                        'focus-visible:axo-focus-ring'
+                        'w-[46px] rounded-lg border-[2.5px] border-transparent py-[7px] type-body-medium',
+                        'focus-visible:axo-focus-ring-inset'
                       ),
                       isSelected ? tw('bg-primary') : null
                     )}
                     type="button"
                     onClick={() => {
-                      const newTime = makeTime(hours, minute, period);
+                      const newTime = makeTime(hours, minutes, item);
                       onUpdateTime(newTime);
                     }}
                   >
-                    {addLeadingZero(minute)}
+                    {periodLookup[item]}
                   </button>
                 );
               })}
             </div>
-            {!use24HourTime ? (
-              <div
-                className={tw(
-                  'ms-0.5 w-[46px] scrollbar-width-none overflow-y-scroll'
-                )}
-              >
-                {AM_PM.map(item => {
-                  const isSelected = item === period;
+          ) : null}
+        </Popover.Content>
+      </Popover.Portal>
 
-                  return (
-                    <button
-                      key={item}
-                      className={classNames(
-                        tw(
-                          'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
-                          'focus-visible:axo-focus-ring'
-                        ),
-                        isSelected ? tw('bg-primary') : null
-                      )}
-                      type="button"
-                      onClick={() => {
-                        const newTime = makeTime(hours, minutes, item);
-                        onUpdateTime(newTime);
-                      }}
-                    >
-                      {periodLookup[item]}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : null}
-          </Popover>
-        </RadixDialog.Content>
-      </RadixDialog.Root>
-
-      <TimeField
-        ref={timeFieldRef}
-        className={tw(
-          'flex items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 text-primary',
-          'focus-visible-within:axo-focus-ring'
-        )}
-        aria-label={props['aria-label']}
-        aria-labelledby={props['aria-labelledby']}
-        hourCycle={use24HourTime ? 24 : 12}
-        isDisabled={isDisabled}
-        minValue={new Time(0, 0)}
-        maxValue={new Time(23, 59)}
-        onChange={value => {
-          if (!value) {
-            return;
-          }
-          onUpdateTime(parseTimeFromInput(value));
-        }}
-        value={formatTimeForInput(time)}
-      >
-        <DateInput className={tw('inline-flex min-w-[5em] items-center')}>
-          {segment => {
-            if (segment.type === 'literal') {
-              // We don't need the space between the time and the am/pm
-              // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts#using_formattoparts
-              if (segment.text === ' ') {
-                return <span />;
-              }
-              // https://github.com/adobe/react-spectrum/blob/36fdd8bca2df281fa955117d946e6dd9718241e4/packages/react-stately/src/datepicker/useDateFieldState.ts#L443-L470
-              if (segment.text === '\u2066' || segment.text === '\u2069') {
-                return <span>{segment.text}</span>;
-              }
-              // oxlint-disable-next-line no-param-reassign
-              segment.text = i18n('icu:NotificationProfile--time-separator');
-            }
-            return (
-              <DateSegment
-                className={classNames(
-                  tw(
-                    'inline-block px-px type-body-medium focus:bg-secondary focus-visible:outline-none'
-                  ),
-                  segment.type === 'literal' ? tw('px-[3px]') : null,
-                  segment.type === 'dayPeriod' ? tw('ps-[2px]') : null,
-                  segment.type === 'hour' ? tw('grow text-end') : null,
-                  isDisabled ? tw('text-placeholder') : null
-                )}
-                segment={segment}
-              />
-            );
-          }}
-        </DateInput>
-        <button
-          className={classNames(
-            tw(
-              'ms-3 p-0.5',
-              'focus-visible:bg-secondary focus-visible:outline-none'
-            ),
-            isDisabled ? tw('text-placeholder') : null
+      <Popover.Anchor asChild>
+        <TimeField
+          className={tw(
+            'flex items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 text-primary',
+            'focus-visible-within:axo-focus-ring'
           )}
-          type="button"
-          onClick={() => {
-            if (isDisabled) {
+          aria-label={props['aria-label']}
+          aria-labelledby={props['aria-labelledby']}
+          hourCycle={use24HourTime ? 24 : 12}
+          isDisabled={isDisabled}
+          minValue={new Time(0, 0)}
+          maxValue={new Time(23, 59)}
+          onChange={value => {
+            if (!value) {
               return;
             }
-            setIsShowingPopup(!isShowingPopup);
+            onUpdateTime(parseTimeFromInput(value));
           }}
+          value={formatTimeForInput(time)}
         >
-          <AxoSymbol.Icon
-            size={14}
-            symbol="chevron-down"
-            label={i18n('icu:NotificationProfiles--open-time-picker')}
-          />
-        </button>
-      </TimeField>
-    </>
+          <DateInput className={tw('inline-flex min-w-[5em] items-center')}>
+            {segment => {
+              if (segment.type === 'literal') {
+                // We don't need the space between the time and the am/pm
+                // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts#using_formattoparts
+                if (segment.text === ' ') {
+                  return <span />;
+                }
+                // https://github.com/adobe/react-spectrum/blob/36fdd8bca2df281fa955117d946e6dd9718241e4/packages/react-stately/src/datepicker/useDateFieldState.ts#L443-L470
+                if (segment.text === '\u2066' || segment.text === '\u2069') {
+                  return <span>{segment.text}</span>;
+                }
+                // oxlint-disable-next-line no-param-reassign
+                segment.text = i18n('icu:NotificationProfile--time-separator');
+              }
+              return (
+                <DateSegment
+                  className={classNames(
+                    tw(
+                      'inline-block px-px type-body-medium focus:bg-secondary focus-visible:outline-none'
+                    ),
+                    segment.type === 'literal' ? tw('px-[3px]') : null,
+                    segment.type === 'dayPeriod' ? tw('ps-[2px]') : null,
+                    segment.type === 'hour' ? tw('grow text-end') : null,
+                    isDisabled ? tw('text-placeholder') : null
+                  )}
+                  segment={segment}
+                />
+              );
+            }}
+          </DateInput>
+          <Popover.Trigger asChild onClick={handleTriggerClick}>
+            <button
+              className={classNames(
+                tw(
+                  'ms-3 p-0.5',
+                  'focus-visible:bg-secondary focus-visible:outline-none'
+                ),
+                isDisabled ? tw('text-placeholder') : null
+              )}
+              type="button"
+            >
+              <AxoSymbol.Icon
+                size={14}
+                symbol="chevron-down"
+                label={i18n('icu:NotificationProfiles--open-time-picker')}
+              />
+            </button>
+          </Popover.Trigger>
+        </TimeField>
+      </Popover.Anchor>
+    </Popover.Root>
   );
 }

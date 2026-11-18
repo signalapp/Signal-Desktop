@@ -192,6 +192,10 @@ $image-radius: $button-radius - $image-margin;
   }
 }
 
+.FunSubNav__ListBoxItem__ButtonIndicator--Hidden {
+  visibility: hidden;
+}
+
 .FunSubNav__ListBoxItem__ButtonIcon {
   position: relative;
   z-index: 1;

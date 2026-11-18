@@ -3,7 +3,7 @@
 
 import type { ReactNode, JSX, MouseEvent, KeyboardEvent } from 'react';
 import classNames from 'classnames';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { Tooltip } from 'radix-ui';
 import { WidthBreakpoint } from './_util.std.ts';
 
 export type DismissOptions =
@@ -190,16 +190,23 @@ export function LeftPaneDialog({
 
   if (containerWidthBreakpoint === WidthBreakpoint.Narrow) {
     return (
-      <Tooltip
-        content={message}
-        direction={TooltipPlacement.Right}
-        className={classNames(
-          'LeftPaneDialog__tooltip',
-          type != null && DialogTypeTooltips[type]
-        )}
-      >
-        {dialogNode}
-      </Tooltip>
+      <Tooltip.Root delayDuration={0}>
+        <Tooltip.Trigger asChild>{dialogNode}</Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            side="right"
+            sideOffset={8}
+            collisionPadding={12}
+            className={classNames(
+              'LeftPaneDialog__tooltip',
+              type != null && DialogTypeTooltips[type]
+            )}
+          >
+            {message}
+            <Tooltip.Arrow className="LeftPaneDialog__tooltip-arrow" />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
     );
   }
 

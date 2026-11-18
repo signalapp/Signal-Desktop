@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useState, type JSX } from 'react';
+import { useCallback, useId, useRef, useState, type JSX } from 'react';
 import {
   Button,
   Calendar,
@@ -12,12 +12,11 @@ import {
   DateSegment,
   Group,
   Heading,
-  Popover,
   CalendarGridBody,
   CalendarGridHeader,
   CalendarHeaderCell,
 } from 'react-aria-components';
-import { Dialog as RadixDialog } from 'radix-ui';
+import { Popover } from 'radix-ui';
 import type { CalendarDate } from '@internationalized/date';
 import classNames from 'classnames';
 
@@ -41,6 +40,15 @@ export type PropsType = Readonly<{
 export function DatePicker(props: PropsType): JSX.Element {
   const { i18n, isDisabled = false, minValue, value, onUpdateDate } = props;
   const [open, setOpen] = useState(false);
+  const popupTitleId = useId();
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleCloseAutoFocus = useCallback((event: Event) => {
+    // The calendar button isn't a `Popover.Trigger` for Radix to focus
+    event.preventDefault();
+    buttonRef.current?.focus();
+  }, []);
+
   return (
     <AriaDatePicker
       className={tw('flex min-w-0 flex-1')}
@@ -54,76 +62,59 @@ export function DatePicker(props: PropsType): JSX.Element {
       isOpen={open}
       onOpenChange={setOpen}
     >
-      <Group
-        className={tw(
-          'flex min-w-0 flex-1 items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 text-primary focus-visible-within:axo-focus-ring'
-        )}
-      >
-        <DateInput className={tw('inline-flex items-center')}>
-          {segment => (
-            <DateSegment
+      <Popover.Root open={open} onOpenChange={setOpen} modal>
+        <Popover.Anchor asChild>
+          <Group
+            className={tw(
+              'flex min-w-0 flex-1 items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 text-primary focus-visible-within:axo-focus-ring'
+            )}
+          >
+            <DateInput className={tw('inline-flex items-center')}>
+              {segment => (
+                <DateSegment
+                  className={classNames(
+                    tw(
+                      'inline-block px-px type-body-medium focus:bg-secondary focus-visible:outline-none'
+                    ),
+                    isDisabled ? tw('text-placeholder') : null
+                  )}
+                  segment={segment}
+                />
+              )}
+            </DateInput>
+            <Button
+              ref={buttonRef}
               className={classNames(
                 tw(
-                  'inline-block px-px type-body-medium focus:bg-secondary focus-visible:outline-none'
+                  'ms-auto p-0.5 focus-visible:bg-secondary focus-visible:outline-none'
                 ),
                 isDisabled ? tw('text-placeholder') : null
               )}
-              segment={segment}
-            />
-          )}
-        </DateInput>
-        <Button
-          className={classNames(
-            tw(
-              'ms-auto p-0.5 focus-visible:bg-secondary focus-visible:outline-none'
-            ),
-            isDisabled ? tw('text-placeholder') : null
-          )}
-        >
-          <AxoSymbol.Icon size={14} symbol="calendar" label={null} />
-        </Button>
-      </Group>
+            >
+              <AxoSymbol.Icon size={14} symbol="calendar" label={null} />
+            </Button>
+          </Group>
+        </Popover.Anchor>
 
-      {/**
-       * Radix UI and React Aria both have their own focus scope logic and
-       * scroll locking behavior. We're sorta using Radix UI as a "decorator"
-       * here to inform it of this other portaled element.
-       *
-       * React Aria does not appear to pass through all props the way that
-       * Radix UI wants it to, but it does give Radix UI a ref and merges event
-       * handlers well enough that this just works
-       */}
-      <RadixDialog.Root
-        // This is not strictly necessary to sync open state, but it disables
-        // Radix UI from doing anything while the popover is not open which
-        // seems safer
-        open={open}
-        // We need this to act as a dialog or it won't render the <Overlay>
-        modal
-      >
-        {/**
-         * We need to render <Overlay> even though asChild+null prevents it
-         * from creating any element because it contains the logic to break
-         * <Content> out of scroll locking.
-         */}
-        <RadixDialog.Overlay asChild>{null}</RadixDialog.Overlay>
-        <RadixDialog.Content
-          // Merge behavior of radix <Dialog.Content> with react-aria's <Popover>
-          asChild
-          // Remove extra radix attributes that don't do anything
-          aria-labelledby={undefined}
-          data-state={undefined}
-        >
-          <Popover
+        <Popover.Portal>
+          <Popover.Content
+            side="bottom"
+            align="start"
+            sideOffset={8}
+            collisionPadding={12}
+            aria-labelledby={popupTitleId}
+            onCloseAutoFocus={handleCloseAutoFocus}
             className={tw(
               'overflow-auto',
+              'max-h-(--radix-popover-content-available-height)',
               'rounded-[10px] bg-surface-secondary shadow-elevation-1',
-              'focus-visible:outline-none data-focus-visible:axo-focus-ring'
+              'legacy-z-index-above-popup',
+              'focus-visible:axo-focus-ring'
             )}
           >
-            <RadixDialog.Title className={tw('sr-only')}>
+            <h2 id={popupTitleId} className={tw('sr-only')}>
               {i18n('icu:DatePicker__popupTitle')}
-            </RadixDialog.Title>
+            </h2>
             <Calendar className={tw('flex flex-col gap-2')}>
               <header
                 className={tw(
@@ -170,9 +161,9 @@ export function DatePicker(props: PropsType): JSX.Element {
                 </CalendarGrid>
               </div>
             </Calendar>
-          </Popover>
-        </RadixDialog.Content>
-      </RadixDialog.Root>
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
     </AriaDatePicker>
   );
 }

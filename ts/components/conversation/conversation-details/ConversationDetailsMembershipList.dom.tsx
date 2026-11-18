@@ -13,7 +13,7 @@ import type { ContactNameColorType } from '../../../types/ContactNameColor.std.t
 import type { Emoji } from '../../../axo/emoji.std.ts';
 import { UserText } from '../../UserText.dom.tsx';
 import { isInSystemContacts } from '../../../util/isInSystemContacts.std.ts';
-import { InContactsIcon } from '../../InContactsIcon.dom.tsx';
+import { AxoContactName } from '../../../axo/AxoContactName.dom.tsx';
 import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
 import { GroupMembersSearchDialog } from './GroupMembersSearchDialog.dom.tsx';
 import { AxoContactList } from '../../../axo/items/AxoContactList.dom.tsx';
@@ -196,7 +196,7 @@ export function ConversationDetailsMembershipList({
                       &nbsp;
                       {isInSystemContacts(member) && !member.isMe ? (
                         <AriaClickable.SubWidget>
-                          <InContactsIcon i18n={i18n} />
+                          <AxoContactName.SystemContactEmblem />
                         </AriaClickable.SubWidget>
                       ) : null}
                     </div>

@@ -7,12 +7,14 @@ import { Delta } from '@signalapp/quill-cjs';
 import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import lodash from 'lodash';
 import type Quill from '@signalapp/quill-cjs';
-import { Popper } from 'react-popper';
+import { Popover } from 'radix-ui';
 import classNames from 'classnames';
-import { createPortal } from 'react-dom';
-import type { VirtualElement } from '@popperjs/core';
-import { getBlotTextPartitions, matchBlotTextPartitions } from '../util.dom.ts';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
+import {
+  clearActiveCompletionOption,
+  getBlotTextPartitions,
+  matchBlotTextPartitions,
+  setActiveCompletionOption,
+} from '../util.dom.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { FunStaticEmoji } from '../../components/fun/FunEmoji.dom.tsx';
 import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.tsx';
@@ -45,17 +47,14 @@ export class EmojiCompletion {
 
   options: EmojiCompletionOptions;
 
-  root: HTMLDivElement;
-
   quill: Quill;
 
-  outsideClickDestructor?: () => void;
+  readonly #listId = `emoji-completion-${crypto.randomUUID()}`;
 
   constructor(quill: Quill, options: EmojiCompletionOptions) {
     this.results = [];
     this.index = 0;
     this.options = options;
-    this.root = document.body.appendChild(document.createElement('div'));
     this.quill = quill;
 
     const clearResults = () => {
@@ -108,11 +107,11 @@ export class EmojiCompletion {
     );
   }
 
-  destroy(): void {
-    this.outsideClickDestructor?.();
-    this.outsideClickDestructor = undefined;
-    this.root.remove();
-  }
+  readonly #handleOpenChange = (open: boolean): void => {
+    if (!open) {
+      this.reset();
+    }
+  };
 
   changeIndex(by: number): void {
     this.index = (this.index + by + this.results.length) % this.results.length;
@@ -305,8 +304,7 @@ export class EmojiCompletion {
   }
 
   onUnmount(): void {
-    this.outsideClickDestructor?.();
-    this.outsideClickDestructor = undefined;
+    clearActiveCompletionOption(this.quill.root, this.#listId);
     this.options.setEmojiPickerElement(null);
   }
 
@@ -319,7 +317,7 @@ export class EmojiCompletion {
     }
 
     // a virtual reference to the text we are trying to auto-complete
-    const reference: VirtualElement = {
+    const reference = {
       getBoundingClientRect() {
         const selection = window.getSelection();
         // there's a selection and at least one range
@@ -359,77 +357,72 @@ export class EmojiCompletion {
       },
     };
 
-    const element = createPortal(
-      <Popper placement="top-start" referenceElement={reference}>
-        {({ ref, style }) => (
-          <div
-            ref={ref}
-            className="module-composition-input__suggestions"
-            style={style}
-            role="listbox"
-            aria-expanded
-            aria-activedescendant={`emoji-result--${
-              emojiResults.length ? emojiResults[emojiResultsIndex] : ''
-            }`}
-            tabIndex={0}
+    const element = (
+      <Popover.Root open onOpenChange={this.#handleOpenChange} modal={false}>
+        <Popover.Anchor virtualRef={{ current: reference }} />
+        <Popover.Portal>
+          <Popover.Content
+            asChild
+            side="top"
+            align="start"
+            // Focus stays in the editor
+            onOpenAutoFocus={event => event.preventDefault()}
+            onCloseAutoFocus={event => event.preventDefault()}
+            onFocusOutside={event => event.preventDefault()}
           >
-            {emojiResults.map((result, index) => {
-              const emojiVariant = Emoji.getVariant(
-                result,
-                this.options.emojiSkinToneDefault ?? Emoji.SkinTone.None
-              );
+            <div
+              id={this.#listId}
+              className="module-composition-input__suggestions"
+              role="listbox"
+            >
+              {emojiResults.map((result, index) => {
+                const emojiVariant = Emoji.getVariant(
+                  result,
+                  this.options.emojiSkinToneDefault ?? Emoji.SkinTone.None
+                );
 
-              const completionLabel = Emoji.getCompletionLabel(result);
+                const completionLabel = Emoji.getCompletionLabel(result);
 
-              return (
-                <button
-                  type="button"
-                  key={result}
-                  id={`emoji-result--${result}`}
-                  role="option button"
-                  aria-selected={emojiResultsIndex === index}
-                  onClick={() => {
-                    this.index = index;
-                    this.completeEmoji();
-                  }}
-                  className={classNames(
-                    'module-composition-input__suggestions__row',
-                    emojiResultsIndex === index
-                      ? 'module-composition-input__suggestions__row--selected'
-                      : null
-                  )}
-                >
-                  <FunStaticEmoji
-                    role="presentation"
-                    emoji={emojiVariant}
-                    size={16}
-                  />
-                  <div className="module-composition-input__suggestions__row__short-name">
-                    :{completionLabel}:
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </Popper>,
-      this.root
+                return (
+                  <button
+                    type="button"
+                    key={result}
+                    id={`${this.#listId}-${index}`}
+                    role="option"
+                    aria-selected={emojiResultsIndex === index}
+                    onClick={() => {
+                      this.index = index;
+                      this.completeEmoji();
+                    }}
+                    className={classNames(
+                      'module-composition-input__suggestions__row',
+                      emojiResultsIndex === index
+                        ? 'module-composition-input__suggestions__row--selected'
+                        : null
+                    )}
+                  >
+                    <FunStaticEmoji
+                      role="presentation"
+                      emoji={emojiVariant}
+                      size={16}
+                    />
+                    <div className="module-composition-input__suggestions__row__short-name">
+                      :{completionLabel}:
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
     );
 
-    // Just to make sure that we don't propagate outside clicks until this
-    // is closed.
-    this.outsideClickDestructor?.();
-    this.outsideClickDestructor = handleOutsideClick(
-      () => {
-        this.onUnmount();
-        return true;
-      },
-      {
-        name: 'quill.emoji.completion',
-        containerElements: [this.root],
-      }
+    setActiveCompletionOption(
+      this.quill.root,
+      this.#listId,
+      `${this.#listId}-${emojiResultsIndex}`
     );
-
     this.options.setEmojiPickerElement(element);
   }
 }

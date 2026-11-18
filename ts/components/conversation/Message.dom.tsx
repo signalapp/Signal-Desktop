@@ -11,13 +11,17 @@ import type {
   MouseEvent,
   CSSProperties,
 } from 'react';
-import { forwardRef, useRef, PureComponent, createRef } from 'react';
-import { createPortal } from 'react-dom';
+import {
+  forwardRef,
+  useCallback,
+  useRef,
+  PureComponent,
+  createRef,
+} from 'react';
 import classNames from 'classnames';
 import { direction as getDirection } from 'direction';
 import lodash from 'lodash';
-import { Manager, Popper, Reference } from 'react-popper';
-import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
+import { Popover } from 'radix-ui';
 import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
@@ -86,12 +90,10 @@ import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
 import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import type { BubbleColorRenderData } from '../../types/ChatStyle.std.ts';
-import { createRefMerger } from '../../util/refMerger.std.ts';
 import { getBubbleColorRenderDataBackground } from '../../util/getCustomColorStyle.std.ts';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.ts';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.ts';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
 import { isPaymentNotificationEvent } from '../../types/Payment.std.ts';
 import type { AnyPaymentEvent } from '../../types/Payment.std.ts';
 import { getPaymentEventDescription } from '../../messages/payments.std.ts';
@@ -419,8 +421,7 @@ type State = {
   flashing: boolean;
   lastFlashedTargetedMessageCounter: number | null;
 
-  reactionViewerRoot: HTMLDivElement | null;
-  reactionViewerOutsideClickDestructor?: () => void;
+  reactionViewerOpen: boolean;
 
   giftBadgeCounter: number | null;
   showOutgoingGiftBadgeModal: boolean;
@@ -436,77 +437,103 @@ type MessageReactionsProps = {
   theme: ThemeType;
   outgoing: boolean;
   toggleReactionViewer: (onlyRemove?: boolean) => void;
-  reactionViewerRoot: HTMLDivElement | null;
-  popperPreventOverflowModifier: () => Partial<PreventOverflowModifier>;
+  reactionViewerOpen: boolean;
+  collisionBoundary: Element | null;
 };
 
-const MessageReactions = forwardRef(function MessageReactions(
-  {
-    reactions,
-    getPreferredBadge,
-    i18n,
-    theme,
-    outgoing,
-    toggleReactionViewer,
-    reactionViewerRoot,
-    popperPreventOverflowModifier,
-  }: MessageReactionsProps,
-  parentRef
-): JSX.Element {
-  const ordered = useGroupedAndOrderedReactions(reactions, 'parent');
+const MessageReactions = forwardRef<HTMLDivElement, MessageReactionsProps>(
+  function MessageReactions(
+    {
+      reactions,
+      getPreferredBadge,
+      i18n,
+      theme,
+      outgoing,
+      toggleReactionViewer,
+      reactionViewerOpen,
+      collisionBoundary,
+    }: MessageReactionsProps,
+    parentRef
+  ): JSX.Element {
+    const ordered = useGroupedAndOrderedReactions(reactions, 'parent');
 
-  const reactionsContainerRefMerger = useRef(createRefMerger());
+    const reactionsContainerRef = useRef<HTMLDivElement>(null);
 
-  // Take the first three groups for rendering
-  const toRender = take(ordered, 3).map(group => {
-    const isMe = group.some(re => re.from.isMe);
-    const count = group.length;
-    const firstReaction = group[0];
-    strictAssert(firstReaction, 'Missing firstReaction');
-    const { emoji } = firstReaction;
+    const handleOpenChange = useCallback(
+      (open: boolean) => {
+        if (!open) {
+          toggleReactionViewer(true);
+        }
+      },
+      [toggleReactionViewer]
+    );
 
-    let label: string;
-    if (isMe) {
-      label = i18n('icu:Message__reaction-emoji-label--you', { emoji });
-    } else if (count === 1) {
-      label = i18n('icu:Message__reaction-emoji-label--single', {
-        title: firstReaction.from.title,
-        emoji,
-      });
-    } else {
-      label = i18n('icu:Message__reaction-emoji-label--many', {
+    const handleClose = useCallback(() => {
+      toggleReactionViewer(true);
+    }, [toggleReactionViewer]);
+
+    // Let the reaction buttons toggle the viewer instead of Radix closing it first
+    const handlePointerDownOutside = useCallback((event: Event) => {
+      const { target } = event;
+      if (
+        target instanceof Node &&
+        reactionsContainerRef.current?.contains(target)
+      ) {
+        event.preventDefault();
+      }
+    }, []);
+
+    // Take the first three groups for rendering
+    const toRender = take(ordered, 3).map(group => {
+      const isMe = group.some(re => re.from.isMe);
+      const count = group.length;
+      const firstReaction = group[0];
+      strictAssert(firstReaction, 'Missing firstReaction');
+      const { emoji } = firstReaction;
+
+      let label: string;
+      if (isMe) {
+        label = i18n('icu:Message__reaction-emoji-label--you', { emoji });
+      } else if (count === 1) {
+        label = i18n('icu:Message__reaction-emoji-label--single', {
+          title: firstReaction.from.title,
+          emoji,
+        });
+      } else {
+        label = i18n('icu:Message__reaction-emoji-label--many', {
+          count,
+          emoji,
+        });
+      }
+
+      return {
         count,
         emoji,
-      });
-    }
+        isMe,
+        label,
+      };
+    });
+    const someNotRendered = ordered.length > 3;
+    // We only drop two here because the third emoji would be replaced by the
+    // more button
+    const maybeNotRendered = drop(ordered, 2);
+    const maybeNotRenderedTotal = maybeNotRendered.reduce(
+      (sum, res) => sum + res.length,
+      0
+    );
+    const notRenderedIsMe =
+      someNotRendered &&
+      maybeNotRendered.some(res => res.some(re => re.from.isMe));
 
-    return {
-      count,
-      emoji,
-      isMe,
-      label,
-    };
-  });
-  const someNotRendered = ordered.length > 3;
-  // We only drop two here because the third emoji would be replaced by the
-  // more button
-  const maybeNotRendered = drop(ordered, 2);
-  const maybeNotRenderedTotal = maybeNotRendered.reduce(
-    (sum, res) => sum + res.length,
-    0
-  );
-  const notRenderedIsMe =
-    someNotRendered &&
-    maybeNotRendered.some(res => res.some(re => re.from.isMe));
-
-  const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
-
-  return (
-    <Manager>
-      <Reference>
-        {({ ref: popperRef }) => (
+    return (
+      <Popover.Root
+        open={reactionViewerOpen}
+        onOpenChange={handleOpenChange}
+        modal={false}
+      >
+        <Popover.Anchor ref={reactionsContainerRef} asChild>
           <div
-            ref={reactionsContainerRefMerger.current(parentRef, popperRef)}
+            ref={parentRef}
             className={classNames(
               'module-message__reactions',
               outgoing
@@ -582,35 +609,34 @@ const MessageReactions = forwardRef(function MessageReactions(
               );
             })}
           </div>
-        )}
-      </Reference>
-      {reactionViewerRoot &&
-        createPortal(
-          <Popper
-            placement={popperPlacement}
-            strategy="fixed"
-            modifiers={[popperPreventOverflowModifier()]}
+        </Popover.Anchor>
+        <Popover.Portal>
+          <Popover.Content
+            aria-label={i18n('icu:ReactionViewer__Label')}
+            side="bottom"
+            align={outgoing ? 'end' : 'start'}
+            collisionBoundary={collisionBoundary}
+            collisionPadding={{ top: 16, bottom: 16, left: 8, right: 8 }}
+            style={{ zIndex: 2 }}
+            // ReactionViewer manages its own focus
+            onOpenAutoFocus={event => event.preventDefault()}
+            onCloseAutoFocus={event => event.preventDefault()}
+            onFocusOutside={event => event.preventDefault()}
+            onPointerDownOutside={handlePointerDownOutside}
           >
-            {({ ref, style }) => (
-              <ReactionViewer
-                ref={ref}
-                style={{
-                  ...style,
-                  zIndex: 2,
-                }}
-                getPreferredBadge={getPreferredBadge}
-                reactions={reactions}
-                i18n={i18n}
-                onClose={toggleReactionViewer}
-                theme={theme}
-              />
-            )}
-          </Popper>,
-          reactionViewerRoot
-        )}
-    </Manager>
-  );
-});
+            <ReactionViewer
+              getPreferredBadge={getPreferredBadge}
+              reactions={reactions}
+              i18n={i18n}
+              onClose={handleClose}
+              theme={theme}
+            />
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+    );
+  }
+);
 
 // oxlint-disable-next-line react/prefer-function-component
 export class Message extends PureComponent<Props, State> {
@@ -637,7 +663,7 @@ export class Message extends PureComponent<Props, State> {
       flashing: false,
       lastFlashedTargetedMessageCounter: null,
 
-      reactionViewerRoot: null,
+      reactionViewerOpen: false,
 
       giftBadgeCounter: null,
       showOutgoingGiftBadgeModal: false,
@@ -743,7 +769,6 @@ export class Message extends PureComponent<Props, State> {
     clearTimeoutIfNecessary(this.#expiredTimeout);
     clearTimeoutIfNecessary(this.#deleteForEveryoneTimeout);
     clearTimeoutIfNecessary(this.#giftBadgeInterval);
-    this.#toggleReactionViewer(true);
     document.removeEventListener(
       'selectionchange',
       this.#handleSelectionChange
@@ -2939,71 +2964,26 @@ export class Message extends PureComponent<Props, State> {
     );
   }
 
-  readonly #popperPreventOverflowModifier =
-    (): Partial<PreventOverflowModifier> => {
-      const { containerElementRef } = this.props;
-      return {
-        name: 'preventOverflow',
-        options: {
-          altAxis: true,
-          boundary: containerElementRef.current || undefined,
-          padding: {
-            bottom: 16,
-            left: 8,
-            right: 8,
-            top: 16,
-          },
-        },
-      };
-    };
-
   #toggleReactionViewer(onlyRemove = false) {
-    this.setState(oldState => {
-      const { reactionViewerRoot } = oldState;
-      if (reactionViewerRoot) {
-        reactionViewerRoot.parentNode?.removeChild(reactionViewerRoot);
-
-        oldState.reactionViewerOutsideClickDestructor?.();
-
-        return {
-          reactionViewerRoot: null,
-          reactionViewerOutsideClickDestructor: undefined,
-        };
-      }
-
-      if (!onlyRemove) {
-        const root = document.createElement('div');
-        document.body.appendChild(root);
-
-        const reactionViewerOutsideClickDestructor = handleOutsideClick(
-          () => {
-            this.#toggleReactionViewer(true);
-            return true;
-          },
-          {
-            containerElements: [root, this.#reactionsContainerRef],
-            name: 'Message.reactionViewer',
-          }
-        );
-
-        return {
-          reactionViewerRoot: root,
-          reactionViewerOutsideClickDestructor,
-        };
-      }
-
-      return null;
-    });
+    this.setState(oldState => ({
+      reactionViewerOpen: onlyRemove ? false : !oldState.reactionViewerOpen,
+    }));
   }
 
   #renderReactions(outgoing: boolean): ReactNode {
-    const { getPreferredBadge, reactions = [], i18n, theme } = this.props;
+    const {
+      containerElementRef,
+      getPreferredBadge,
+      reactions = [],
+      i18n,
+      theme,
+    } = this.props;
 
     if (!this.#hasReactions()) {
       return null;
     }
 
-    const { reactionViewerRoot } = this.state;
+    const { reactionViewerOpen } = this.state;
 
     return (
       <MessageReactions
@@ -3012,11 +2992,11 @@ export class Message extends PureComponent<Props, State> {
         i18n={i18n}
         theme={theme}
         outgoing={outgoing}
-        toggleReactionViewer={() => {
-          this.#toggleReactionViewer();
+        toggleReactionViewer={onlyRemove => {
+          this.#toggleReactionViewer(onlyRemove);
         }}
-        reactionViewerRoot={reactionViewerRoot}
-        popperPreventOverflowModifier={this.#popperPreventOverflowModifier}
+        reactionViewerOpen={reactionViewerOpen}
+        collisionBoundary={containerElementRef.current}
         ref={this.#reactionsContainerRef}
       />
     );

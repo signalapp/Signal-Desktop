@@ -32,12 +32,6 @@
     align-items: center;
   }
 
-  &__title-contact-icon {
-    width: 22px;
-    height: 22px;
-    background-color: currentColor;
-  }
-
   &__subtitle {
     @include mixins.font-body-1;
     color: variables.$color-gray-60;

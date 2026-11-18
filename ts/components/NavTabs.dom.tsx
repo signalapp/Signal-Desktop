@@ -1,14 +1,15 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Key, ReactNode, JSX } from 'react';
+import { useCallback } from 'react';
+import type { ComponentProps, Key, ReactNode, JSX } from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
+import type { TabProps } from 'react-aria-components';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.ts';
 import type { Location } from '../types/Nav.std.ts';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import { getUnreadCountForBadge } from '../util/countUnreadStats.std.ts';
 import type { UnreadCountBadgeType } from '../types/StorageKeys.std.ts';
@@ -68,6 +69,8 @@ type NavTabProps = Readonly<{
   hasPendingUpdate?: boolean;
 }>;
 
+type TabRenderFunction = NonNullable<TabProps['render']>;
+
 function NavTabsItem({
   hasError,
   i18n,
@@ -78,35 +81,46 @@ function NavTabsItem({
   unreadCount,
   hasPendingUpdate,
 }: NavTabProps) {
-  const isRTL = i18n.getLocaleDirection() === 'rtl';
+  // TabList also renders children into an inert document; `render` only wraps the real tab
+  const renderTab: TabRenderFunction = useCallback(
+    props => {
+      // Never a link, since there's no `href`
+      const divProps = props as ComponentProps<'div'>;
+      return (
+        <AxoTooltip.Root
+          label={label}
+          side="inline-end"
+          tooltipRepeatsTriggerAccessibleName
+        >
+          <div {...divProps} />
+        </AxoTooltip.Root>
+      );
+    },
+    [label]
+  );
+
   return (
     <Tab
       id={id}
       data-testid={`NavTabsItem--${id}`}
       className={classNames('NavTabs__Item', navTabClassName)}
+      render={renderTab}
     >
       <span className="NavTabs__ItemLabel">{label}</span>
-      <Tooltip
-        content={label}
-        theme={Theme.Dark}
-        direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
-        delay={600}
-      >
-        <span className="NavTabs__ItemButton">
-          <span className="NavTabs__ItemContent">
-            <span
-              role="presentation"
-              className={classNames('NavTabs__ItemIcon', iconClassName)}
-            />
-            <NavTabsItemBadges
-              i18n={i18n}
-              unreadCount={unreadCount}
-              hasError={hasError}
-              hasPendingUpdate={hasPendingUpdate}
-            />
-          </span>
+      <span className="NavTabs__ItemButton">
+        <span className="NavTabs__ItemContent">
+          <span
+            role="presentation"
+            className={classNames('NavTabs__ItemIcon', iconClassName)}
+          />
+          <NavTabsItemBadges
+            i18n={i18n}
+            unreadCount={unreadCount}
+            hasError={hasError}
+            hasPendingUpdate={hasPendingUpdate}
+          />
         </span>
-      </Tooltip>
+      </span>
     </Tab>
   );
 }
@@ -142,20 +156,16 @@ export function NavTabsToggle({
   const label = navTabsCollapsed
     ? i18n('icu:NavTabsToggle__showTabs')
     : i18n('icu:NavTabsToggle__hideTabs');
-  const isRTL = i18n.getLocaleDirection() === 'rtl';
   return (
-    // FIXME
-    // oxlint-disable-next-line jsx-a11y/control-has-associated-label
-    <button
-      type="button"
-      className="NavTabs__Item NavTabs__Toggle"
-      onClick={handleToggle}
+    <AxoTooltip.Root
+      label={label}
+      side="inline-end"
+      tooltipRepeatsTriggerAccessibleName
     >
-      <Tooltip
-        content={label}
-        theme={Theme.Dark}
-        direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
-        delay={600}
+      <button
+        type="button"
+        className="NavTabs__Item NavTabs__Toggle"
+        onClick={handleToggle}
       >
         <span className="NavTabs__ItemButton">
           <span className="NavTabs__ItemContent">
@@ -172,8 +182,8 @@ export function NavTabsToggle({
             />
           </span>
         </span>
-      </Tooltip>
-    </button>
+      </button>
+    </AxoTooltip.Root>
   );
 }
 

@@ -4,20 +4,21 @@
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
   useMemo,
   type JSX,
+  type RefObject,
   useEffectEvent,
 } from 'react';
+import { Dialog } from 'radix-ui';
 import classNames from 'classnames';
-import { FocusScope } from 'react-aria';
 import { tinykeys } from 'tinykeys';
 import type {
   SetLocalAudioType,
   SetLocalVideoType,
 } from '../state/ducks/calling.preload.ts';
 import { CallingButton, CallingButtonType } from './CallingButton.dom.tsx';
-import { TooltipPlacement } from './Tooltip.dom.tsx';
 import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
 import { CallParticipantCount } from './CallParticipantCount.dom.tsx';
 import { CallingHeader } from './CallingHeader.dom.tsx';
@@ -30,10 +31,11 @@ import { CallMode } from '../types/CallDisposition.std.ts';
 import type { CallingConversationType } from '../types/Calling.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
-import { useCallingToasts } from './CallingToast.dom.tsx';
+import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.tsx';
 import { CallingButtonToastsContainer } from './CallingToastManager.dom.tsx';
 import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 import { SpinnerV2 } from './SpinnerV2.dom.tsx';
 import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
 
@@ -89,7 +91,19 @@ export type PropsType = {
   toggleSettings: (open: boolean) => void;
 };
 
-export function CallingLobby({
+/** A full-screen modal dialog shown before joining a call */
+export function CallingLobby(props: PropsType): JSX.Element {
+  const toastRegionRef = useRef<HTMLDivElement>(null);
+  // Toasts outside the modal dialog would be hidden from screen readers
+  return (
+    <CallingToastProvider i18n={props.i18n} region={toastRegionRef}>
+      <CallingLobbyContents {...props} toastRegionRef={toastRegionRef} />
+    </CallingToastProvider>
+  );
+}
+
+function CallingLobbyContents({
+  toastRegionRef,
   availableCameras,
   callMode,
   conversation,
@@ -115,7 +129,21 @@ export function CallingLobby({
   togglePip,
   toggleSettings,
   outgoingRing,
-}: PropsType): JSX.Element {
+}: PropsType &
+  Readonly<{ toastRegionRef: RefObject<HTMLDivElement | null> }>): JSX.Element {
+  const [previouslyFocused] = useState(() => document.activeElement);
+
+  // There's no `Dialog.Trigger` for Radix to return focus to
+  const handleCloseAutoFocus = useCallback(
+    (event: Event) => {
+      event.preventDefault();
+      if (previouslyFocused instanceof HTMLElement) {
+        previouslyFocused.focus();
+      }
+    },
+    [previouslyFocused]
+  );
+
   const shouldShowLocalVideo = hasLocalVideo && availableCameras.length > 0;
 
   const isGroupOrAdhocCall = isGroupOrAdhocCallMode(callMode);
@@ -262,130 +290,143 @@ export function CallingLobby({
   );
 
   return (
-    <FocusScope contain restoreFocus>
-      <div className="module-calling__container dark-theme">
-        {shouldShowLocalVideo ? (
-          <div
-            className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-on"
-            ref={onLocalPreviewContainerRef}
-          />
-        ) : (
-          <CallBackgroundBlur
-            className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-off"
-            avatarUrl={me.avatarUrl}
-          />
-        )}
-
-        <CallingHeader
-          i18n={i18n}
-          isGroupCall={isGroupOrAdhocCall}
-          participantCount={peekedParticipants.length}
-          togglePip={togglePipForCallingHeader}
-          toggleSettings={toggleSettings}
-          onCancel={onCallCanceled}
-        />
-
-        <div className="module-calling__spacer module-CallingPreCallInfo-spacer" />
-        <CallingPreCallInfo
-          conversation={conversation}
-          groupMembers={groupMembers}
-          i18n={i18n}
-          isCallFull={isCallFull}
-          me={me}
-          peekedParticipants={peekedParticipants}
-          ringMode={preCallInfoRingMode}
-        />
-
-        <div
-          className={classNames(
-            'module-calling__camera-is-off',
-            shouldShowLocalVideo
-              ? 'module-CallingLobby__camera-is-off--invisible'
-              : 'module-CallingLobby__camera-is-off--visible'
-          )}
-        >
-          {i18n('icu:calling__your-video-is-off')}
-        </div>
-
-        {/* oxlint-disable-next-line no-nested-ternary */}
-        {callMode === CallMode.Adhoc ? (
-          isAdhocJoinRequestPending ? (
-            <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">
-              <SpinnerV2 size={16} strokeWidth={1.5} />
-              <span className="CallingLobby__CallLinkJoinRequestPendingText">
-                {i18n('icu:CallingLobby__CallLinkNotice--join-request-pending')}
-              </span>
-            </div>
+    <Dialog.Root open>
+      {/* No portal: CallManager already renders this in the call container */}
+      <Dialog.Content
+        asChild
+        aria-describedby={undefined}
+        onCloseAutoFocus={handleCloseAutoFocus}
+        // Closed by joining or canceling the call
+        onEscapeKeyDown={event => event.preventDefault()}
+        onInteractOutside={event => event.preventDefault()}
+      >
+        <div className="module-calling__container dark-theme">
+          <Dialog.Title className={tw('sr-only')}>
+            {conversation.title}
+          </Dialog.Title>
+          {shouldShowLocalVideo ? (
+            <div
+              className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-on"
+              ref={onLocalPreviewContainerRef}
+            />
           ) : (
-            <div className="CallingLobby__CallLinkNotice">
-              {getIsSharingPhoneNumberWithEverybody()
-                ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
-                : i18n('icu:CallingLobby__CallLinkNotice')}
-            </div>
-          )
-        ) : null}
+            <CallBackgroundBlur
+              className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-off"
+              avatarUrl={me.avatarUrl}
+            />
+          )}
 
-        <CallingButtonToastsContainer
-          hasLocalAudio={hasLocalAudio}
-          outgoingRing={outgoingRing}
-          i18n={i18n}
-        />
-        <div className="CallingLobby__Footer">
-          <div className="module-calling__spacer CallControls__OuterSpacer" />
-          <div className="CallControls">
-            <div className="CallControls__InfoDisplay">
-              <div className="CallControls__CallTitle">
-                {conversation.title}
-              </div>
-              <div className="CallControls__Status">{callStatus}</div>
-            </div>
-            <div className="CallControls__ButtonContainer">
-              <CallingButton
-                buttonType={videoButtonType}
-                i18n={i18n}
-                onClick={toggleVideo}
-                tooltipDirection={TooltipPlacement.Top}
-              />
-              <CallingButton
-                buttonType={audioButtonType}
-                i18n={i18n}
-                onClick={toggleAudio}
-                tooltipDirection={TooltipPlacement.Top}
-              />
-              <CallingButton
-                buttonType={ringButtonType}
-                i18n={i18n}
-                isVisible={isRingButtonVisible}
-                onClick={toggleOutgoingRing}
-                tooltipDirection={TooltipPlacement.Top}
-              />
-            </div>
-            <div className="CallControls__JoinLeaveButtonContainer">
-              {canLeave ? (
-                <Button
-                  className="CallControls__JoinLeaveButton CallControls__JoinLeaveButton--hangup"
-                  onClick={onCallCanceled}
-                  variant={ButtonVariant.Destructive}
-                >
-                  {i18n('icu:CallControls__JoinLeaveButton--hangup-group')}
-                </Button>
-              ) : (
-                <CallingLobbyJoinButton
-                  disabled={!canJoin}
-                  i18n={i18n}
-                  onClick={() => {
-                    setIsCallConnecting(true);
-                    onJoinCall();
-                  }}
-                  variant={callingLobbyJoinButtonVariant}
-                />
-              )}
-            </div>
+          <CallingHeader
+            i18n={i18n}
+            isGroupCall={isGroupOrAdhocCall}
+            participantCount={peekedParticipants.length}
+            togglePip={togglePipForCallingHeader}
+            toggleSettings={toggleSettings}
+            onCancel={onCallCanceled}
+          />
+
+          <div className="module-calling__spacer module-CallingPreCallInfo-spacer" />
+          <CallingPreCallInfo
+            conversation={conversation}
+            groupMembers={groupMembers}
+            i18n={i18n}
+            isCallFull={isCallFull}
+            me={me}
+            peekedParticipants={peekedParticipants}
+            ringMode={preCallInfoRingMode}
+          />
+
+          <div
+            className={classNames(
+              'module-calling__camera-is-off',
+              shouldShowLocalVideo
+                ? 'module-CallingLobby__camera-is-off--invisible'
+                : 'module-CallingLobby__camera-is-off--visible'
+            )}
+          >
+            {i18n('icu:calling__your-video-is-off')}
           </div>
-          <div className="module-calling__spacer CallControls__OuterSpacer" />
+
+          {/* oxlint-disable-next-line no-nested-ternary */}
+          {callMode === CallMode.Adhoc ? (
+            isAdhocJoinRequestPending ? (
+              <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">
+                <SpinnerV2 size={16} strokeWidth={1.5} />
+                <span className="CallingLobby__CallLinkJoinRequestPendingText">
+                  {i18n(
+                    'icu:CallingLobby__CallLinkNotice--join-request-pending'
+                  )}
+                </span>
+              </div>
+            ) : (
+              <div className="CallingLobby__CallLinkNotice">
+                {getIsSharingPhoneNumberWithEverybody()
+                  ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
+                  : i18n('icu:CallingLobby__CallLinkNotice')}
+              </div>
+            )
+          ) : null}
+
+          <CallingButtonToastsContainer
+            hasLocalAudio={hasLocalAudio}
+            outgoingRing={outgoingRing}
+            i18n={i18n}
+          />
+          <div className="CallingLobby__Footer">
+            <div className="module-calling__spacer CallControls__OuterSpacer" />
+            <div className="CallControls">
+              <div className="CallControls__InfoDisplay">
+                <div className="CallControls__CallTitle">
+                  {conversation.title}
+                </div>
+                <div className="CallControls__Status">{callStatus}</div>
+              </div>
+              <div className="CallControls__ButtonContainer">
+                <CallingButton
+                  buttonType={videoButtonType}
+                  i18n={i18n}
+                  onClick={toggleVideo}
+                />
+                <CallingButton
+                  buttonType={audioButtonType}
+                  i18n={i18n}
+                  onClick={toggleAudio}
+                />
+                <CallingButton
+                  buttonType={ringButtonType}
+                  i18n={i18n}
+                  isVisible={isRingButtonVisible}
+                  onClick={toggleOutgoingRing}
+                />
+              </div>
+              <div className="CallControls__JoinLeaveButtonContainer">
+                {canLeave ? (
+                  <Button
+                    className="CallControls__JoinLeaveButton CallControls__JoinLeaveButton--hangup"
+                    onClick={onCallCanceled}
+                    variant={ButtonVariant.Destructive}
+                  >
+                    {i18n('icu:CallControls__JoinLeaveButton--hangup-group')}
+                  </Button>
+                ) : (
+                  <CallingLobbyJoinButton
+                    disabled={!canJoin}
+                    i18n={i18n}
+                    onClick={() => {
+                      setIsCallConnecting(true);
+                      onJoinCall();
+                    }}
+                    variant={callingLobbyJoinButtonVariant}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="module-calling__spacer CallControls__OuterSpacer" />
+          </div>
+          <div ref={toastRegionRef} />
         </div>
-      </div>
-    </FocusScope>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }
 

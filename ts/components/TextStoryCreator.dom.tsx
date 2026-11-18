@@ -9,9 +9,8 @@ import {
   type JSX,
 } from 'react';
 import classNames from 'classnames';
-import lodash from 'lodash';
-import { usePopper } from 'react-popper';
-import { FocusScope } from 'react-aria';
+import { Popover } from 'radix-ui';
+import { FocusScope } from 'radix-ui/internal';
 import { tinykeys } from 'tinykeys';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
 import { ThemeType, type LocalizerType } from '../types/Util.std.ts';
@@ -32,7 +31,6 @@ import {
   getBackgroundColor,
 } from '../util/getStoryBackground.std.ts';
 import { objectMap } from '../util/objectMap.std.ts';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { Spinner } from './Spinner.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
@@ -41,9 +39,9 @@ import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 
-const { noop } = lodash;
-
 export type PropsType = {
+  /** A legacy modal is open on top, so focus must be able to leave */
+  isCoveredByModal: boolean;
   debouncedMaybeGrabLinkPreview: (
     message: string,
     source: LinkPreviewSourceType,
@@ -160,6 +158,7 @@ function getTextStyleLabel(i18n: LocalizerType, textStyle: TextStyle): string {
 export function TextStoryCreator({
   debouncedMaybeGrabLinkPreview,
   i18n,
+  isCoveredByModal,
   isSending,
   linkPreview,
   onClose,
@@ -193,24 +192,6 @@ export function TextStoryCreator({
   const [text, setText] = useState<string>('');
 
   const [isColorPickerShowing, setIsColorPickerShowing] = useState(false);
-  const [colorPickerPopperButtonRef, setColorPickerPopperButtonRef] =
-    useState<HTMLButtonElement | null>(null);
-  const [colorPickerPopperRef, setColorPickerPopperRef] =
-    useState<HTMLDivElement | null>(null);
-
-  const colorPickerPopper = usePopper(
-    colorPickerPopperButtonRef,
-    colorPickerPopperRef,
-    {
-      modifiers: [
-        {
-          name: 'arrow',
-        },
-      ],
-      placement: 'top',
-      strategy: 'fixed',
-    }
-  );
 
   const [linkPreviewApplied, setLinkPreviewApplied] = useState(
     LinkPreviewApplied.None
@@ -270,31 +251,12 @@ export function TextStoryCreator({
 
   const [isLinkPreviewInputShowing, setIsLinkPreviewInputShowing] =
     useState(false);
-  const [linkPreviewInputPopperButtonRef, setLinkPreviewInputPopperButtonRef] =
-    useState<HTMLButtonElement | null>(null);
-  const [linkPreviewInputPopperRef, setLinkPreviewInputPopperRef] =
-    useState<HTMLDivElement | null>(null);
-
-  const linkPreviewInputPopper = usePopper(
-    linkPreviewInputPopperButtonRef,
-    linkPreviewInputPopperRef,
-    {
-      modifiers: [
-        {
-          name: 'arrow',
-        },
-      ],
-      placement: 'top',
-      strategy: 'fixed',
-    }
-  );
 
   const onEscapeShortcut = useEffectEvent((event: KeyboardEvent) => {
-    // This listener runs in the capture phase before the menu's own Escape
-    // handling, so let open menus (portaled outside of this component) close
+    // Runs before Radix's Escape handling, so let open layers close first
     if (
       event.target instanceof Element &&
-      event.target.closest('[role=menu]') != null
+      event.target.closest('[data-radix-popper-content-wrapper]') != null
     ) {
       return;
     }
@@ -322,22 +284,6 @@ export function TextStoryCreator({
       }
     );
   }, []);
-
-  useEffect(() => {
-    if (!isColorPickerShowing) {
-      return noop;
-    }
-    return handleOutsideClick(
-      () => {
-        setIsColorPickerShowing(false);
-        return true;
-      },
-      {
-        containerElements: [colorPickerPopperRef, colorPickerPopperButtonRef],
-        name: 'TextStoryCreator.colorPicker',
-      }
-    );
-  }, [isColorPickerShowing, colorPickerPopperRef, colorPickerPopperButtonRef]);
 
   const sliderColorNumber = getRGBANumber(sliderValue);
 
@@ -394,7 +340,7 @@ export function TextStoryCreator({
 
   return (
     <AxoTheme.Override theme="force-dark">
-      <FocusScope contain restoreFocus>
+      <FocusScope.Root asChild trapped={!isCoveredByModal} loop>
         <div className="StoryCreator dark-theme">
           <div className="StoryCreator__container">
             <TextAttachment
@@ -528,32 +474,39 @@ export function TextStoryCreator({
                 {i18n('icu:discard')}
               </Button>
               <div className="StoryCreator__controls">
-                <button
-                  aria-label={i18n('icu:StoryCreator__story-bg')}
-                  className={classNames({
-                    StoryCreator__control: true,
-                    'StoryCreator__control--bg': true,
-                    'StoryCreator__control--bg--selected': isColorPickerShowing,
-                  })}
-                  onClick={() => setIsColorPickerShowing(!isColorPickerShowing)}
-                  ref={setColorPickerPopperButtonRef}
-                  style={{
-                    background: getBackgroundColor(
-                      getBackground(selectedBackground)
-                    ),
-                  }}
-                  type="button"
-                />
-                {isColorPickerShowing && (
-                  <div
+                <Popover.Root
+                  open={isColorPickerShowing}
+                  onOpenChange={setIsColorPickerShowing}
+                  modal={false}
+                >
+                  <Popover.Trigger asChild>
+                    <button
+                      aria-label={i18n('icu:StoryCreator__story-bg')}
+                      className={classNames({
+                        StoryCreator__control: true,
+                        'StoryCreator__control--bg': true,
+                        'StoryCreator__control--bg--selected':
+                          isColorPickerShowing,
+                      })}
+                      style={{
+                        background: getBackgroundColor(
+                          getBackground(selectedBackground)
+                        ),
+                      }}
+                      type="button"
+                    />
+                  </Popover.Trigger>
+                  {/* No portal: stays inside this component's focus scope */}
+                  <Popover.Content
                     className="StoryCreator__popper"
-                    ref={setColorPickerPopperRef}
-                    style={colorPickerPopper.styles.popper}
-                    {...colorPickerPopper.attributes.popper}
+                    side="top"
+                    sideOffset={4}
+                    aria-label={i18n('icu:StoryCreator__story-bg')}
                   >
-                    <div
-                      data-popper-arrow
+                    <Popover.Arrow
                       className="StoryCreator__popper__arrow"
+                      width={28}
+                      height={14}
                     />
                     {objectMap(BackgroundStyle, (bg, backgroundValue) => (
                       <button
@@ -576,8 +529,8 @@ export function TextStoryCreator({
                         }}
                       />
                     ))}
-                  </div>
-                )}
+                  </Popover.Content>
+                </Popover.Root>
                 <button
                   aria-label={i18n('icu:StoryCreator__control--text')}
                   className={classNames({
@@ -590,28 +543,34 @@ export function TextStoryCreator({
                   }}
                   type="button"
                 />
-                <button
-                  aria-label={i18n('icu:StoryCreator__control--link')}
-                  className="StoryCreator__control StoryCreator__control--link"
-                  onClick={() =>
-                    setIsLinkPreviewInputShowing(!isLinkPreviewInputShowing)
-                  }
-                  ref={setLinkPreviewInputPopperButtonRef}
-                  type="button"
-                />
-                {isLinkPreviewInputShowing && (
-                  <div
+                <Popover.Root
+                  open={isLinkPreviewInputShowing}
+                  onOpenChange={setIsLinkPreviewInputShowing}
+                  modal={false}
+                >
+                  <Popover.Trigger asChild>
+                    <button
+                      aria-label={i18n('icu:StoryCreator__control--link')}
+                      className="StoryCreator__control StoryCreator__control--link"
+                      type="button"
+                    />
+                  </Popover.Trigger>
+                  {/* No portal: stays inside this component's focus scope */}
+                  <Popover.Content
                     className={classNames(
                       'StoryCreator__popper StoryCreator__link-preview-input-popper',
                       themeClassName(Theme.Dark)
                     )}
-                    ref={setLinkPreviewInputPopperRef}
-                    style={linkPreviewInputPopper.styles.popper}
-                    {...linkPreviewInputPopper.attributes.popper}
+                    side="top"
+                    sideOffset={4}
+                    aria-label={i18n('icu:StoryCreator__control--link')}
+                    // Only Escape or the Add link button close the link input
+                    onInteractOutside={event => event.preventDefault()}
                   >
-                    <div
-                      data-popper-arrow
+                    <Popover.Arrow
                       className="StoryCreator__popper__arrow"
+                      width={28}
+                      height={14}
                     />
                     <Input
                       disableSpellcheck
@@ -653,8 +612,8 @@ export function TextStoryCreator({
                         </div>
                       )}
                     </div>
-                  </div>
-                )}
+                  </Popover.Content>
+                </Popover.Root>
               </div>
               <Button
                 disabled={!hasChanges || isSending}
@@ -672,7 +631,7 @@ export function TextStoryCreator({
           </div>
           {confirmDiscardModal}
         </div>
-      </FocusScope>
+      </FocusScope.Root>
     </AxoTheme.Override>
   );
 }

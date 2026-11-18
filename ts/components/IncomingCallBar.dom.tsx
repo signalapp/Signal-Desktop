@@ -6,9 +6,8 @@ import { useCallback, useEffect, useEffectEvent, useRef } from 'react';
 import { tinykeys } from 'tinykeys';
 import classNames from 'classnames';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { Tooltip } from './Tooltip.dom.tsx';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
 import { getParticipantName } from '../util/callingGetParticipantName.std.ts';
 import { ContactName } from './conversation/ContactName.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -84,21 +83,22 @@ function CallButton({
   tooltipContent,
 }: CallButtonProps): JSX.Element {
   return (
-    <Tooltip
-      content={tooltipContent}
-      theme={Theme.Dark}
-      wrapperClassName="IncomingCallBar__button__container"
-    >
-      <button
-        aria-label={tooltipContent}
-        className={classNames('IncomingCallBar__button', iconClassName)}
-        onClick={onClick}
-        tabIndex={tabIndex}
-        type="button"
+    <span className="IncomingCallBar__button__container">
+      <AxoTooltip.Root
+        label={tooltipContent}
+        tooltipRepeatsTriggerAccessibleName
       >
-        <div />
-      </button>
-    </Tooltip>
+        <button
+          aria-label={tooltipContent}
+          className={classNames('IncomingCallBar__button', iconClassName)}
+          onClick={onClick}
+          tabIndex={tabIndex}
+          type="button"
+        >
+          <div />
+        </button>
+      </AxoTooltip.Root>
+    </span>
   );
 }
 

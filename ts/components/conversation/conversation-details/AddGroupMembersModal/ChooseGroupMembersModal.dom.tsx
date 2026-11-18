@@ -7,16 +7,16 @@ import {
   useState,
   useRef,
   useCallback,
+  type FormEvent,
   type JSX,
 } from 'react';
 import lodash from 'lodash';
+import classNames from 'classnames';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util.std.ts';
 import { strictAssert, assertDev } from '../../../../util/assert.std.ts';
-import { refMerger } from '../../../../util/refMerger.std.ts';
 import { shouldNeverBeCalled } from '../../../../util/shouldNeverBeCalled.std.ts';
-import { useRestoreFocus } from '../../../../hooks/useRestoreFocus.dom.ts';
 import { missingCaseError } from '../../../../util/missingCaseError.std.ts';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId.preload.ts';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance.std.ts';
@@ -31,7 +31,9 @@ import {
   isFetchingByE164,
   isFetchingByUsername,
 } from '../../../../util/uuidFetchState.std.ts';
-import { ModalHost } from '../../../ModalHost.dom.tsx';
+import { AxoDialog } from '../../../../axo/dialogs/AxoDialog.dom.tsx';
+import { AxoSearchField } from '../../../../axo/fields/AxoSearchField.dom.tsx';
+import { tw } from '../../../../axo/tw.dom.tsx';
 import { ContactPills } from '../../../ContactPills.dom.tsx';
 import { ContactPill } from '../../../ContactPill.dom.tsx';
 import type { Row } from '../../../ConversationList.dom.tsx';
@@ -40,8 +42,6 @@ import {
   ContactCheckbox,
   ContactCheckboxDisabledReason,
 } from '../../../conversationList/ContactCheckbox.dom.tsx';
-import { Button, ButtonVariant } from '../../../Button.dom.tsx';
-import { SearchInput } from '../../../SearchInput.dom.tsx';
 import { ListView } from '../../../ListView.dom.tsx';
 import { UsernameCheckbox } from '../../../conversationList/UsernameCheckbox.dom.tsx';
 import { PhoneNumberCheckbox } from '../../../conversationList/PhoneNumberCheckbox.dom.tsx';
@@ -100,8 +100,6 @@ export function ChooseGroupMembersModal({
   showUserNotFoundModal,
   username,
 }: PropsType): JSX.Element {
-  const [focusRef] = useRestoreFocus();
-
   const isUsernameChecked = selectedContacts.some(
     contact => contact.username === username
   );
@@ -380,121 +378,157 @@ export function ChooseGroupMembersModal({
     );
   };
 
-  return (
-    <ModalHost
-      modalName="AddGroupMembersModal.ChooseGroupMembersModal"
-      onClose={onClose}
-    >
-      <div className="module-AddGroupMembersModal module-AddGroupMembersModal--choose-members">
-        <button
-          aria-label={i18n('icu:close')}
-          className="module-AddGroupMembersModal__close-button"
-          type="button"
-          onClick={() => {
-            onClose();
-          }}
-        />
-        <h1 className="module-AddGroupMembersModal__header">
-          {i18n('icu:AddGroupMembersModal--title')}
-        </h1>
-        <SearchInput
-          i18n={i18n}
-          placeholder={i18n('icu:contactSearchPlaceholder')}
-          onChange={event => {
-            setSearchTerm(event.target.value);
-          }}
-          onKeyDown={event => {
-            if (canContinue && event.key === 'Enter') {
-              confirmAdds();
-            }
-          }}
-          ref={refMerger<HTMLInputElement>(inputRef, focusRef)}
-          value={searchTerm}
-        />
-        {Boolean(selectedContacts.length) && (
-          <ContactPills>
-            {selectedContacts.map(contact => (
-              <ContactPill
-                key={contact.id}
-                avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
-                avatarUrl={contact.avatarUrl}
-                color={contact.color}
-                firstName={contact.systemGivenName ?? contact.firstName}
-                hasAvatar={contact.hasAvatar}
-                i18n={i18n}
-                isMe={contact.isMe}
-                id={contact.id}
-                phoneNumber={contact.phoneNumber}
-                profileName={contact.profileName}
-                title={contact.title}
-                onClickRemove={() => {
-                  removeSelectedContact(contact.id);
-                }}
-              />
-            ))}
-          </ContactPills>
-        )}
-        {rowCount ? (
-          <SizeObserver>
-            {(ref, size) => {
-              // We disable this ESLint rule because we're capturing a bubbled keydown
-              //   event. See [this note in the jsx-a11y docs][0].
-              //
-              // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/c275964f52c35775208bd00cb612c6f82e42e34f/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
-              return (
-                // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
-                <div
-                  className="module-AddGroupMembersModal__list-wrapper"
-                  ref={ref}
-                  onKeyDown={event => {
-                    if (event.key === 'Enter') {
-                      inputRef.current?.focus();
-                    }
-                  }}
-                >
-                  {size != null && !size.hidden && (
-                    <ListView
-                      width={size.width}
-                      height={size.height}
-                      rowCount={rowCount}
-                      shouldRecomputeRowHeights={false}
-                      resetShouldRecomputeRowHeights={shouldNeverBeCalled}
-                      calculateRowHeight={index => {
-                        const row = getRow(index);
-                        if (!row) {
-                          assertDev(false, `Expected a row at index ${index}`);
-                          return 52;
-                        }
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
-                        switch (row.type) {
-                          case RowType.Header:
-                            return 40;
-                          default:
-                            return 52;
+  const handleSearchSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (canContinue) {
+        confirmAdds();
+      }
+    },
+    [canContinue, confirmAdds]
+  );
+
+  return (
+    <AxoDialog.Root open onOpenChange={handleOpenChange}>
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:AddGroupMembersModal--title')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Search>
+          <form className={tw('w-full')} onSubmit={handleSearchSubmit}>
+            <AxoSearchField.Root
+              value={searchTerm}
+              onValueChange={setSearchTerm}
+            >
+              <AxoSearchField.Icon />
+              <AxoSearchField.Input
+                ref={inputRef}
+                placeholder={i18n('icu:contactSearchPlaceholder')}
+                autoFocus
+              />
+              <AxoSearchField.Clear />
+            </AxoSearchField.Root>
+          </form>
+        </AxoDialog.Search>
+        <AxoDialog.Body
+          scrollbarWidth="none"
+          // ListView has its own scroll container
+          padding="deprecated-only-scrollbar-gutter"
+        >
+          <div
+            className={classNames(
+              'module-AddGroupMembersModal',
+              tw('flex h-110 flex-col')
+            )}
+          >
+            {Boolean(selectedContacts.length) && (
+              <ContactPills>
+                {selectedContacts.map(contact => (
+                  <ContactPill
+                    key={contact.id}
+                    avatarPlaceholderGradient={
+                      contact.avatarPlaceholderGradient
+                    }
+                    avatarUrl={contact.avatarUrl}
+                    color={contact.color}
+                    firstName={contact.systemGivenName ?? contact.firstName}
+                    hasAvatar={contact.hasAvatar}
+                    i18n={i18n}
+                    isMe={contact.isMe}
+                    id={contact.id}
+                    phoneNumber={contact.phoneNumber}
+                    profileName={contact.profileName}
+                    title={contact.title}
+                    onClickRemove={() => {
+                      removeSelectedContact(contact.id);
+                    }}
+                  />
+                ))}
+              </ContactPills>
+            )}
+            {rowCount ? (
+              <SizeObserver>
+                {(ref, size) => {
+                  // We disable this ESLint rule because we're capturing a bubbled keydown
+                  //   event. See [this note in the jsx-a11y docs][0].
+                  //
+                  // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/c275964f52c35775208bd00cb612c6f82e42e34f/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
+                  return (
+                    // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
+                    <div
+                      className="module-AddGroupMembersModal__list-wrapper"
+                      ref={ref}
+                      onKeyDown={event => {
+                        if (event.key === 'Enter') {
+                          inputRef.current?.focus();
                         }
                       }}
-                      rowRenderer={renderItem}
-                    />
-                  )}
-                </div>
-              );
-            }}
-          </SizeObserver>
-        ) : (
-          <div className="module-AddGroupMembersModal__no-candidate-contacts">
-            {i18n('icu:noContactsFound')}
-          </div>
-        )}
-        <div className="module-AddGroupMembersModal__button-container">
-          <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('icu:cancel')}
-          </Button>
+                    >
+                      {size != null && !size.hidden && (
+                        <ListView
+                          width={size.width}
+                          height={size.height}
+                          rowCount={rowCount}
+                          shouldRecomputeRowHeights={false}
+                          resetShouldRecomputeRowHeights={shouldNeverBeCalled}
+                          calculateRowHeight={index => {
+                            const row = getRow(index);
+                            if (!row) {
+                              assertDev(
+                                false,
+                                `Expected a row at index ${index}`
+                              );
+                              return 52;
+                            }
 
-          <Button disabled={!canContinue} onClick={confirmAdds}>
-            {i18n('icu:AddGroupMembersModal--continue-to-confirm')}
-          </Button>
-        </div>
-      </div>
-    </ModalHost>
+                            switch (row.type) {
+                              case RowType.Header:
+                                return 40;
+                              default:
+                                return 52;
+                            }
+                          }}
+                          rowRenderer={renderItem}
+                        />
+                      )}
+                    </div>
+                  );
+                }}
+              </SizeObserver>
+            ) : (
+              <div className="module-AddGroupMembersModal__no-candidate-contacts">
+                {i18n('icu:noContactsFound')}
+              </div>
+            )}
+          </div>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="subtle-secondary" onClick={onClose}>
+              {i18n('icu:cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="strong-primary"
+              disabled={!canContinue}
+              onClick={confirmAdds}
+            >
+              {i18n('icu:AddGroupMembersModal--continue-to-confirm')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
