@@ -3313,7 +3313,18 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   }
 
   // Workaround KDE portal file dialog default path issue
-  const osDefaultPath = OS.isLinuxUsingKDE() ? `~/${defaultPath}` : defaultPath;
+  let osDefaultPath = OS.isLinuxUsingKDE() ? `~/${defaultPath}` : defaultPath;
+  const lastSaveDirectory = ephemeralConfig.get('lastAttachmentSaveDirectory');
+  if (typeof lastSaveDirectory === 'string') {
+    try {
+      const stats = await fsExtra.stat(lastSaveDirectory);
+      if (stats.isDirectory()) {
+        osDefaultPath = join(lastSaveDirectory, basename(defaultPath));
+      }
+    } catch {
+      // Keep the default if the last directory is no longer available.
+    }
+  }
 
   const { canceled, filePath: selectedFilePath } = await dialog.showSaveDialog(
     mainWindow,
@@ -3325,6 +3336,8 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   if (canceled || selectedFilePath == null) {
     return { canceled: true };
   }
+
+  ephemeralConfig.set('lastAttachmentSaveDirectory', dirname(selectedFilePath));
 
   // On Windows, if you change the path from the default, the extension is
   // removed. We want to make sure the extension is always there.
