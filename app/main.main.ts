@@ -1753,6 +1753,33 @@ function generateSQLKey(): string {
   return randomBytes(32).toString('hex');
 }
 
+function checkIsEncryptionAvailable(
+  isLinux: boolean,
+  safeStorageBackend: string | undefined
+): boolean {
+  if (!app.isPackaged) {
+    // Don't use safeStorage if not packaged and building preload cache,
+    // running test-electron, or running Signal-Test-Infra-Private tests to
+    // avoid blocking prompt on macOS CI.
+    if (process.env.GENERATE_PRELOAD_CACHE) {
+      return false;
+    }
+    if (process.env.SIGNAL_TEST_INFRA_TEST) {
+      return false;
+    }
+    if (isTestEnvironment(getEnvironment())) {
+      return false;
+    }
+  }
+  if (!safeStorage.isEncryptionAvailable()) {
+    return false;
+  }
+  if (isLinux) {
+    return safeStorageBackend !== 'basic_text';
+  }
+  return true;
+}
+
 function getSQLKey(): string {
   let update = false;
   const isLinux = OS.isLinux();
@@ -1765,14 +1792,10 @@ function getSQLKey(): string {
   const safeStorageBackend: string | undefined = isLinux
     ? safeStorage.getSelectedStorageBackend()
     : undefined;
-  const isEncryptionAvailable =
-    // Don't use safeStorage if not packaged and building preload cache or
-    // running test-electron to avoid blocking prompt on macOS CI.
-    (app.isPackaged ||
-      (!process.env.GENERATE_PRELOAD_CACHE &&
-        !isTestEnvironment(getEnvironment()))) &&
-    safeStorage.isEncryptionAvailable() &&
-    (!isLinux || safeStorageBackend !== 'basic_text');
+  const isEncryptionAvailable = checkIsEncryptionAvailable(
+    isLinux,
+    safeStorageBackend
+  );
 
   // On Linux the backend can change based on desktop environment and command line flags.
   // If the backend changes we won't be able to decrypt the key.
