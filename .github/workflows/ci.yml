@@ -19,10 +19,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
   cancel-in-progress: true
 
-# Abort stalled git transfers, actions/checkout will retry the fetch
 env:
-  GIT_HTTP_LOW_SPEED_LIMIT: 1000 # 1KB/s
+  # actions/checkout: aborts slow git transfers so it retries the fetch
+  GIT_HTTP_LOW_SPEED_LIMIT: 1000000 # 1MB/s
   GIT_HTTP_LOW_SPEED_TIME: 60 # for 60s
+  # actions/cache: treats a stuck download as a cache miss (default: 10 minutes)
+  SEGMENT_DOWNLOAD_TIMEOUT_MINS: 3
 
 jobs:
   changes:
@@ -36,12 +38,25 @@ jobs:
       changesets-release: ${{ steps.changes.outputs.changesets-release }}
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
+        timeout-minutes: 2
+        continue-on-error: true
+        with: &changes-checkout-with
           filter: blob:none
           fetch-depth: 2
           sparse-checkout: /.github/scripts/paths-filter.mjs
           sparse-checkout-cone-mode: false
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: &retry-checkout-env
+          # Logs connection and TLS events to diagnose hung fetches
+          GIT_TRACE_CURL: 1
+          GIT_TRACE_CURL_NO_DATA: 1
+        with: *changes-checkout-with
 
       - name: Check for changes
         id: changes
@@ -98,9 +113,19 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
+        timeout-minutes: 2
+        continue-on-error: true
+        with: &dependencies-checkout-with
           filter: blob:none
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
+        with: *dependencies-checkout-with
 
       - name: Setup pnpm
         uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
@@ -135,12 +160,22 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-22.04-8-cores
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
+        timeout-minutes: 2
+        continue-on-error: true
+        with: &lint-checkout-with
           filter: blob:none
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
+        with: *lint-checkout-with
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -218,13 +253,23 @@ jobs:
     name: MacOS
     runs-on: macos-26
     if: github.ref == 'refs/heads/main'
-    timeout-minutes: 15
+    timeout-minutes: 25
 
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
+        timeout-minutes: 2
+        continue-on-error: true
+        with: &macos-checkout-with
           filter: blob:none
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
+        with: *macos-checkout-with
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -291,7 +336,16 @@ jobs:
             arch: arm64
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -341,6 +395,7 @@ jobs:
 
       - name: Clone backup integration tests
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
         with:
           repository: 'signalapp/Signal-Message-Backup-Tests'
           ref: 'a0f900243210efbedc72f0907c5d2f140385daa4'
@@ -375,7 +430,16 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -452,7 +516,16 @@ jobs:
 
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -483,11 +556,21 @@ jobs:
 
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
+        timeout-minutes: 2
+        continue-on-error: true
+        with: &mock-timings-checkout-with
           filter: blob:none
           sparse-checkout: /.github/scripts/mock-timings/
           sparse-checkout-cone-mode: false
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
+        with: *mock-timings-checkout-with
 
       # Mock tests are split by index without timings
       - name: Fetch mock test timings
@@ -538,7 +621,16 @@ jobs:
 
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -605,7 +697,16 @@ jobs:
 
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -650,8 +751,11 @@ jobs:
 
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
+        timeout-minutes: 2
+        continue-on-error: true
+        with: &check-min-os-version-checkout-with
           filter: blob:none
           fetch-depth: 2
           sparse-checkout: |
@@ -659,6 +763,13 @@ jobs:
             /pnpm-lock.yaml
             /.github/scripts/min-os-version/
           sparse-checkout-cone-mode: false
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
+        with: *check-min-os-version-checkout-with
 
       - name: Check for dependency changes
         id: changes
@@ -709,9 +820,19 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
+        timeout-minutes: 2
+        continue-on-error: true
+        with: &danger-checkout-with
           filter: blob:none
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
+        with: *danger-checkout-with
 
       - name: Setup danger environment
         uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
@@ -737,7 +858,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -766,7 +896,16 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -798,7 +937,16 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -875,7 +1023,16 @@ jobs:
 
     steps:
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        continue-on-error: true
+
+      - name: Retry checkout code
+        if: ${{ steps.checkout.outcome == 'failure' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
+        env: *retry-checkout-env
 
       - name: Setup environment
         uses: ./.github/actions/setup
