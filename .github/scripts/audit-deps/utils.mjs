@@ -3,10 +3,34 @@
 // @ts-check
 
 import { spawn } from 'node:child_process';
-import { join } from 'node:path';
-import { getGitHubAdvisory } from './github.mjs';
+import { randomUUID } from 'node:crypto';
+import { appendFile, readFile, writeFile } from 'node:fs/promises';
+import { join, relative } from 'node:path';
+import {
+  getGitHubAdvisory,
+  getGitHubOpenPullRequests,
+} from './github.mjs';
+
+/** @import { GitHubPullRequest } from './github.mjs' */
 
 export const REPO_ROOT = join(import.meta.dirname, '..', '..', '..');
+
+export const BRANCH = 'automation/pnpm-audit-advisories';
+export const REMOTE_BRANCH = `origin/${BRANCH}`;
+/** On the PR and the issue, which is found by it. Must exist in the repo. */
+export const LABEL = 'pnpm-audit-autofix';
+export const AUTHOR_NAME = 'automated-signal';
+export const AUTHOR_EMAIL =
+  '37887102+automated-signal@users.noreply.github.com';
+
+/** Added to the environment of every pnpm command that resolves */
+export const PNPM_ENV = {
+  // Not needed to update lockfiles, patches are still applied
+  pnpm_config_ignore_scripts: 'true',
+  // `.pnpmfile.mjs` fails on deprecated packages, which would block every fix.
+  // They're reported instead, see `getDeprecatedPackages()` in `fix.mjs`.
+  SKIP_DEPRECATED_CHECK: 'true',
+};
 
 /**
  * @param {boolean} condition
@@ -53,6 +77,15 @@ export function getSeverityRank(severity) {
 // published (and reviewed) this many business days ago
 export const CI_AUDIT_LEVEL = 'high';
 export const CI_GRACE_BUSINESS_DAYS = 3;
+
+/**
+ * @param {string} entry `name` or `name@version`
+ * @param {string} moduleName
+ * @returns {boolean}
+ */
+export function isEntryForModule(entry, moduleName) {
+  return entry === moduleName || entry.startsWith(`${moduleName}@`);
+}
 
 /**
  * @param {Advisory} advisory
@@ -295,6 +328,200 @@ export async function setProjectConfig(workspace, key, value) {
     ],
     { cwd: workspace.dir }
   );
+}
+
+/**
+ * Step outputs, which may be multiline.
+ *
+ * @param {string} path `GITHUB_OUTPUT`
+ * @param {Readonly<Record<string, string>>} outputs
+ * @returns {Promise<void>}
+ */
+export async function appendGitHubOutputs(path, outputs) {
+  const delimiter = `EOF_${randomUUID()}`;
+  let output = '';
+  for (const [key, value] of Object.entries(outputs)) {
+    output += `${key}<<${delimiter}\n${value}\n${delimiter}\n`;
+  }
+  await appendFile(path, output);
+}
+
+/**
+ * @param {Workspace} workspace
+ * @param {string} key
+ * @returns {Promise<void>}
+ */
+export async function deleteProjectConfig(workspace, key) {
+  await runCommand('pnpm', ['config', 'delete', '--location=project', key], {
+    cwd: workspace.dir,
+  });
+}
+
+/**
+ * @param {ReadonlyArray<string>} gitArgs
+ * @param {Readonly<{ allowFailure?: boolean }>} [options]
+ * @returns {Promise<CommandResult>}
+ */
+export async function git(gitArgs, options = {}) {
+  return runCommand(
+    'git',
+    [
+      '-c',
+      `user.name=${AUTHOR_NAME}`,
+      '-c',
+      `user.email=${AUTHOR_EMAIL}`,
+      ...gitArgs,
+    ],
+    { cwd: REPO_ROOT, allowFailure: options.allowFailure ?? false }
+  );
+}
+
+/**
+ * @returns {Promise<boolean>}
+ */
+export async function hasRemoteBranch() {
+  const { code } = await git(['rev-parse', '--verify', '--quiet', REMOTE_BRANCH], {
+    allowFailure: true,
+  });
+  return code === 0;
+}
+
+/**
+ * @returns {Promise<boolean>}
+ */
+export async function hasCommitsFromOtherPeople() {
+  const { stdout } = await git([
+    'log',
+    '--no-merges',
+    '--format=%ae',
+    `origin/main..${REMOTE_BRANCH}`,
+  ]);
+  return stdout.split('\n').some(email => {
+    return email !== '' && email !== AUTHOR_EMAIL;
+  });
+}
+
+/**
+ * @param {string} repo `owner/repo`
+ * @param {string} owner
+ * @returns {Promise<GitHubPullRequest | null>}
+ */
+export async function getAutofixPullRequest(repo, owner) {
+  const pulls = await getGitHubOpenPullRequests(repo, `${owner}:${BRANCH}`);
+  return pulls[0] ?? null;
+}
+
+/**
+ * @param {Workspace} workspace
+ * @returns {string} relative to `REPO_ROOT`
+ */
+export function getWorkspacePath(workspace) {
+  return workspace.dir === REPO_ROOT ? '.' : relative(REPO_ROOT, workspace.dir);
+}
+
+/**
+ * Restoring the root also restores the workspaces inside it.
+ *
+ * @param {Workspace} workspace
+ * @returns {Promise<void>}
+ */
+export async function restoreWorkspace(workspace) {
+  await git(['checkout', 'HEAD', '--', getWorkspacePath(workspace)]);
+}
+
+export class PnpmCommandError extends Error {
+  /**
+   * @param {string} command
+   * @param {Workspace} workspace
+   * @param {string} output
+   */
+  constructor(command, workspace, output) {
+    const errorCode = output.match(/ERR_PNPM_[A-Z0-9_]+/)?.[0] ?? null;
+    const withCode = errorCode != null ? ` with \`${errorCode}\`` : '';
+    super(`\`${command}\` in \`${workspace.label}\` failed${withCode}`);
+    this.errorCode = errorCode;
+    this.output = output;
+  }
+
+  /** A patch in `patchedDependencies` doesn't apply to the new version */
+  get isPatchFailure() {
+    return (
+      this.errorCode === 'ERR_PNPM_PATCH_FAILED' ||
+      this.errorCode === 'ERR_PNPM_UNUSED_PATCH'
+    );
+  }
+}
+
+/**
+ * @param {Workspace} workspace
+ * @param {ReadonlyArray<string>} pnpmArgs
+ * @returns {Promise<void>}
+ * @throws {PnpmCommandError}
+ */
+export async function runPnpm(workspace, pnpmArgs) {
+  const command = `pnpm ${pnpmArgs.join(' ')}`;
+  console.log(`=== ${workspace.label}: ${command} ===`);
+  const { code, stdout, stderr } = await runCommand('pnpm', pnpmArgs, {
+    cwd: workspace.dir,
+    env: PNPM_ENV,
+    echoOutput: true,
+    allowFailure: true,
+  });
+  if (code !== 0) {
+    throw new PnpmCommandError(command, workspace, `${stdout}\n${stderr}`);
+  }
+}
+
+/**
+ * @param {Workspace} workspace
+ * @returns {Promise<Readonly<Record<string, string>>>}
+ */
+export async function getOverrides(workspace) {
+  const overrides = /** @type {Readonly<Record<string, string>> | null} */ (
+    await getProjectConfig(workspace, 'overrides')
+  );
+  return overrides ?? {};
+}
+
+/**
+ * @param {Workspace} workspace
+ * @returns {Promise<ReadonlyArray<string>>}
+ */
+export async function getIgnoredGhsas(workspace) {
+  // pnpm 11 reads `auditConfig.ignoreGhsas` as `audit.ignore`
+  const ignored = /** @type {ReadonlyArray<string> | null} */ (
+    await getProjectConfig(workspace, 'audit.ignore')
+  );
+  return ignored ?? [];
+}
+
+/**
+ * Keeps end-of-line comments with their entries, but drops any other
+ * `auditConfig` keys (pnpm can't set nested keys).
+ *
+ * @param {Workspace} workspace
+ * @param {ReadonlyArray<string>} ghsaIds
+ * @returns {Promise<void>}
+ */
+export async function setIgnoredGhsas(workspace, ghsaIds) {
+  await setProjectConfig(workspace, 'auditConfig', { ignoreGhsas: ghsaIds });
+}
+
+/**
+ * Includes advisories in `auditConfig.ignoreGhsas`.
+ *
+ * @param {Workspace} workspace
+ * @returns {Promise<ReadonlyArray<Advisory>>}
+ */
+export async function runAuditWithoutIgnores(workspace) {
+  const path = join(workspace.dir, 'pnpm-workspace.yaml');
+  const original = await readFile(path, 'utf8');
+  try {
+    await deleteProjectConfig(workspace, 'auditConfig');
+    return await runAudit(workspace);
+  } finally {
+    await writeFile(path, original);
+  }
 }
 
 /**

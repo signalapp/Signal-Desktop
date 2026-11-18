@@ -2,27 +2,39 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // @ts-check
 
-import { randomUUID } from 'node:crypto';
-import { appendFile, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 import { parseArgs } from 'node:util';
+import { renderCommandHelp } from './commands.mjs';
 import {
   CI_GRACE_BUSINESS_DAYS,
+  PNPM_ENV,
+  PnpmCommandError,
   REPO_ROOT,
   WORKSPACES,
+  appendGitHubOutputs,
   assert,
   compareAdvisories,
   fetchAdvisoryPublishDates,
   getAdvisoryUrl,
   getBusinessDaysBetween,
+  getIgnoredGhsas,
+  getOverrides,
   getProjectConfig,
+  getWorkspacePath,
+  git,
   isCheckedByCi,
+  isEntryForModule,
   isMajorUpgrade,
+  restoreWorkspace,
   runAudit,
+  runAuditWithoutIgnores,
   runCommand,
+  runPnpm,
   setProjectConfig,
 } from './utils.mjs';
 
+/** @import { Command } from './commands.mjs' */
 /** @import { Advisory, Workspace } from './utils.mjs' */
 
 const { values: args } = parseArgs({
@@ -33,14 +45,8 @@ const { values: args } = parseArgs({
 
 const dryRun = args['dry-run'];
 
-/** Added to the environment of every pnpm command that resolves */
-const PNPM_ENV = {
-  // Not needed to update lockfiles, patches are still applied
-  pnpm_config_ignore_scripts: 'true',
-  // `.pnpmfile.mjs` fails on deprecated packages, which would block every fix.
-  // They're reported instead, see `getDeprecatedPackages()`.
-  SKIP_DEPRECATED_CHECK: 'true',
-};
+// In CI, `origin/main`: `apply-commands.mjs` commits before this runs
+const BASE_REF = process.env.BASE_REF ?? 'HEAD';
 
 /** @typedef {'update' | 'override' | 'dedupe'} FixMethod */
 
@@ -63,17 +69,17 @@ const FIX_STEPS = [
   {
     method: 'update',
     skip: async (_workspace, context) => context.remainingAdvisories.length === 0,
-    run: workspace => runPnpm(workspace, ['audit', '--fix=update']),
+    run: workspace => runPnpmStep(workspace, ['audit', '--fix=update']),
   },
   {
     method: 'override',
     skip: async (_workspace, context) => context.remainingAdvisories.length === 0,
     async run(workspace, context) {
       // `--fix=override` only writes the overrides, it doesn't install them
-      await runPnpm(workspace, ['audit', '--fix=override']);
+      await runPnpmStep(workspace, ['audit', '--fix=override']);
       await removeRiskyOverrides(workspace, context);
       // Frozen by default in CI
-      await runPnpm(workspace, ['install', '--no-frozen-lockfile']);
+      await runPnpmStep(workspace, ['install', '--no-frozen-lockfile']);
     },
   },
   {
@@ -87,7 +93,7 @@ const FIX_STEPS = [
     // Nothing to dedupe when nothing changed
     skip: async workspace => !(await hasWorkspaceChanges(workspace)),
     // Installing can undo dedupes when there are cyclical peer deps
-    run: workspace => runPnpm(workspace, ['dedupe']),
+    run: workspace => runPnpmStep(workspace, ['dedupe']),
   },
 ];
 
@@ -105,21 +111,6 @@ const STATUS_ORDER = ['☢️', '❌', '⚠️', '✅'];
  * }>} AdvisoryRow
  */
 
-class PnpmCommandError extends Error {
-  /**
-   * @param {string} command
-   * @param {Workspace} workspace
-   * @param {string} output
-   */
-  constructor(command, workspace, output) {
-    const errorCode = output.match(/ERR_PNPM_[A-Z0-9_]+/)?.[0] ?? null;
-    const withCode = errorCode != null ? ` with \`${errorCode}\`` : '';
-    super(`\`${command}\` in \`${workspace.label}\` failed${withCode}`);
-    this.errorCode = errorCode;
-    this.output = output;
-  }
-}
-
 /**
  * @typedef {Readonly<{
  *   name: string;
@@ -136,47 +127,43 @@ class PnpmCommandError extends Error {
  *   removedReleaseAgeExcludes: ReadonlyArray<string>;
  *   deprecated: ReadonlyArray<DeprecatedPackage>;
  *   upgradedDeprecated: ReadonlyArray<DeprecatedPackage>;
+ *   staleIgnores: ReadonlyArray<StaleIgnore>;
  * }>} WorkspaceResult
  */
 
 /**
- * @param {string} entry `name` or `name@version`
- * @param {string} moduleName
- * @returns {boolean}
+ * An `auditConfig.ignoreGhsas` entry to revisit.
+ *
+ * @typedef {Readonly<{
+ *   ghsaId: string;
+ *   advisory: Advisory | null;
+ *   notes: ReadonlyArray<string>;
+ * }>} StaleIgnore
  */
-function isEntryForModule(entry, moduleName) {
-  return entry === moduleName || entry.startsWith(`${moduleName}@`);
-}
 
 /**
  * @param {Workspace} workspace
  * @param {ReadonlyArray<string>} pnpmArgs
  * @returns {Promise<void>}
  */
-async function runPnpm(workspace, pnpmArgs) {
-  const command = `pnpm ${pnpmArgs.join(' ')}`;
+async function runPnpmStep(workspace, pnpmArgs) {
   if (dryRun) {
-    console.log(`[dry-run] ${workspace.label}: ${command}`);
+    console.log(`[dry-run] ${workspace.label}: pnpm ${pnpmArgs.join(' ')}`);
     return;
   }
-
-  console.log(`=== ${workspace.label}: ${command} ===`);
-  const { code, stdout, stderr } = await runCommand('pnpm', pnpmArgs, {
-    cwd: workspace.dir,
-    env: PNPM_ENV,
-    echoOutput: true,
-    allowFailure: true,
-  });
-  const output = `${stdout}\n${stderr}`;
-  if (code === 0) {
-    return;
+  try {
+    await runPnpm(workspace, pnpmArgs);
+  } catch (error) {
+    // `audit --fix=update` also exits 1 when it couldn't fix everything,
+    // which the next audit reports
+    const isUnfixed =
+      error instanceof PnpmCommandError &&
+      error.errorCode == null &&
+      pnpmArgs.includes('--fix=update');
+    if (!isUnfixed) {
+      throw error;
+    }
   }
-  // `audit --fix=update` also exits 1 when it couldn't fix everything,
-  // which the next audit reports
-  if (pnpmArgs.includes('--fix=update') && !output.includes('ERR_PNPM_')) {
-    return;
-  }
-  throw new PnpmCommandError(command, workspace, output);
 }
 
 /**
@@ -299,14 +286,6 @@ async function hasNewerVersion(workspace, pkg) {
 
 /**
  * @param {Workspace} workspace
- * @returns {string}
- */
-function getWorkspacePath(workspace) {
-  return workspace.dir === REPO_ROOT ? '.' : relative(REPO_ROOT, workspace.dir);
-}
-
-/**
- * @param {Workspace} workspace
  * @returns {Promise<boolean>}
  */
 async function hasWorkspaceChanges(workspace) {
@@ -321,10 +300,9 @@ async function hasWorkspaceChanges(workspace) {
       excludes.push(`:(exclude)${getWorkspacePath(other)}`);
     }
   }
-  const { code } = await runCommand(
-    'git',
-    ['diff', '--quiet', 'HEAD', '--', getWorkspacePath(workspace), ...excludes],
-    { cwd: REPO_ROOT, allowFailure: true }
+  const { code } = await git(
+    ['diff', '--quiet', BASE_REF, '--', getWorkspacePath(workspace), ...excludes],
+    { allowFailure: true }
   );
   return code !== 0;
 }
@@ -354,18 +332,7 @@ async function upgradeDeprecatedPackages(workspace) {
 
     // A commit with the current changes, or nothing when there are none
     // oxlint-disable-next-line no-await-in-loop
-    const { stdout } = await runCommand(
-      'git',
-      [
-        '-c',
-        'user.name=audit-deps',
-        '-c',
-        'user.email=audit-deps@localhost',
-        'stash',
-        'create',
-      ],
-      { cwd: REPO_ROOT }
-    );
+    const { stdout } = await git(['stash', 'create']);
     const snapshot = stdout.trim() === '' ? 'HEAD' : stdout.trim();
 
     const command = `pnpm update --depth Infinity ${name}`;
@@ -395,11 +362,7 @@ async function upgradeDeprecatedPackages(workspace) {
     if (undoReason != null) {
       console.warn(`Didn't upgrade ${name}, ${undoReason}`);
       // oxlint-disable-next-line no-await-in-loop
-      await runCommand(
-        'git',
-        ['checkout', snapshot, '--', getWorkspacePath(workspace)],
-        { cwd: REPO_ROOT }
-      );
+      await git(['checkout', snapshot, '--', getWorkspacePath(workspace)]);
     }
   }
 }
@@ -444,10 +407,7 @@ async function removeRiskyOverrides(workspace, context) {
       .map(advisory => advisory.moduleName)
   );
 
-  const overrides =
-    /** @type {Readonly<Record<string, string>> | null} */ (
-      await getProjectConfig(workspace, 'overrides')
-    ) ?? {};
+  const overrides = await getOverrides(workspace);
 
   /** @type {Array<string>} */
   const removed = [];
@@ -472,17 +432,125 @@ async function removeRiskyOverrides(workspace, context) {
 }
 
 /**
- * Workspaces are fixed in order, so restoring the root can't undo changes to
- * `danger/` because it hasn't been fixed yet.
+ * @param {Date} date
+ * @returns {string}
+ */
+function formatDate(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+/**
+ * @param {Workspace} workspace
+ * @param {string} ghsaId
+ * @returns {Promise<Date | null>} `null` when it isn't committed
+ */
+async function getIgnoreAddedAt(workspace, ghsaId) {
+  const path = join(getWorkspacePath(workspace), 'pnpm-workspace.yaml');
+  const { stdout } = await git([
+    'log',
+    '-1',
+    '--format=%cI',
+    '-S',
+    ghsaId,
+    '--',
+    path,
+  ]);
+  return stdout.trim() === '' ? null : new Date(stdout.trim());
+}
+
+/**
+ * @param {Workspace} workspace
+ * @param {string} name
+ * @returns {Promise<Readonly<Record<string, string>>>} version to ISO date
+ */
+async function getVersionPublishTimes(workspace, name) {
+  const { code, stdout } = await runCommand(
+    'pnpm',
+    ['view', name, 'time', '--json'],
+    { cwd: workspace.dir, allowFailure: true }
+  );
+  if (code !== 0) {
+    console.warn(`Couldn't get publish times for ${name}`);
+    return {};
+  }
+  return JSON.parse(stdout);
+}
+
+/**
+ * Ignores that no longer match anything installed, or that have a fixed
+ * version published after they were added.
  *
  * @param {Workspace} workspace
- * @returns {Promise<void>}
+ * @returns {Promise<ReadonlyArray<StaleIgnore>>}
  */
-async function restoreWorkspace(workspace) {
-  const path = getWorkspacePath(workspace);
-  await runCommand('git', ['checkout', 'HEAD', '--', path], {
-    cwd: REPO_ROOT,
-  });
+async function getStaleIgnores(workspace) {
+  const ignored = await getIgnoredGhsas(workspace);
+  if (dryRun || ignored.length === 0) {
+    return [];
+  }
+  const advisories = await runAuditWithoutIgnores(workspace);
+  const minimumReleaseAge =
+    /** @type {number | null} */ (
+      await getProjectConfig(workspace, 'minimumReleaseAge')
+    ) ?? 0;
+  const now = new Date();
+
+  /** @type {Array<StaleIgnore>} */
+  const staleIgnores = [];
+  for (const ghsaId of ignored) {
+    const advisory =
+      advisories.find(candidate => candidate.ghsaId === ghsaId) ?? null;
+    if (advisory == null) {
+      staleIgnores.push({
+        ghsaId,
+        advisory,
+        notes: ['Nothing installed is affected anymore'],
+      });
+      continue;
+    }
+    if (advisory.patchedVersions == null) {
+      continue;
+    }
+
+    // oxlint-disable-next-line no-await-in-loop
+    const addedAt = await getIgnoreAddedAt(workspace, ghsaId);
+    if (addedAt == null) {
+      continue;
+    }
+    // oxlint-disable-next-line no-await-in-loop
+    const publishTimes = await getVersionPublishTimes(
+      workspace,
+      advisory.moduleName
+    );
+    // e.g. `>=2.3.3 <3.0.0 || >=4.0.8`
+    const fixedVersions =
+      advisory.patchedVersions.match(/\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/g) ?? [];
+
+    for (const version of fixedVersions) {
+      const time = publishTimes[version];
+      if (time == null || new Date(time) <= addedAt) {
+        continue;
+      }
+      const publishedAt = new Date(time);
+      const installableAt = new Date(
+        publishedAt.getTime() + minimumReleaseAge * 60 * 1000
+      );
+      const notes = [
+        `${version} was published on ${formatDate(publishedAt)}, after it was ignored on ${formatDate(addedAt)}`,
+      ];
+      if (installableAt > now) {
+        notes.push(
+          `Installable on ${formatDate(installableAt)} (<code>minimumReleaseAge</code>)`
+        );
+      }
+      if (isMajorUpgrade(advisory.versions, advisory.patchedVersions)) {
+        notes.push('Major version bump');
+      }
+      staleIgnores.push({ ghsaId, advisory, notes });
+      break;
+    }
+  }
+  return staleIgnores;
 }
 
 /**
@@ -592,10 +660,7 @@ async function fixWorkspace(workspace) {
       await getProjectConfig(workspace, 'patchedDependencies')
     ) ?? {};
 
-  const initialOverrides =
-    /** @type {Readonly<Record<string, string>> | null} */ (
-      await getProjectConfig(workspace, 'overrides')
-    ) ?? {};
+  const initialOverrides = await getOverrides(workspace);
 
   /** @type {Map<number, FixMethod>} */
   const fixMethods = new Map();
@@ -719,6 +784,7 @@ async function fixWorkspace(workspace) {
     removedReleaseAgeExcludes: unusedExcludes,
     deprecated,
     upgradedDeprecated,
+    staleIgnores: await getStaleIgnores(workspace),
   };
 }
 
@@ -744,13 +810,9 @@ function renderFailure(result) {
     return '';
   }
 
-  const isPatchError =
-    failure.errorCode === 'ERR_PNPM_PATCH_FAILED' ||
-    failure.errorCode === 'ERR_PNPM_UNUSED_PATCH';
-
   let text = '';
   text += '> [!CAUTION]\n';
-  text += `> ${failure.message}, so none of the advisories in \`${result.workspace.label}\` were fixed.${isPatchError ? ' A patch needs to be recreated by hand.' : ''}\n`;
+  text += `> ${failure.message}, so none of the advisories in \`${result.workspace.label}\` were fixed.${failure.isPatchFailure ? ' A patch needs to be recreated by hand.' : ''}\n`;
   text += '\n';
   text += '<details><summary>Output</summary>\n';
   text += '\n';
@@ -846,6 +908,81 @@ function renderDeprecatedTable(upgraded, remaining) {
 }
 
 /**
+ * @param {ReadonlyArray<StaleIgnore>} staleIgnores
+ * @returns {string}
+ */
+function renderStaleIgnoreSection(staleIgnores) {
+  if (staleIgnores.length === 0) {
+    return '';
+  }
+
+  let text = '';
+  text += '#### Ignored advisories to revisit\n';
+  text += '\n';
+  text += '<table>\n';
+  text += '<tr><th>Ignored advisory</th><th>Package</th><th>Notes</th></tr>\n';
+  for (const { ghsaId, advisory, notes } of staleIgnores) {
+    const packageCell =
+      advisory != null
+        ? `<code>${advisory.moduleName}</code><br><sub>${advisory.versions.join(', ')} → ${escapeHtml(advisory.patchedVersions ?? 'none')}</sub>`
+        : '—';
+    text += '<tr>\n';
+    text += `<td><a href="${getAdvisoryUrl(ghsaId)}">${ghsaId}</a></td>\n`;
+    text += `<td>${packageCell}</td>\n`;
+    text += `<td>${notes.join('<br>')}</td>\n`;
+    text += '</tr>\n';
+  }
+  text += '</table>\n';
+  text += '\n';
+  return text;
+}
+
+/**
+ * @param {WorkspaceResult} result
+ * @returns {ReadonlyArray<AdvisoryRow>}
+ */
+function getUnfixedRows(result) {
+  return result.rows.filter(row => {
+    return row.status === '☢️' || row.status === '❌';
+  });
+}
+
+/**
+ * One command per advisory left on the issue, for people to copy.
+ *
+ * @param {ReadonlyArray<WorkspaceResult>} results
+ * @returns {ReadonlyArray<Command>}
+ */
+function getSuggestedCommands(results) {
+  /** @type {Array<Command>} */
+  const suggestions = [];
+  for (const result of results) {
+    const { workspace } = result;
+    for (const { advisory } of getUnfixedRows(result)) {
+      if (advisory.patchedVersions == null) {
+        suggestions.push({
+          name: 'ignore',
+          workspace,
+          ghsaId: advisory.ghsaId,
+          reason: 'no fixed version',
+        });
+      } else {
+        suggestions.push({
+          name: 'override',
+          workspace,
+          ghsaId: advisory.ghsaId,
+          reason: null,
+        });
+      }
+    }
+    for (const { ghsaId } of result.staleIgnores) {
+      suggestions.push({ name: 'unignore', workspace, ghsaId, reason: null });
+    }
+  }
+  return suggestions;
+}
+
+/**
  * @param {ReadonlyArray<WorkspaceResult>} results
  * @returns {string}
  */
@@ -876,10 +1013,12 @@ function renderPrBody(results) {
       result.upgradedDeprecated,
       result.deprecated
     );
+    const staleIgnoreSection = renderStaleIgnoreSection(result.staleIgnores);
     if (
       result.failure == null &&
       advisoryTable === '' &&
-      deprecatedTable === ''
+      deprecatedTable === '' &&
+      staleIgnoreSection === ''
     ) {
       continue;
     }
@@ -895,6 +1034,8 @@ function renderPrBody(results) {
       text += deprecatedTable;
     }
 
+    text += staleIgnoreSection;
+
     if (result.removedReleaseAgeExcludes.length > 0) {
       const entries = result.removedReleaseAgeExcludes
         .map(entry => `\`${entry}\``)
@@ -904,6 +1045,8 @@ function renderPrBody(results) {
       text += '\n';
     }
   }
+
+  text += renderCommandHelp(getSuggestedCommands(results));
 
   text += '<details><summary>Legend</summary>\n';
   text += '\n';
@@ -933,15 +1076,14 @@ function renderPrBody(results) {
 function renderIssueBody(results) {
   let sections = '';
   for (const result of results) {
-    const unfixedRows = result.rows.filter(row => {
-      return row.status === '☢️' || row.status === '❌';
-    });
-    const advisoryTable = renderAdvisoryTable(unfixedRows);
+    const advisoryTable = renderAdvisoryTable(getUnfixedRows(result));
     const deprecatedTable = renderDeprecatedTable([], result.deprecated);
+    const staleIgnoreSection = renderStaleIgnoreSection(result.staleIgnores);
     if (
       result.failure == null &&
       advisoryTable === '' &&
-      deprecatedTable === ''
+      deprecatedTable === '' &&
+      staleIgnoreSection === ''
     ) {
       continue;
     }
@@ -957,6 +1099,7 @@ function renderIssueBody(results) {
       sections += 'Upgrade or replace them, or add them to `allowedDeprecatedVersions` in `pnpm-workspace.yaml`.\n';
       sections += '\n';
     }
+    sections += staleIgnoreSection;
   }
 
   if (sections === '') {
@@ -967,15 +1110,12 @@ function renderIssueBody(results) {
   text += "Dependencies that `.github/scripts/audit-deps/fix.mjs` couldn't fix automatically. This issue is updated by the workflow and closed when nothing is left.\n";
   text += '\n';
   text += sections;
+  text += renderCommandHelp(getSuggestedCommands(results));
   return text;
 }
 
 if (!dryRun) {
-  const { stdout } = await runCommand(
-    'git',
-    ['status', '--porcelain', '--untracked-files=no'],
-    { cwd: REPO_ROOT }
-  );
+  const { stdout } = await git(['status', '--porcelain', '--untracked-files=no']);
   assert(
     stdout.trim() === '',
     'Commit or stash your changes first, failed fixes are undone with `git checkout`'
@@ -1012,13 +1152,11 @@ const failed = results.some(result => result.failure != null);
 
 const { GITHUB_OUTPUT } = process.env;
 if (GITHUB_OUTPUT != null) {
-  // A random delimiter can't appear in the body
-  const delimiter = `EOF_${randomUUID()}`;
-  let output = '';
-  output += `failed=${failed}\n`;
-  output += `pr-body<<${delimiter}\n${prBody}\n${delimiter}\n`;
-  output += `issue-body<<${delimiter}\n${issueBody}\n${delimiter}\n`;
-  await appendFile(GITHUB_OUTPUT, output);
+  await appendGitHubOutputs(GITHUB_OUTPUT, {
+    failed: `${failed}`,
+    'pr-body': prBody,
+    'issue-body': issueBody,
+  });
 } else {
   console.log(prBody);
   console.log(issueBody === '' ? '(No issue needed)' : issueBody);

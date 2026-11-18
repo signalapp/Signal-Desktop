@@ -8,16 +8,27 @@ import {
   addGitHubIssueLabels,
   createGitHubIssue,
   createGitHubIssueComment,
+  createGitHubIssueCommentReaction,
   createGitHubPullRequest,
   getGitHubIssue,
   getGitHubIssueComments,
   getGitHubOpenIssues,
-  getGitHubOpenPullRequests,
   updateGitHubIssue,
   updateGitHubIssueComment,
   updateGitHubPullRequest,
 } from './github.mjs';
-import { REPO_ROOT, assert, runCommand } from './utils.mjs';
+import {
+  BRANCH,
+  LABEL,
+  REMOTE_BRANCH,
+  REPO_ROOT,
+  assert,
+  getAutofixPullRequest,
+  git,
+  hasCommitsFromOtherPeople,
+  hasRemoteBranch,
+  runCommand,
+} from './utils.mjs';
 
 /** @typedef {import('./github.mjs').GitHubPullRequest} PullRequest */
 /** @typedef {import('./github.mjs').GitHubIssue} Issue */
@@ -32,16 +43,10 @@ const { values: args } = parseArgs({
 
 const dryRun = args['dry-run'];
 
-const BRANCH = 'automation/pnpm-audit-advisories';
 const TITLE = 'Update dependencies with security advisories';
 const ISSUE_TITLE = 'Dependencies need manual fixes';
-// On the PR and the issue, which is found by it. Must exist in the repo.
-const LABEL = 'pnpm-audit-autofix';
 // GitHub's limit is 65,536 characters
 const MAX_ISSUE_BODY_LENGTH = 60_000;
-const AUTHOR_NAME = 'automated-signal';
-const AUTHOR_EMAIL = '37887102+automated-signal@users.noreply.github.com';
-const REMOTE_BRANCH = `origin/${BRANCH}`;
 
 const {
   GITHUB_REPOSITORY,
@@ -50,6 +55,10 @@ const {
   PR_BODY,
   ISSUE_BODY,
   FIX_FAILED,
+  REPLY,
+  REPLY_FAILED,
+  REPLY_TO,
+  REPLY_COMMENT_ID,
 } = process.env;
 assert(GITHUB_TOKEN != null, 'Missing GITHUB_TOKEN');
 assert(PR_BODY != null, 'Missing PR_BODY');
@@ -61,24 +70,6 @@ const prBody = PR_BODY;
 const issueBody = ISSUE_BODY.slice(0, MAX_ISSUE_BODY_LENGTH);
 // `owner/repo`
 const repo = GITHUB_REPOSITORY;
-
-/**
- * @param {ReadonlyArray<string>} gitArgs
- * @param {Readonly<{ allowFailure?: boolean }>} [options]
- */
-async function git(gitArgs, options = {}) {
-  return runCommand(
-    'git',
-    [
-      '-c',
-      `user.name=${AUTHOR_NAME}`,
-      '-c',
-      `user.email=${AUTHOR_EMAIL}`,
-      ...gitArgs,
-    ],
-    { cwd: REPO_ROOT, allowFailure: options.allowFailure ?? false }
-  );
-}
 
 /**
  * @param {ReadonlyArray<string>} pushArgs
@@ -152,21 +143,6 @@ async function updateStatusComment(pr, body) {
 }
 
 /**
- * @returns {Promise<boolean>}
- */
-async function hasCommitsFromOtherPeople() {
-  const { stdout } = await git([
-    'log',
-    '--no-merges',
-    '--format=%ae',
-    `origin/main..${REMOTE_BRANCH}`,
-  ]);
-  return stdout.split('\n').some(email => {
-    return email !== '' && email !== AUTHOR_EMAIL;
-  });
-}
-
-/**
  * @param {PullRequest | null} pr
  * @param {boolean} otherPeopleCommitted
  * @returns {Promise<void>}
@@ -199,7 +175,7 @@ async function closePullRequest(pr, otherPeopleCommitted) {
  * @param {PullRequest | null} pr
  * @param {boolean} remoteBranchExists
  * @param {boolean} otherPeopleCommitted
- * @returns {Promise<void>}
+ * @returns {Promise<string | null>} the PR's URL
  */
 async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
   if (pr != null && !pr.labels.some(label => label.name === LABEL)) {
@@ -224,10 +200,12 @@ async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
       comment += '</details>\n';
       await updateStatusComment(pr, comment);
     }
-    return;
+    return pr?.html_url ?? null;
   }
 
   await git(['checkout', '-B', BRANCH]);
+  // One commit, including the ones from `apply-commands.mjs`
+  await git(['reset', '--soft', 'origin/main']);
   // Only tracked files: lockfiles, workspace config, package.json files
   await git(['add', '--update']);
   await git(['commit', '-m', TITLE]);
@@ -240,7 +218,7 @@ async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
     });
     if (code === 0) {
       console.log(`${BRANCH} is already up to date`);
-      return;
+      return pr?.html_url ?? null;
     }
 
     // Fail the push if someone pushes while this runs
@@ -250,6 +228,8 @@ async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
   await gitPush(pushArgs);
 
   if (pr == null) {
+    /** @type {string | null} */
+    let url = null;
     await changeOnGitHub(`Opening a PR from ${BRANCH}`, async () => {
       const created = await createGitHubPullRequest(repo, {
         title: TITLE,
@@ -258,8 +238,9 @@ async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
         body: prBody,
       });
       await addGitHubIssueLabels(repo, created.number, [LABEL]);
+      url = created.html_url;
     });
-    return;
+    return url;
   }
 
   await changeOnGitHub(`Updating ${pr.html_url}`, () => {
@@ -268,15 +249,17 @@ async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
       body: prBody,
     });
   });
+  return pr.html_url;
 }
 
 /**
  * Keeps one issue for what can't be fixed automatically: edited in place
  * while there is something left, closed when there isn't.
  *
+ * @param {string | null} prUrl
  * @returns {Promise<void>}
  */
-async function syncIssue() {
+async function syncIssue(prUrl) {
   const issues = await getGitHubOpenIssues(repo, LABEL);
   const issue = issues.find(candidate => candidate.pull_request == null) ?? null;
 
@@ -286,7 +269,9 @@ async function syncIssue() {
         await createGitHubIssueComment(
           repo,
           issue.number,
-          'No longer needed, `main` has no dependencies that need manual fixes.'
+          prUrl != null
+            ? `Nothing left that needs a manual fix once ${prUrl} is merged.`
+            : 'No longer needed, `main` has no dependencies that need manual fixes.'
         );
         await updateGitHubIssue(repo, issue.number, { state: 'closed' });
       });
@@ -314,35 +299,49 @@ async function syncIssue() {
   });
 }
 
-const pulls = await getGitHubOpenPullRequests(
-  repo,
-  `${GITHUB_REPOSITORY_OWNER}:${BRANCH}`
-);
-const pr = pulls[0] ?? null;
+const pr = await getAutofixPullRequest(repo, GITHUB_REPOSITORY_OWNER);
 
-const { code: remoteBranchCode } = await git(
-  ['rev-parse', '--verify', '--quiet', REMOTE_BRANCH],
-  { allowFailure: true }
-);
-const remoteBranchExists = remoteBranchCode === 0;
+const remoteBranchExists = await hasRemoteBranch();
 const otherPeopleCommitted = remoteBranchExists
   ? await hasCommitsFromOtherPeople()
   : false;
 
-const { code: diffCode } = await git(['diff', '--quiet', 'HEAD'], {
+// Includes commits from `apply-commands.mjs`
+const { code: diffCode } = await git(['diff', '--quiet', 'origin/main'], {
   allowFailure: true,
 });
 const changed = diffCode !== 0;
 const fixFailed = FIX_FAILED === 'true';
 
+/** @type {string | null} */
+let prUrl = null;
 if (changed) {
-  await publishFixes(pr, remoteBranchExists, otherPeopleCommitted);
+  prUrl = await publishFixes(pr, remoteBranchExists, otherPeopleCommitted);
 } else if (!fixFailed) {
   // Nothing to fix anymore. When a fix failed, the PR is kept for next time.
   await closePullRequest(pr, otherPeopleCommitted);
 }
 
-await syncIssue();
+await syncIssue(prUrl);
+
+if (REPLY_TO != null && REPLY_TO !== '' && REPLY != null) {
+  let reply = REPLY;
+  if (prUrl != null) {
+    reply += `\nPull request: ${prUrl}\n`;
+  }
+  await changeOnGitHub(`Replying on #${REPLY_TO}`, () => {
+    return createGitHubIssueComment(repo, Number(REPLY_TO), reply);
+  });
+  if (REPLY_COMMENT_ID != null && REPLY_COMMENT_ID !== '') {
+    await changeOnGitHub('Reacting to the command', () => {
+      return createGitHubIssueCommentReaction(
+        repo,
+        Number(REPLY_COMMENT_ID),
+        REPLY_FAILED === 'true' ? '-1' : '+1'
+      );
+    });
+  }
+}
 
 if (fixFailed) {
   const { GITHUB_STEP_SUMMARY } = process.env;
