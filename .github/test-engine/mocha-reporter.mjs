@@ -3,7 +3,11 @@
 
 import BuildkiteReporter from 'buildkite-test-collector/mocha/reporter.js';
 
-/** Re-maps `this.skip()` to 'skipped' instead of 'pending' */
+/**
+ * Changes:
+ * - Reports `this.skip()` as 'skipped' instead of 'pending'
+ * - Test durations include their beforeEach hooks
+ */
 export default class MochaReporter extends BuildkiteReporter {
   /** @param {string} state */
   testEngineResult(state) {
@@ -11,5 +15,15 @@ export default class MochaReporter extends BuildkiteReporter {
       return 'skipped';
     }
     return super.testEngineResult(state);
+  }
+
+  /** @param {unknown} test */
+  testFinished(test) {
+    super.testFinished(test);
+    const { history } = this._testResults.at(-1);
+    // `it.skip()` tests never start
+    if (typeof history.start_at === 'number') {
+      history.duration = history.end_at - history.start_at;
+    }
   }
 }

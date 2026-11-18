@@ -473,6 +473,32 @@ jobs:
         background: true
         run: pnpm run lint
 
+  mock-timings:
+    name: Mock Test Timings
+    runs-on: ubuntu-slim
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    timeout-minutes: 5
+    outputs:
+      timings: ${{ steps.fetch.outputs.timings }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          filter: blob:none
+          sparse-checkout: /.github/scripts/mock-timings/
+          sparse-checkout-cone-mode: false
+
+      # Mock tests are split by index without timings
+      - name: Fetch mock test timings
+        id: fetch
+        continue-on-error: true
+        run: |
+          timings=$(node .github/scripts/mock-timings/fetch.mjs)
+          echo "timings=$timings" >> "$GITHUB_OUTPUT"
+        env:
+          BUILDKITE_TEST_ENGINE_API_ACCESS_TOKEN: ${{ secrets.BUILDKITE_TEST_ENGINE_API_ACCESS_TOKEN }}
+
   mock-tests:
     name: Mock Tests ${{ matrix.workerIndex.name }}
 
@@ -498,8 +524,11 @@ jobs:
             value: 7
 
     runs-on: ubuntu-latest-8-cores
-    needs: changes
-    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && needs.changes.outputs.changesets-release != 'true' }}
+    needs:
+      - changes
+      - mock-timings
+    # Runs even if mock-timings fails
+    if: ${{ !cancelled() && needs.changes.result == 'success' && github.repository == 'signalapp/Signal-Desktop-Private' && needs.changes.outputs.changesets-release != 'true' }}
     timeout-minutes: 15
 
     env:
@@ -539,6 +568,7 @@ jobs:
           WORKER_INDEX: ${{ matrix.workerIndex.value }}
           WORKER_COUNT: 8
           MOCHA_OPTIONS: --reporter mocha-multi-reporters --reporter-options configFile=.github/test-engine/mock-tests.json
+          MOCHA_TIMINGS: ${{ needs.mock-timings.outputs.timings }}
 
       - name: Run mock server tests (without e164)
         background: true
@@ -554,6 +584,7 @@ jobs:
           WORKER_COUNT: 8
           MOCK_WITHOUT_E164: on
           MOCHA_OPTIONS: --reporter mocha-multi-reporters --reporter-options configFile=.github/test-engine/mock-tests-without-e164.json
+          MOCHA_TIMINGS: ${{ needs.mock-timings.outputs.timings }}
 
       - name: Wait for mock server tests
         wait-all: true
