@@ -17,7 +17,7 @@ import type { actions as chatColors } from './ducks/chatColors.preload.ts';
 import type { actions as chatFolders } from './ducks/chatFolders.preload.ts';
 import type { actions as composer } from './ducks/composer.preload.ts';
 import type { actions as conversations } from './ducks/conversations.preload.ts';
-import type { actions as crashReports } from './ducks/crashReports.sandbox.ts';
+import type { actions as crashReports } from './ducks/crashReports.dom.ts';
 import type { actions as donations } from './ducks/donations.preload.ts';
 import type { actions as emojis } from './ducks/emojis.preload.ts';
 import type { actions as expiration } from './ducks/expiration.std.ts';
@@ -40,8 +40,8 @@ import type { actions as standaloneInstaller } from './ducks/standaloneInstaller
 import type { actions as stickers } from './ducks/stickers.preload.ts';
 import type { actions as stories } from './ducks/stories.preload.ts';
 import type { actions as storyDistributionLists } from './ducks/storyDistributionLists.preload.ts';
-import type { actions as toast } from './ducks/toast.sandbox.ts';
-import type { actions as updates } from './ducks/updates.sandbox.ts';
+import type { actions as toast } from './ducks/toast.dom.ts';
+import type { actions as updates } from './ducks/updates.dom.ts';
 import type { actions as user } from './ducks/user.preload.ts';
 import type { actions as username } from './ducks/username.preload.ts';
 

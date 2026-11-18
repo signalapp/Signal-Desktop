@@ -60,7 +60,7 @@ import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useAudioRecorderActions } from '../ducks/audioRecorder.preload.ts';
 import { useEmojisActions } from '../ducks/emojis.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
-import { useToastActions } from '../ducks/toast.sandbox.ts';
+import { useToastActions } from '../ducks/toast.dom.ts';
 import { isShowingAnyModal } from '../selectors/globalModals.std.ts';
 import { isConversationEverUnregistered } from '../../util/isConversationEverUnregistered.std.ts';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';

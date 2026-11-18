@@ -13,7 +13,7 @@ import type {
 } from '../types/Stories.std.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
-import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import type {
   AddStoryData,
   ViewUserStoriesActionCreatorType,

@@ -7,6 +7,7 @@ import * as semver from 'semver';
 import lodash, { throttle } from 'lodash';
 
 import type { IPCType } from '../../window.d.ts';
+import { startUpdate, forceCheck } from '../../shims/updateIpc.sandbox.ts';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback.std.ts';
 import { getSignalConnections } from '../../util/getSignalConnections.preload.ts';
 import { ThemeType } from '../../types/Util.std.ts';
@@ -94,6 +95,13 @@ const IPC: IPCType = {
     return ipc.invoke('windows-notifications:clear-all');
   },
   closeAbout: () => ipc.send('close-about'),
+  updater: {
+    startUpdate,
+    forceCheck,
+  },
+  openFileInFolder: (target: string) => {
+    ipc.send('show-item-in-folder', target);
+  },
   crashReports: {
     getCount: () => ipc.invoke('crash-reports:get-count'),
     writeToLog: () => ipc.invoke('crash-reports:write-to-log'),

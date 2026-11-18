@@ -4,7 +4,7 @@
 import { useState, useCallback, type JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
-import type { UpdatesStateType } from '../../state/ducks/updates.sandbox.ts';
+import type { UpdatesStateType } from '../../state/ducks/updates.dom.ts';
 import {
   InstallScreenBackupStep,
   InstallScreenBackupError,

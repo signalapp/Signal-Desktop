@@ -4,7 +4,7 @@
 import type { JSX } from 'react';
 
 import classNames from 'classnames';
-import type { ShowToastAction } from '../../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.dom.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 

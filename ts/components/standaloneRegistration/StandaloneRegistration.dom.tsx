@@ -55,7 +55,7 @@ import type {
   verifyPIN as doVerifyPIN,
 } from '../../state/ducks/standaloneInstaller.preload.ts';
 import type { CountryDataType } from '../../util/getCountryData.dom.ts';
-import type { UpdatesStateType } from '../../state/ducks/updates.sandbox.ts';
+import type { UpdatesStateType } from '../../state/ducks/updates.dom.ts';
 
 const SPRING = {
   type: 'spring' as const,

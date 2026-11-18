@@ -10,7 +10,7 @@ import DeleteMessagesModal from '../../components/DeleteMessagesModal.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import { getMessagesCanDeleteForEveryone } from '../selectors/message.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
-import { useToastActions } from '../ducks/toast.sandbox.ts';
+import { useToastActions } from '../ducks/toast.dom.ts';
 import {
   getConversationSelector,
   getLastSelectedMessage,

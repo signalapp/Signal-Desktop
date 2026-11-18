@@ -9,7 +9,7 @@ import { ProfileEditor } from '../../components/ProfileEditor.dom.tsx';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
 import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
-import { useToastActions } from '../ducks/toast.sandbox.ts';
+import { useToastActions } from '../ducks/toast.dom.ts';
 import { useUsernameActions } from '../ducks/username.preload.ts';
 import {
   getMe,

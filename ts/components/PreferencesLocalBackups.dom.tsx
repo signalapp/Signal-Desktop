@@ -17,7 +17,7 @@ import { I18n } from './I18n.dom.tsx';
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage } from '../types/Nav.std.ts';
 import { ToastType } from '../types/Toast.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,

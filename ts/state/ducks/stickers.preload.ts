@@ -43,7 +43,7 @@ import {
   installFavoriteSticker,
   maybeUnhideStickerPack,
 } from '../../util/stickers.preload.ts';
-import { showToast, type ShowToastActionType } from './toast.sandbox.ts';
+import { showToast, type ShowToastActionType } from './toast.dom.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 
 const log = createLogger('ducks/stickers');

@@ -14,7 +14,7 @@ import { useDonationsActions } from '../ducks/donations.preload.ts';
 import type { StateType } from '../reducer.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.ts';
-import { useToastActions } from '../ducks/toast.sandbox.ts';
+import { useToastActions } from '../ducks/toast.dom.ts';
 import {
   getCachedSubscriptionConfiguration,
   maybeHydrateDonationConfigCache,

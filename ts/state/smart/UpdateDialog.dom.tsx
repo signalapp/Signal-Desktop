@@ -6,7 +6,7 @@ import { memo } from 'react';
 import { DialogUpdate } from '../../components/DialogUpdate.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
 import type { WidthBreakpoint } from '../../components/_util.std.ts';
-import { useUpdatesActions } from '../ducks/updates.sandbox.ts';
+import { useUpdatesActions } from '../ducks/updates.dom.ts';
 import {
   getUpdateDialogType,
   getUpdateDownloadSize,

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.ts';
-import type { CrashReportsStateType } from '../ducks/crashReports.sandbox.ts';
+import type { CrashReportsStateType } from '../ducks/crashReports.dom.ts';
 
 const getCrashReports = (state: StateType): CrashReportsStateType =>
   state.crashReports;

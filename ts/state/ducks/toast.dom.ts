@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ipcRenderer } from 'electron';
-
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { noopAction, type NoopActionType } from './noop.std.ts';
@@ -47,7 +45,7 @@ function hideToast(toast?: AnyToast): HideToastActionType {
 }
 
 function openFileInFolder(target: string): NoopActionType {
-  ipcRenderer.send('show-item-in-folder', target);
+  window.IPC.openFileInFolder(target);
   return noopAction('openFileInFolder');
 }
 

@@ -26,7 +26,7 @@ import { SearchInput } from './SearchInput.dom.tsx';
 import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
 import { ListView } from './ListView.dom.tsx';
 import { ListTile } from './ListTile.dom.tsx';
-import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';

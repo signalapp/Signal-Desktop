@@ -11,7 +11,7 @@ import {
   BETA_DOWNLOAD_URL,
   UNSUPPORTED_OS_URL,
 } from '../../types/support.std.ts';
-import type { UpdatesStateType } from '../../state/ducks/updates.sandbox.ts';
+import type { UpdatesStateType } from '../../state/ducks/updates.dom.ts';
 import { isBeta } from '../../util/version.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { roundFractionForProgressBar } from '../../util/numbers.std.ts';

@@ -97,7 +97,7 @@ import {
 } from '../selectors/updates.std.ts';
 import { getIntl, getRegionCode, getTheme } from '../selectors/user.std.ts';
 import { SmartCaptchaDialog } from './CaptchaDialog.preload.tsx';
-import { SmartCrashReportDialog } from './CrashReportDialog.sandbox.tsx';
+import { SmartCrashReportDialog } from './CrashReportDialog.dom.tsx';
 import { SmartMessageSearchResult } from './MessageSearchResult.preload.tsx';
 import { SmartNetworkStatus } from './NetworkStatus.preload.tsx';
 import { SmartRelinkDialog } from './RelinkDialog.preload.tsx';
@@ -108,7 +108,7 @@ import {
 import type { SmartPropsType as SmartToastManagerPropsType } from './ToastManager.preload.tsx';
 import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog.preload.tsx';
 import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog.preload.tsx';
-import { SmartUpdateDialog } from './UpdateDialog.sandbox.tsx';
+import { SmartUpdateDialog } from './UpdateDialog.dom.tsx';
 import {
   cancelBackupMediaDownload,
   dismissBackupMediaDownloadBanner,

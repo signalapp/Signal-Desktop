@@ -19,7 +19,7 @@ import type {
   StickerPackType,
   StickerType,
 } from '../../state/ducks/stickers.preload.ts';
-import type { ShowToastAction } from '../../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.dom.ts';
 import { UserText } from '../UserText.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';

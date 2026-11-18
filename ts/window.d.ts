@@ -32,11 +32,16 @@ export type IPCType = {
   addSetupMenuItems: () => void;
   clearAllWindowsNotifications: () => Promise<void>;
   closeAbout: () => void;
+  updater: {
+    startUpdate: () => Promise<void>;
+    forceCheck: () => Promise<void>;
+  };
   crashReports: {
     getCount: () => Promise<number>;
     writeToLog: () => Promise<void>;
     erase: () => Promise<void>;
   };
+  openFileInFolder: (target: string) => void;
   drawAttention: () => void;
   getAutoLaunch: () => Promise<boolean | undefined>;
   getMediaAccessStatus: (

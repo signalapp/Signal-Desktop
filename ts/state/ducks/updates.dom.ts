@@ -3,7 +3,6 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-import * as updateIpc from '../../shims/updateIpc.sandbox.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
 import { DAY } from '../../util/durations/index.std.ts';
 import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
@@ -127,7 +126,7 @@ function startUpdate(): AsyncStateThunk<
     });
 
     try {
-      await updateIpc.startUpdate();
+      await window.IPC.updater.startUpdate();
     } catch (_) {
       dispatch({
         type: SHOW_UPDATE_DIALOG,
@@ -151,7 +150,7 @@ function forceCheck(): AsyncStateThunk<
     });
 
     try {
-      await updateIpc.forceCheck();
+      await window.IPC.updater.forceCheck();
     } catch {
       dispatch({
         type: SHOW_UPDATE_DIALOG,

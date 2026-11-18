@@ -13,7 +13,7 @@ import {
 } from '../selectors/backups.std.ts';
 import { useBackupActions } from '../ducks/backups.preload.ts';
 import { LocalBackupExportWorkflow } from '../../components/LocalBackupExportWorkflow.dom.tsx';
-import { useToastActions } from '../ducks/toast.sandbox.ts';
+import { useToastActions } from '../ducks/toast.dom.ts';
 
 const log = createLogger('smart/LocalBackupExportWorkflow');
 

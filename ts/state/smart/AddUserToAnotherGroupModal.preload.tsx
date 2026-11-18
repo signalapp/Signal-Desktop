@@ -9,7 +9,7 @@ import {
   getContactSelector,
 } from '../selectors/conversations.dom.ts';
 import { getIntl, getRegionCode } from '../selectors/user.std.ts';
-import { useToastActions } from '../ducks/toast.sandbox.ts';
+import { useToastActions } from '../ducks/toast.dom.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 

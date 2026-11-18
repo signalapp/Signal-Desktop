@@ -20,7 +20,7 @@ import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage } from '../types/Nav.std.ts';
 import { I18n } from './I18n.dom.tsx';
 import { PreferencesLocalBackups } from './PreferencesLocalBackups.dom.tsx';
-import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,

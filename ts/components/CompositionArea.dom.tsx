@@ -69,7 +69,7 @@ import { PanelType } from '../types/Panels.std.ts';
 import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.preload.tsx';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import SelectModeActions from './conversation/SelectModeActions.dom.tsx';
-import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import type { DraftEditMessageType } from '../model-types.std.ts';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals.preload.ts';
 import { ForwardMessagesModalType } from './ForwardMessagesModal.dom.tsx';

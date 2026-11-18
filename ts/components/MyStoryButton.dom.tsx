@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { MyStoryType, StoryViewType } from '../types/Stories.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { HasStories, ResolvedSendStatus } from '../types/Stories.std.ts';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';

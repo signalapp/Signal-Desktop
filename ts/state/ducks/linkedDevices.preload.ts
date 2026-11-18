@@ -39,7 +39,7 @@ import { promptOSAuth } from '../../util/promptOSAuth.sandbox.ts';
 import { toLogFormat } from '../../types/errors.std.ts';
 import { PublicKey } from '@signalapp/libsignal-client';
 import { ToastType } from '../../types/Toast.std.ts';
-import { showToast, type ShowToastActionType } from './toast.sandbox.ts';
+import { showToast, type ShowToastActionType } from './toast.dom.ts';
 import { getIntl } from '../selectors/user.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';

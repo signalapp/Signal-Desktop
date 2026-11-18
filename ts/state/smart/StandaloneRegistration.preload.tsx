@@ -23,7 +23,7 @@ import { StandaloneRegistration } from '../../components/standaloneRegistration/
 import { getCountryDataForLocale } from '../../util/getCountryData.dom.ts';
 import { RegistrationStage } from '../../types/StandaloneRegistration.std.ts';
 import { getUpdatesState } from '../selectors/updates.std.ts';
-import { useUpdatesActions } from '../ducks/updates.sandbox.ts';
+import { useUpdatesActions } from '../ducks/updates.dom.ts';
 import { useAppActions } from '../ducks/app.preload.ts';
 
 export const SmartStandaloneRegistration = memo(

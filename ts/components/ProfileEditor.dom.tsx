@@ -34,7 +34,7 @@ import type {
   ProfileDataType,
 } from '../state/ducks/conversations.preload.ts';
 import type { UsernameLinkState } from '../state/ducks/usernameEnums.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
+import type { ShowToastAction } from '../state/ducks/toast.dom.ts';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
