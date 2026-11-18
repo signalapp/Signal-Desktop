@@ -8,7 +8,7 @@ on:
   schedule:
     # Weekdays at 10:00 UTC (5-6am ET, 2-3am PT)
     - cron: '0 10 * * 1-5'
-  # Rebuild the PR when main's dependencies change so it doesn't conflict
+  # Rebuild the PR and issue when main's dependencies or this automation change
   push:
     branches: [main]
     paths:
@@ -18,6 +18,8 @@ on:
       - 'danger/pnpm-workspace.yaml'
       - '.github/scripts/min-os-version/pnpm-lock.yaml'
       - '.github/scripts/min-os-version/pnpm-workspace.yaml'
+      - '.github/scripts/audit-deps/**'
+      - '.github/workflows/pnpm-audit-autofix.yml'
   # `!ignore`, `!override` and `!unignore` on the issue or the PR
   issue_comment:
     types: [created]
