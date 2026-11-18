@@ -600,6 +600,14 @@ function markStickerPackAsHidden(
       }
 
       const localHiddenPack = await DataReader.getHiddenStickerPack(packId);
+      const packKey =
+        localHiddenPack?.packKey ??
+        (await DataReader.getKeyFromStickerPack(packId));
+      if (!packKey) {
+        log.error(`${logId}: Sticker pack key missing`);
+        return;
+      }
+
       let hiddenPack: HiddenStickerPackType | null;
       if (localHiddenPack) {
         if (!localHiddenPack.unhiddenAtTimestampMs) {
@@ -609,17 +617,12 @@ function markStickerPackAsHidden(
 
         hiddenPack = {
           ...localHiddenPack,
+          packKey,
           unhiddenAtTimestampMs: undefined,
           storageNeedsSync: true,
         };
         await DataWriter.updateHiddenStickerPack(hiddenPack);
       } else {
-        const packKey = await DataReader.getKeyFromStickerPack(packId);
-        if (!packKey) {
-          log.error(`${logId}: Sticker pack not found`);
-          return;
-        }
-
         hiddenPack = {
           packId,
           packKey,

@@ -69,6 +69,13 @@ export function isFavoriteStickersEnabled(): boolean {
   });
 }
 
+export function isHidingStickerPacksEnabled(): boolean {
+  return isFeaturedEnabledNoRedux({
+    betaKey: 'desktop.stickerPackHiding.beta',
+    prodKey: 'desktop.stickerPackHiding.prod',
+  });
+}
+
 /**
  * Look for stickers in already downloaded/installed sticker packs and update
  * FavoriteSticker status to installed. Idempotent.

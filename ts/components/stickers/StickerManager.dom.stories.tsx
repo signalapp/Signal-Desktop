@@ -72,6 +72,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   installStickerPack: action('installStickerPack'),
   installedPacks: overrideProps.installedPacks || [],
   isFavoriteStickersEnabled: true,
+  isHidingStickerPacksEnabled: true,
   knownPacks: overrideProps.knownPacks || [],
   markStickerAsFavorite: action('markStickerAsFavorite'),
   receivedPacks: overrideProps.receivedPacks || [],
