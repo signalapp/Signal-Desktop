@@ -5,7 +5,9 @@ import loadImage from 'blueimp-load-image';
 import {
   Input,
   UrlSource,
-  ALL_FORMATS,
+  MP4,
+  WEBM,
+  OGG,
   CanvasSink,
   NullTarget,
   Conversion,
@@ -24,6 +26,8 @@ import { KIBIBYTE } from './AttachmentSize.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 
 const logging = createLogger('VisualAttachment');
+
+export const TRANSCODABLE_VIDEO_FORMATS = [MP4, WEBM, OGG];
 
 export { blobToArrayBuffer };
 
@@ -238,7 +242,7 @@ export async function makeVideoScreenshot({
   const source = new UrlSource(objectUrl);
 
   const input = new Input({
-    formats: ALL_FORMATS,
+    formats: TRANSCODABLE_VIDEO_FORMATS,
     source,
   });
 
@@ -296,7 +300,7 @@ export async function estimateTranscodedVideoSize({
   const source = new UrlSource(url);
 
   const input = new Input({
-    formats: ALL_FORMATS,
+    formats: TRANSCODABLE_VIDEO_FORMATS,
     source,
   });
 
