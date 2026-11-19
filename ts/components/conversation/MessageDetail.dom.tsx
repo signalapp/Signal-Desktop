@@ -25,6 +25,7 @@ import {
 import { WidthBreakpoint } from '../_util.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { formatDateTimeLong } from '../../util/formatTimestamp.dom.ts';
+import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute.std.ts';
 import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import { format as formatRelativeTime } from '../../util/expirationTimer.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
@@ -168,6 +169,8 @@ export function MessageDetail({
   toggleSafetyNumberModal,
   viewStory,
 }: Props): JSX.Element {
+  useNowThatUpdatesEveryMinute();
+
   const messageContainerElementRef = useRef<HTMLDivElement>(null);
 
   const timeRemaining = message.expirationTimestamp

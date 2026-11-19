@@ -11,11 +11,21 @@ export function startTimeZoneChangeDetector(
   onTimeZoneChange: () => void
 ): void {
   let lastTimeZone = getTimeZone();
-  setInterval(() => {
+
+  const check = () => {
     const currentTimeZone = getTimeZone();
     if (currentTimeZone !== lastTimeZone) {
       lastTimeZone = currentTimeZone;
       onTimeZoneChange();
     }
-  }, MINUTE);
+  };
+
+  setInterval(check, MINUTE);
+
+  if (
+    typeof window !== 'undefined' &&
+    typeof window.addEventListener === 'function'
+  ) {
+    window.addEventListener('focus', check);
+  }
 }

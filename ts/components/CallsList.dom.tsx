@@ -26,6 +26,7 @@ import {
 } from '../types/CallDisposition.std.ts';
 import { isMoreRecentThan, toBoundedDate } from '../util/timestamp.std.ts';
 import { formatDateTimeShort } from '../util/formatTimestamp.dom.ts';
+import { useNowThatUpdatesEveryMinute } from '../hooks/useNowThatUpdatesEveryMinute.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { refMerger } from '../util/refMerger.std.ts';
@@ -78,6 +79,8 @@ function Timestamp({
 }): JSX.Element {
   const [now, setNow] = useState(() => Date.now());
 
+  const minuteNow = useNowThatUpdatesEveryMinute();
+
   useEffect(() => {
     const timer = setInterval(() => {
       setNow(Date.now());
@@ -94,7 +97,7 @@ function Timestamp({
 
   const formatted = useMemo(() => {
     return formatDateTimeShort(i18n, timestamp, now);
-  }, [i18n, timestamp, now]);
+  }, [i18n, minuteNow, timestamp, now]);
 
   return <time dateTime={dateTime}>{formatted}</time>;
 }

@@ -14,6 +14,7 @@ import type {
 } from '../../../types/CallDisposition.std.ts';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { formatDate, formatTime } from '../../../util/formatTimestamp.dom.ts';
+import { useNowThatUpdatesEveryMinute } from '../../../hooks/useNowThatUpdatesEveryMinute.std.ts';
 import { getDirectCallNotificationText } from '../../../util/callingNotification.std.ts';
 import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
@@ -62,6 +63,8 @@ export function CallHistoryGroupPanelSection({
   callHistoryGroup,
   i18n,
 }: CallHistoryPanelSectionProps): JSX.Element {
+  useNowThatUpdatesEveryMinute();
+
   return (
     <AxoList.Root>
       <AxoList.Header>

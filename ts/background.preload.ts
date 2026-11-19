@@ -100,6 +100,7 @@ import {
 } from './services/contactSync.preload.ts';
 import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.ts';
 import { startTimeZoneChangeDetector } from './util/startTimeZoneChangeDetector.std.ts';
+import { triggerNowUpdate } from './hooks/useNowThatUpdatesEveryMinute.std.ts';
 import { clearDateTimeFormatterCache } from './util/formatTimestamp.dom.ts';
 import { LatestQueue } from './util/LatestQueue.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
@@ -1641,6 +1642,7 @@ async function startApp(): Promise<void> {
       clearDateTimeFormatterCache();
       // React-aria components rely on @internationalized/date
       intlDateResetLocalTimeZone();
+      triggerNowUpdate();
     });
 
     updateExpiringMessagesService();

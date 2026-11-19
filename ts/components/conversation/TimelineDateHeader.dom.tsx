@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX, ReactElement } from 'react';
-import { useEffect, useState } from 'react';
-import * as durations from '../../util/durations/index.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { formatDate } from '../../util/formatTimestamp.dom.ts';
 import { Time } from '../Time.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
+import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute.std.ts';
 
 export function TimelineDateHeader({
   i18n,
@@ -46,19 +45,11 @@ export function TimelineDate({
   i18n: LocalizerType;
   timestamp: number;
 }>): JSX.Element {
-  const [text, setText] = useState(formatDate(i18n, timestamp));
-  useEffect(() => {
-    const update = () => setText(formatDate(i18n, timestamp));
-    update();
-    const interval = setInterval(update, durations.MINUTE);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [i18n, timestamp]);
+  useNowThatUpdatesEveryMinute();
 
   return (
     <Time dateOnly timestamp={timestamp}>
-      {text}
+      {formatDate(i18n, timestamp)}
     </Time>
   );
 }

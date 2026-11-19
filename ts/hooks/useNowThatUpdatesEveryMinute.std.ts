@@ -9,6 +9,12 @@ const listeners = new Set<() => void>();
 
 let timer: ReturnType<typeof setInterval> | undefined;
 
+export function triggerNowUpdate(): void {
+  for (const fn of listeners) {
+    fn();
+  }
+}
+
 export function useNowThatUpdatesEveryMinute(): number {
   // oxlint-disable-next-line react/purity
   const [now, setNow] = useState(Date.now());

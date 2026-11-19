@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, FunctionComponent, JSX } from 'react';
-import { useCallback, useEffect, useMemo, useState, memo } from 'react';
+import { useMemo, memo } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
@@ -16,7 +16,7 @@ import type { ConversationType } from '../../state/ducks/conversations.preload.t
 import { Spinner } from '../Spinner.dom.tsx';
 import { Time } from '../Time.dom.tsx';
 import { formatDateTimeShort } from '../../util/formatTimestamp.dom.ts';
-import * as durations from '../../util/durations/index.std.ts';
+import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute.std.ts';
 
 const { isBoolean, isNumber } = lodash;
 
@@ -325,21 +325,7 @@ function Timestamp({
   i18n,
   timestamp,
 }: Readonly<{ i18n: LocalizerType; timestamp?: number }>) {
-  const getText = useCallback(
-    () => (isNumber(timestamp) ? formatDateTimeShort(i18n, timestamp) : ''),
-    [i18n, timestamp]
-  );
-
-  const [text, setText] = useState(getText());
-
-  useEffect(() => {
-    const update = () => setText(getText());
-    update();
-    const interval = setInterval(update, durations.MINUTE);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [getText]);
+  const now = useNowThatUpdatesEveryMinute();
 
   if (!isNumber(timestamp)) {
     return null;
@@ -350,7 +336,7 @@ function Timestamp({
       className="module-conversation-list__item--contact-or-conversation__content__header__date"
       timestamp={timestamp}
     >
-      {text}
+      {formatDateTimeShort(i18n, timestamp, now)}
     </Time>
   );
 }
