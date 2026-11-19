@@ -53,7 +53,7 @@ export class EmojiCompletion {
 
   constructor(quill: Quill, options: EmojiCompletionOptions) {
     this.results = [];
-    this.index = 0;
+    this.index = -1;
     this.options = options;
     this.quill = quill;
 
@@ -114,7 +114,13 @@ export class EmojiCompletion {
   };
 
   changeIndex(by: number): void {
-    this.index = (this.index + by + this.results.length) % this.results.length;
+    if (this.index === -1) {
+      this.index = by > 0 ? 0 : this.results.length - 1;
+    } else {
+      this.index =
+        (this.index + by + this.results.length) % this.results.length;
+    }
+
     this.render();
   }
 
@@ -297,7 +303,7 @@ export class EmojiCompletion {
   reset(): void {
     if (this.results.length) {
       this.results = [];
-      this.index = 0;
+      this.index = -1;
 
       this.render();
     }
