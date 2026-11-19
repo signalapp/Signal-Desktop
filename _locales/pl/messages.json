@@ -692,9 +692,6 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal może automatycznie weryfikować szyfrowanie wyłącznie w przypadku tych osób, z którym kontakt nawiązano przez numer telefonu. Jeżeli kontakt został nawiązany przez nazwę użytkownika lub wspólną grupę, szyfrowanie end-to-end możesz zweryfikować ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "OK"
-  },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Numer bezpieczeństwa zostanie utworzony, gdy wymienisz z tą osobą wiadomości."
   },
@@ -721,9 +718,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal może teraz automatycznie weryfikować szyfrowanie"
-  },
-  "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "W przypadku osób, z którymi kontakt został nawiązany za pomocą numeru telefonu, Signal może automatycznie potwierdzić, czy połączenie jest bezpieczne – robi to za pomocą mechanizmu przejrzystości kluczy. Jeśli chcesz mieć absolutną pewność, że komunikujesz się z właściwą osobą, możesz dodatkowo weryfikować kontakty ręcznie za pomocą kodu QR lub przez porównanie numerów bezpieczeństwa."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
     "messageformat": "<paragraph>W przypadku osób, z którymi kontakt został nawiązany za pomocą numeru telefonu, Signal może automatycznie potwierdzić, czy połączenie jest bezpieczne – robi to za pomocą mechanizmu przejrzystości kluczy.</paragraph><paragraph>Jeśli chcesz mieć absolutną pewność, że komunikujesz się z właściwą osobą, możesz dodatkowo weryfikować kontakty ręcznie za pomocą kodu QR lub przez porównanie numerów bezpieczeństwa.</paragraph>"
@@ -808,6 +802,18 @@
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "Folder {chatFolderName} dodany"
+  },
+  "icu:Toast--LinkedDeviceAdded": {
+    "messageformat": "New device \"{name}\" successfully linked"
+  },
+  "icu:Toast--LinkedDeviceRemoved": {
+    "messageformat": "\"{name}\" unlinked"
+  },
+  "icu:Toast--LinkedDeviceNameUpdated": {
+    "messageformat": "Device name updated"
+  },
+  "icu:Toast--LinkedDeviceSyncComplete": {
+    "messageformat": "Message sync complete"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Razem z plikami nie można załączać zdjęć ani filmów."
@@ -976,24 +982,6 @@
   },
   "icu:sendMessageToContact": {
     "messageformat": "Wyślij wiadomość"
-  },
-  "icu:home": {
-    "messageformat": "Dom"
-  },
-  "icu:work": {
-    "messageformat": "Praca"
-  },
-  "icu:mobile": {
-    "messageformat": "Komórka"
-  },
-  "icu:email": {
-    "messageformat": "E-mail"
-  },
-  "icu:phone": {
-    "messageformat": "Telefon"
-  },
-  "icu:address": {
-    "messageformat": "Adres"
   },
   "icu:poBox": {
     "messageformat": "Skrytka pocztowa"
@@ -1405,9 +1393,6 @@
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
     "messageformat": "Gdy upłynie czas wyświetlania znikającej wiadomości, zostanie ona odpięta i usunięta z czatu."
-  },
-  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "OK"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Przypięta wiadomość} few {Przypięte wiadomości} many {Przypięte wiadomości} other {Przypięte wiadomości}}"
@@ -2915,17 +2900,38 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "Ponowna instalacja tego pakietu naklejek może być niemożliwa, jeśli nie masz już wiadomości, w której otrzymano daną naklejkę."
   },
+  "icu:stickers--StickerManager--UninstallWarning--Title": {
+    "messageformat": "Remove Sticker Pack?"
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message."
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Remove": {
+    "messageformat": "Remove"
+  },
   "icu:stickers--StickerManagerHeader--All": {
     "messageformat": "Wszystkie"
   },
   "icu:stickers--StickerManagerHeader--MyStickers": {
     "messageformat": "Moje naklejki"
   },
+  "icu:stickers--StickerManagerHidePackDialog--Title": {
+    "messageformat": "Hide Sticker Pack?"
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message."
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Hide": {
+    "messageformat": "Hide"
+  },
   "icu:stickers--StickerManagerPackContextMenu--Add": {
     "messageformat": "Dodaj"
   },
   "icu:stickers--StickerManagerPackContextMenu--Remove": {
     "messageformat": "Usuń"
+  },
+  "icu:stickers--StickerManagerPackContextMenu--Hide": {
+    "messageformat": "Hide"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
     "messageformat": "Przeciągnij pakiet naklejek, aby zmienić jego miejsce"
@@ -2964,28 +2970,40 @@
     "messageformat": "Naklejka bez emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Zobacz szczegóły naklejki"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Szczegóły naklejki"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Dodaj do ulubionych"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Usuń z ulubionych"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Pakiet naklejek (projekt: {author})"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Naklejka dodana z Ulubionych"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Naklejka usunięta z Ulubionych"
+  },
+  "icu:stickers--Toast--StickerFavoritesHint": {
+    "messageformat": "Right click a sticker to add to Favorites"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Do Ulubionych możesz dodać maksymalnie {count,number} naklejkę} few {Do Ulubionych możesz dodać maksymalnie {count,number} naklejki} many {Do Ulubionych możesz dodać maksymalnie {count,number} naklejek} other {Do Ulubionych możesz dodać maksymalnie {count,number} naklejek}}"
+  },
+  "icu:stickers--Toast--StickerPackHidden": {
+    "messageformat": "Sticker pack hidden"
+  },
+  "icu:stickers--Toast--StickerPackHidden--Undo": {
+    "messageformat": "Undo"
+  },
+  "icu:stickers--Toast--StickerPackUnhidden": {
+    "messageformat": "Sticker pack unhidden"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Wyświetl pakiet"
@@ -4162,9 +4180,6 @@
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
     "messageformat": "Odrzuć"
-  },
-  "icu:Confirmation--confirm": {
-    "messageformat": "OK"
   },
   "icu:MessageMaxEditsModal__Title": {
     "messageformat": "Nie można edytować wiadomości"
@@ -5628,9 +5643,6 @@
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Usuń"
   },
-  "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Anuluj"
-  },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Możesz przekazać maksymalnie 30 wiadomości"
   },
@@ -6274,6 +6286,9 @@
   "icu:Preferences__button--account": {
     "messageformat": "Konto"
   },
+  "icu:Preferences__button--linked-devices": {
+    "messageformat": "Linked Devices"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "Ogólne"
   },
@@ -6342,6 +6357,186 @@
   },
   "icu:Preferences--system": {
     "messageformat": "System"
+  },
+  "icu:LinkDevice--OSPrompt--Mac": {
+    "messageformat": "link a new device"
+  },
+  "icu:LinkDevice--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to link a new device."
+  },
+  "icu:LinkDevice--OSPrompt--description--Linux": {
+    "messageformat": "Link a device"
+  },
+  "icu:LinkDevice--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to link a new device."
+  },
+  "icu:Preferences--LinkedDevices--title": {
+    "messageformat": "Linked devices"
+  },
+  "icu:Preferences--LinkedDevices--description": {
+    "messageformat": "Use Signal on another device. Your messages will sync to your linked devices. <learnMore>Learn more</learnMore>"
+  },
+  "icu:Preferences--LinkedDevices--button": {
+    "messageformat": "Link a new device"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--title": {
+    "messageformat": "Linked devices"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--defaultName": {
+    "messageformat": "Linked device"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--createdAt": {
+    "messageformat": "Linked {date}"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--lastSeenAt": {
+    "messageformat": "Last active {date}"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--openMenu": {
+    "messageformat": "Open menu"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--rename": {
+    "messageformat": "Rename"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--unlink": {
+    "messageformat": "Unlink"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--footer": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption on all devices"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--title": {
+    "messageformat": "Signal on a linked device"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet1": {
+    "messageformat": "All messaging on linked devices is private"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet2": {
+    "messageformat": "Signal messages are synchronized with Signal on your desktop after it is linked."
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet3": {
+    "messageformat": "On your other device, visit <linkToSignal>signal.org/download</linkToSignal> to install Signal"
+  },
+  "icu:Preferences--LinkedDevices--EditDeviceNameDialog--title": {
+    "messageformat": "Edit device name"
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--title": {
+    "messageformat": "Unlink \"{name}\""
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--description": {
+    "messageformat": "This device will no longer be able to send or receive messages if it is unlinked."
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--unlinkButton": {
+    "messageformat": "Unlink"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--title": {
+    "messageformat": "Scan QR code"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--description": {
+    "messageformat": "Scan the QR code displayed on the device to link"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--title": {
+    "messageformat": "Linking device failed"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--description": {
+    "messageformat": "Make sure you are on the latest version of Signal, and scanning a QR code from within Signal and not another app."
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--retry-button": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--title": {
+    "messageformat": "Finish linking"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--title": {
+    "messageformat": "Transfer Message History"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--description": {
+    "messageformat": "Transfer your text messages and your last 45 days of media"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--title": {
+    "messageformat": "Don't transfer"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--description": {
+    "messageformat": "No old messages or media will be transferred to your linked device"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--title": {
+    "messageformat": "Syncing messages..."
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--progress": {
+    "messageformat": "{percentage,number,percent} complete"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--do-not-close": {
+    "messageformat": "Do not close Signal"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--title": {
+    "messageformat": "Linking device"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--progress": {
+    "messageformat": "Your device is being linked..."
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--title": {
+    "messageformat": "Linking device failed"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--description": {
+    "messageformat": "Something went wrong! Please ensure that both devices are connected to the internet and try again."
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--contact-support": {
+    "messageformat": "Contact support"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--title": {
+    "messageformat": "Not enough storage space"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--description": {
+    "messageformat": "You don’t have enough free storage space on your device to transfer your messages. Free up some space and try again, or link your device without transferring your messages."
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--title": {
+    "messageformat": "Message sync failed"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--description": {
+    "messageformat": "Your device was successfully linked, but your messages could not be transferred."
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--contact-support": {
+    "messageformat": "Contact support"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--continue": {
+    "messageformat": "Continue"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--title": {
+    "messageformat": "Message sync failed"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--description": {
+    "messageformat": "Your messages couldn’t be transferred to your linked device. You can try re-linking and transferring again, or continue without transferring your message history."
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--continue-no-transfer": {
+    "messageformat": "Continue without transferring"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--title": {
+    "messageformat": "Include a debug log?"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--description": {
+    "messageformat": "Including your debug log helps us diagnose and fix the issue, and does not contain identifying information. This is optional."
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--include-log-checkbox": {
+    "messageformat": "Include debug log"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--view": {
+    "messageformat": "View"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--no-thanks": {
+    "messageformat": "No thanks"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--contact-support": {
+    "messageformat": "Contact support"
   },
   "icu:Preferences--signal-login": {
     "messageformat": "Signal Login"
@@ -8248,6 +8443,9 @@
   "icu:StoryDetailsModal__download-attachment": {
     "messageformat": "Pobierz załącznik"
   },
+  "icu:StoryDetailsModal__more-actions": {
+    "messageformat": "More actions"
+  },
   "icu:StoryViewsNRepliesModal__read-receipts-off": {
     "messageformat": "Włącz informacje o wyświetleniach i sprawdzaj, kto wyświetla Twoje relacje. Otwórz aplikację Signal na urządzeniu mobilnym i przejdź do sekcji Ustawienia > Relacje."
   },
@@ -9360,15 +9558,6 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.32--0": {
-    "messageformat": "Filtr nieprzeczytanych jest teraz dostępny także w folderach wiadomości i wyszukiwarce, więc łatwo sprawdzisz, co Ci umknęło."
-  },
-  "icu:WhatsNew__8.32--1": {
-    "messageformat": "Poprawiliśmy niezawodność przesyłania przy słabym połączeniu z siecią. Dzięki, <GH3mmmbulus></GH3mmmbulus>!"
-  },
-  "icu:WhatsNew__8.32--2": {
-    "messageformat": "Skrót „(N)” prawidłowo wskazuje teraz emoji kciuka w dół. <lnicola></lnicola>, kciuk w górę za tę poprawkę!"
-  },
   "icu:WhatsNew__8.34--0": {
     "messageformat": "Signal Desktop obsługuje już udostępnianie kontaktów, tak jak inne wersje aplikacji. Od teraz możesz w pełni skupić wzrok na ekranie komputera – kontakt z telefonem nie będzie już konieczny."
   },
@@ -9377,5 +9566,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Twoje ulubione naklejki wreszcie w jednym miejscu. Dodaj dowolną naklejkę do Ulubionych, żeby te najlepsze zawsze mieć pod ręką."
   }
 }

@@ -692,9 +692,6 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "మీరు ఒకరితో ఫోన్ నంబర్ ద్వారా కనెక్ట్ అయినప్పుడు మాత్రమే Signal చాట్‌లలోని గుప్తీకరణను ఆటోమేటిక్‌గా ధృవీకరించగలదు. చాట్ ఒక యూజర్ నేమ్ లేదా ఉమ్మడి గ్రూప్‌తో ప్రారంభించబడి ఉంటే, మునుపటి స్క్రీన్‌లోని నంబర్‌లను పోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను ధృవీకరించండి."
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "సరే"
-  },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "మీరు ఈ వ్యక్తితో సందేశాలను మార్పిడి చేసిన తర్వాత వారితో భద్రతా సంఖ్య సృష్టించబడుతుంది."
   },
@@ -721,9 +718,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal ఇప్పుడు గుప్తీకరణను స్వయం-ధృవీకరణ చేయగలదు"
-  },
-  "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "ఫోన్ నంబర్ ద్వారా మీరు కనెక్ట్ అయిన పరిచయాల కోసం, Signal కీ పారదర్శకత అనే ప్రక్రియను ఉపయోగించి కనెక్షన్ సురక్షితంగా ఉందో లేదో ఆటోమేటిక్‌గా నిర్ధారించగలదు. అదనపు భద్రత కోసం, మీరు ఇప్పటికీ QR కోడ్‌ను ఉపయోగించి లేదా భద్రతా సంఖ్యలను పోల్చడం ద్వారా కనెక్షన్‌లను మాన్యువల్‌గా ధృవీకరించవచ్చు."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
     "messageformat": "<paragraph>ఫోన్ నంబర్ ద్వారా మీరు కనెక్ట్ అయిన పరిచయాల కోసం, Signal కీ పారదర్శకత అనే ప్రక్రియను ఉపయోగించి కనెక్షన్ సురక్షితమైనదో కాదో ఆటోమేటిక్‌గా నిర్ధారించగలదు.</paragraph><paragraph>అదనపు భద్రత కోసం, మీరు ఇప్పటికీ QR కోడ్‌ను ఉపయోగించి లేదా భద్రతా సంఖ్యలను పోల్చడం ద్వారా కనెక్షన్‌లను మాన్యువల్‌గా ధృవీకరించవచ్చు.</paragraph>"
@@ -808,6 +802,18 @@
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} ఫోల్డర్ జోడించబడింది"
+  },
+  "icu:Toast--LinkedDeviceAdded": {
+    "messageformat": "New device \"{name}\" successfully linked"
+  },
+  "icu:Toast--LinkedDeviceRemoved": {
+    "messageformat": "\"{name}\" unlinked"
+  },
+  "icu:Toast--LinkedDeviceNameUpdated": {
+    "messageformat": "Device name updated"
+  },
+  "icu:Toast--LinkedDeviceSyncComplete": {
+    "messageformat": "Message sync complete"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "మీరు ఫైళ్ళతో పాటుగా ఫోటోలు మరియు వీడియోలను ఎంపిక చేసుకోలేరు."
@@ -976,24 +982,6 @@
   },
   "icu:sendMessageToContact": {
     "messageformat": "సందేశము పంపుము"
-  },
-  "icu:home": {
-    "messageformat": "హోమ్"
-  },
-  "icu:work": {
-    "messageformat": "పని"
-  },
-  "icu:mobile": {
-    "messageformat": "చరవాణి"
-  },
-  "icu:email": {
-    "messageformat": "ఇమెయిల్"
-  },
-  "icu:phone": {
-    "messageformat": "ఫోన్"
-  },
-  "icu:address": {
-    "messageformat": "చిరునామా"
   },
   "icu:poBox": {
     "messageformat": "P.O. బాక్స్"
@@ -1405,9 +1393,6 @@
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
     "messageformat": "అదృశ్యమయ్యే సందేశాలు వాటి టైమర్ ముగిశాక అన్‌పిన్ చేయబడతాయి మరియు సందేశం చాట్ నుండి తొలగించబడుతుంది."
-  },
-  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "సరే"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {పిన్ చేసిన సందేశం} other {పిన్ చేసిన సందేశాలు}}"
@@ -2915,17 +2900,38 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "మీకు ఇకపై మూల సందేశం లేకపోతే మీరు ఈ స్టిక్కర్ ప్యాక్‌ను తిరిగి ఇన్‌స్టాల్ చేయలేరు."
   },
+  "icu:stickers--StickerManager--UninstallWarning--Title": {
+    "messageformat": "Remove Sticker Pack?"
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message."
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Remove": {
+    "messageformat": "Remove"
+  },
   "icu:stickers--StickerManagerHeader--All": {
     "messageformat": "అన్నీ"
   },
   "icu:stickers--StickerManagerHeader--MyStickers": {
     "messageformat": "నా స్టిక్కర్‌లు"
   },
+  "icu:stickers--StickerManagerHidePackDialog--Title": {
+    "messageformat": "Hide Sticker Pack?"
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message."
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Hide": {
+    "messageformat": "Hide"
+  },
   "icu:stickers--StickerManagerPackContextMenu--Add": {
     "messageformat": "జోడించండి"
   },
   "icu:stickers--StickerManagerPackContextMenu--Remove": {
     "messageformat": "తొలగించండి"
+  },
+  "icu:stickers--StickerManagerPackContextMenu--Hide": {
+    "messageformat": "Hide"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
     "messageformat": "స్టిక్కర్ ప్యాక్ క్రమాన్ని మార్చడానికి లాగండి"
@@ -2964,28 +2970,40 @@
     "messageformat": "ఎమోజీ లేని స్టిక్కర్"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "స్టిక్కర్ వివరాలను చూడండి"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "స్టిక్కర్ వివరాలు"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ఇష్టమైన వాటికి జోడించండి"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ఇష్టమైన వాటినుండి తొలగించండి"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ద్వారా స్టిక్కర్ ప్యాక్"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "ఇష్టమైన జాబితాకు స్టిక్కర్ జోడించబడింది"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "ఇష్టమైన జాబితా నుండి స్టిక్కర్ తొలగించబడింది"
+  },
+  "icu:stickers--Toast--StickerFavoritesHint": {
+    "messageformat": "Right click a sticker to add to Favorites"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {మీరు ఇష్టమైన జాబితాకు {count,number} స్టిక్కర్ మాత్రమే జోడించగలరు} other {మీరు ఇష్టమైన జాబితాకు {count,number} స్టిక్కర్లు మాత్రమే జోడించగలరు}}"
+  },
+  "icu:stickers--Toast--StickerPackHidden": {
+    "messageformat": "Sticker pack hidden"
+  },
+  "icu:stickers--Toast--StickerPackHidden--Undo": {
+    "messageformat": "Undo"
+  },
+  "icu:stickers--Toast--StickerPackUnhidden": {
+    "messageformat": "Sticker pack unhidden"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ప్యాక్‌ను వీక్షించండి"
@@ -4162,9 +4180,6 @@
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
     "messageformat": "వద్దు ధన్యవాదాలు"
-  },
-  "icu:Confirmation--confirm": {
-    "messageformat": "సరే"
   },
   "icu:MessageMaxEditsModal__Title": {
     "messageformat": "సందేశాన్ని సవరించడం సాధ్యపడదు"
@@ -5628,9 +5643,6 @@
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "తొలగించండి"
   },
-  "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "రద్దు చేయండి"
-  },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "మీరు 30 వరకు సందేశాలను మాత్రమే ఫార్వర్డ్ చేయగలరు"
   },
@@ -6274,6 +6286,9 @@
   "icu:Preferences__button--account": {
     "messageformat": "ఖాతా"
   },
+  "icu:Preferences__button--linked-devices": {
+    "messageformat": "Linked Devices"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "సాధారణం"
   },
@@ -6342,6 +6357,186 @@
   },
   "icu:Preferences--system": {
     "messageformat": "వ్యవస్థ"
+  },
+  "icu:LinkDevice--OSPrompt--Mac": {
+    "messageformat": "link a new device"
+  },
+  "icu:LinkDevice--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to link a new device."
+  },
+  "icu:LinkDevice--OSPrompt--description--Linux": {
+    "messageformat": "Link a device"
+  },
+  "icu:LinkDevice--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to link a new device."
+  },
+  "icu:Preferences--LinkedDevices--title": {
+    "messageformat": "Linked devices"
+  },
+  "icu:Preferences--LinkedDevices--description": {
+    "messageformat": "Use Signal on another device. Your messages will sync to your linked devices. <learnMore>Learn more</learnMore>"
+  },
+  "icu:Preferences--LinkedDevices--button": {
+    "messageformat": "Link a new device"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--title": {
+    "messageformat": "Linked devices"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--defaultName": {
+    "messageformat": "Linked device"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--createdAt": {
+    "messageformat": "Linked {date}"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--lastSeenAt": {
+    "messageformat": "Last active {date}"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--openMenu": {
+    "messageformat": "Open menu"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--rename": {
+    "messageformat": "Rename"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--unlink": {
+    "messageformat": "Unlink"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--footer": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption on all devices"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--title": {
+    "messageformat": "Signal on a linked device"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet1": {
+    "messageformat": "All messaging on linked devices is private"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet2": {
+    "messageformat": "Signal messages are synchronized with Signal on your desktop after it is linked."
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet3": {
+    "messageformat": "On your other device, visit <linkToSignal>signal.org/download</linkToSignal> to install Signal"
+  },
+  "icu:Preferences--LinkedDevices--EditDeviceNameDialog--title": {
+    "messageformat": "Edit device name"
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--title": {
+    "messageformat": "Unlink \"{name}\""
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--description": {
+    "messageformat": "This device will no longer be able to send or receive messages if it is unlinked."
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--unlinkButton": {
+    "messageformat": "Unlink"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--title": {
+    "messageformat": "Scan QR code"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--description": {
+    "messageformat": "Scan the QR code displayed on the device to link"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--title": {
+    "messageformat": "Linking device failed"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--description": {
+    "messageformat": "Make sure you are on the latest version of Signal, and scanning a QR code from within Signal and not another app."
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--retry-button": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--title": {
+    "messageformat": "Finish linking"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--title": {
+    "messageformat": "Transfer Message History"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--description": {
+    "messageformat": "Transfer your text messages and your last 45 days of media"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--title": {
+    "messageformat": "Don't transfer"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--description": {
+    "messageformat": "No old messages or media will be transferred to your linked device"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--title": {
+    "messageformat": "Syncing messages..."
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--progress": {
+    "messageformat": "{percentage,number,percent} complete"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--do-not-close": {
+    "messageformat": "Do not close Signal"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--title": {
+    "messageformat": "Linking device"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--progress": {
+    "messageformat": "Your device is being linked..."
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--title": {
+    "messageformat": "Linking device failed"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--description": {
+    "messageformat": "Something went wrong! Please ensure that both devices are connected to the internet and try again."
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--contact-support": {
+    "messageformat": "Contact support"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--title": {
+    "messageformat": "Not enough storage space"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--description": {
+    "messageformat": "You don’t have enough free storage space on your device to transfer your messages. Free up some space and try again, or link your device without transferring your messages."
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--title": {
+    "messageformat": "Message sync failed"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--description": {
+    "messageformat": "Your device was successfully linked, but your messages could not be transferred."
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--contact-support": {
+    "messageformat": "Contact support"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--continue": {
+    "messageformat": "Continue"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--title": {
+    "messageformat": "Message sync failed"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--description": {
+    "messageformat": "Your messages couldn’t be transferred to your linked device. You can try re-linking and transferring again, or continue without transferring your message history."
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--continue-no-transfer": {
+    "messageformat": "Continue without transferring"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--title": {
+    "messageformat": "Include a debug log?"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--description": {
+    "messageformat": "Including your debug log helps us diagnose and fix the issue, and does not contain identifying information. This is optional."
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--include-log-checkbox": {
+    "messageformat": "Include debug log"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--view": {
+    "messageformat": "View"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--no-thanks": {
+    "messageformat": "No thanks"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--contact-support": {
+    "messageformat": "Contact support"
   },
   "icu:Preferences--signal-login": {
     "messageformat": "Signal Login"
@@ -8248,6 +8443,9 @@
   "icu:StoryDetailsModal__download-attachment": {
     "messageformat": "అటాచ్మెంట్ దిగుమతి"
   },
+  "icu:StoryDetailsModal__more-actions": {
+    "messageformat": "More actions"
+  },
   "icu:StoryViewsNRepliesModal__read-receipts-off": {
     "messageformat": "మీ కథలను ఎవరు వీక్షించారనేది చూడటానికి రిసిప్ట్‌లను వీక్షించండి ప్రారంభించండి. మీ మొబైల్ పరికరంలో Signal యాప్‌ను తెరవండి, సెట్టింగ్స్ > కథలకు వెళ్ళండి."
   },
@@ -9360,15 +9558,6 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.32--0": {
-    "messageformat": "ఇప్పుడు సందేశ ఫోల్డర్లలో మరియు సెర్చ్ ఇంటర్ ఫేస్ లో కూడా చదవని సందేశాల ఫిల్టర్ అందుబాటులో ఉంది, అందువలన మీరు ఇప్పటివరకు చదవని సందేశాలను సులభంగా చూడగలరు."
-  },
-  "icu:WhatsNew__8.32--1": {
-    "messageformat": "నెట్ వర్క్ సరిగాలేని పరిస్థితులలో కూడా అప్ లోడ్ లు మరింత విశ్వసనీయంగా జరిగేలా మెరుగుపరచబడింది. ధన్యవాదాలు,<GH3mmmbulus></GH3mmmbulus>!"
-  },
-  "icu:WhatsNew__8.32--2": {
-    "messageformat": "&quot;(N)&quot; షార్ట్ కట్ ఇప్పుడు సరిగ్గా థంబ్స్ డౌన్ ఎమోజీని సూచిస్తుంది. బగ్ ను ఫిక్స్ చేసిననందుకు <lnicola></lnicola> ధన్యవాదాలు."
-  },
   "icu:WhatsNew__8.34--0": {
     "messageformat": "ఇప్పుడు మీ Signal Desktop పరిచయాలను పంచుకోవడానికి కూడా మద్దతునిస్తుంది కాబట్టి మీ స్మార్ట్ ఫోన్ ను తాకాల్సిన అవసరం లేకుండా, మీ కంప్యూటర్ మీదనే దృష్టి పెట్టవచ్చు."
   },
@@ -9377,5 +9566,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "ఇప్పుడు మీ టాప్ స్టిక్కర్లను భద్రపరచుకోవడానికి ప్రత్యేక స్థానం ఉంది. మీకు నచ్చిన స్టిక్కర్లను సులభంగా మళ్ళీ ఉపయోగించుకోవడానికి వాటిలో దేనినైనా మీ ఇష్టమైన స్టిక్కర్ల జాబితాకు జోడించండి."
   }
 }
