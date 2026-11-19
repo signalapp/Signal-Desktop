@@ -7,7 +7,6 @@ import { open, unlink, type FileHandle } from 'node:fs/promises';
 import { sanitize } from '@signalapp/libsignal-client/dist/Mp4Sanitizer.js';
 import {
   Input,
-  UrlSource,
   StreamTarget,
   Conversion,
   Output,
@@ -51,6 +50,7 @@ import { drop } from './drop.std.ts';
 import { isVideoTypeTranscodable } from './GoogleChrome.std.ts';
 import { prefixAndSliceStream } from './prefixAndSliceStream.std.ts';
 import { getTranscodingOptions } from './getTranscodingOptions.preload.ts';
+import { createUrlSource } from './urlSource.dom.ts';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
@@ -145,7 +145,7 @@ async function transcodeVideo(
     disposition: AttachmentDisposition.Attachment,
   });
 
-  const source = new UrlSource(url);
+  const source = createUrlSource(url);
 
   const input = new Input({
     formats: TRANSCODABLE_VIDEO_FORMATS,

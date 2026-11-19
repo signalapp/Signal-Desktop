@@ -4,7 +4,6 @@
 import loadImage from 'blueimp-load-image';
 import {
   Input,
-  UrlSource,
   MP4,
   QTFF,
   WEBM,
@@ -25,6 +24,7 @@ import type { LoggerType } from './Logging.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import type { TranscodableVideoMIMEType } from '../util/GoogleChrome.std.ts';
 import { canvasToBlob } from '../util/canvasToBlob.dom.ts';
+import { createUrlSource } from '../util/urlSource.dom.ts';
 import { KIBIBYTE } from './AttachmentSize.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 
@@ -254,7 +254,7 @@ export async function makeVideoScreenshot({
   objectUrl,
   contentType = IMAGE_PNG,
 }: MakeVideoScreenshotOptionsType): Promise<MakeVideoScreenshotResultType> {
-  const source = new UrlSource(objectUrl);
+  const source = createUrlSource(objectUrl);
 
   const input = new Input({
     formats: TRANSCODABLE_VIDEO_FORMATS,
@@ -312,7 +312,7 @@ export async function estimateTranscodedVideoSize({
   targetResolution: number;
   targetBitrate: number;
 }): Promise<number> {
-  const source = new UrlSource(url);
+  const source = createUrlSource(url);
 
   const input = new Input({
     formats: TRANSCODABLE_VIDEO_FORMATS,
