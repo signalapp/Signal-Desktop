@@ -59,7 +59,6 @@ auditConfig:
     - GHSA-hfvx-25r5-qc3w # fabric (toSVG, disabled by patch)
     - GHSA-w22m-hvvm-xmwx # fabric (toSVG, disabled by patch)
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
-    - GHSA-gcqx-w48m-w2h4 # deepmerge (no fixed version)
 
 overrides:
   '@electron/rebuild>node-gyp': '13.1.0'
