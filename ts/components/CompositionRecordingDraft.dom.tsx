@@ -100,6 +100,7 @@ export function CompositionRecordingDraft({
       audioUrl={audioUrl}
       activeDuration={active?.duration}
       currentTime={active?.currentTime ?? 0}
+      isPlaying={active?.playing ?? false}
       width={state.width}
       waveform={waveform}
       duration={duration}
@@ -141,6 +142,7 @@ type SizedWaveformScrubberProps = {
   waveform: ReadonlyArray<number> | undefined;
   duration: DurationInSeconds | undefined;
   currentTime: number;
+  isPlaying: boolean;
   onScrub: (progressAsRatio: number) => void;
   onClick: (progressAsRatio: number) => void;
 };
@@ -151,6 +153,7 @@ function SizedWaveformScrubber({
   waveform,
   duration: givenDuration,
   currentTime,
+  isPlaying,
   onClick,
   onScrub,
   width,
@@ -178,6 +181,7 @@ function SizedWaveformScrubber({
       duration={duration}
       onClick={onClick}
       onScrub={onScrub}
+      isPlaying={isPlaying}
     />
   );
 }

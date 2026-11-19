@@ -5,6 +5,8 @@ import {
   useCallback,
   useRef,
   forwardRef,
+  useState,
+  useEffect,
   type JSX,
   type MouseEvent,
   type KeyboardEvent,
@@ -25,6 +27,7 @@ type Props = Readonly<{
   barMaxHeight: number;
   onClick: (positionAsRatio: number) => void;
   onScrub: (positionAsRatio: number) => void;
+  isPlaying?: boolean;
 }>;
 
 const BAR_COUNT = 47;
@@ -45,12 +48,25 @@ export const WaveformScrubber = forwardRef(function WaveformScrubber(
     duration,
     onClick,
     onScrub,
+    isPlaying = false,
   }: Props,
   ref
 ): JSX.Element {
   const refMerger = useRefMerger();
 
   const waveformRef = useRef<HTMLDivElement | null>(null);
+
+  const [announcedTime, setAnnouncedTime] = useState<number>(currentTime);
+
+  useEffect(() => {
+    if (!isPlaying) {
+      setAnnouncedTime(currentTime);
+    }
+  }, [currentTime, isPlaying]);
+
+  const handleFocus = useCallback(() => {
+    setAnnouncedTime(currentTime);
+  }, [currentTime]);
 
   // Clicking waveform moves playback head position and starts playback.
   const handleClick = useCallback(
@@ -69,9 +85,12 @@ export const WaveformScrubber = forwardRef(function WaveformScrubber(
         progress = 0;
       }
 
+      if (duration) {
+        setAnnouncedTime(progress * duration);
+      }
       onClick(progress);
     },
-    [waveformRef, onClick]
+    [waveformRef, onClick, duration]
   );
 
   // Keyboard navigation for waveform. Pressing keys moves playback head
@@ -103,6 +122,9 @@ export const WaveformScrubber = forwardRef(function WaveformScrubber(
     const positionIncrement = increment / duration;
     const newPosition = currentPosition + positionIncrement;
 
+    const targetPosition = Math.min(Math.max(0, newPosition), 1) * duration;
+    setAnnouncedTime(targetPosition);
+
     onScrub(newPosition);
   };
 
@@ -112,14 +134,15 @@ export const WaveformScrubber = forwardRef(function WaveformScrubber(
       className="WaveformScrubber"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
+      onFocus={handleFocus}
       tabIndex={0}
       role="slider"
       aria-label={i18n('icu:MessageAudio--slider')}
       aria-orientation="horizontal"
-      aria-valuenow={currentTime}
+      aria-valuenow={announcedTime}
       aria-valuemin={0}
       aria-valuemax={duration}
-      aria-valuetext={durationToPlaybackText(currentTime)}
+      aria-valuetext={durationToPlaybackText(announcedTime)}
     >
       <Waveform
         peaks={peaks}
