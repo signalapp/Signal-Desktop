@@ -2964,28 +2964,28 @@
     "messageformat": "Lipdukas be jaustuko"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Žiūrėti lipduko informaciją"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Lipduko informacija"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pridėti prie mėgstamiausiųjų"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Pašalinti iš mėgstamiausiųjų"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} lipdukų paketas"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Lipdukas pridėtas prie mėgstamiausiųjų"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Lipdukas pašalintas iš mėgstamiausiųjų"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Prie mėgstamiausiųjų galite pridėti tik {count,number} lipduką} few {Prie mėgstamiausiųjų galite pridėti tik {count,number} lipdukus} many {Prie mėgstamiausiųjų galite pridėti tik {count,number} lipduko} other {Prie mėgstamiausiųjų galite pridėti tik {count,number} lipdukų}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Peržiūrėti paketą"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Dabar į savo mėgstamiausiųjų sąrašą galite pridėti bet kurį lipduką, kad lengvai jį rastumėte."
   }
 }

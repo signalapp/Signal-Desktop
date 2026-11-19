@@ -2964,28 +2964,28 @@
     "messageformat": "Matrica emoji nélkül"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Lásd a matrica részleteit"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Matrica részletei"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Hozzáadás a Kedvencekhez"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Eltávolítás a Kedvencekből"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Matricacsomag tőle: {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Matrica hozzáadva a Kedvencekhez"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Matrica eltávolítva a Kedvencek közül"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Csak {count,number} matricát adhatsz hozzá a Kedvencekhez} other {Csak {count,number} matricát adhatsz hozzá a Kedvencekhez}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Csomag megtekintése"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Mostantól bármilyen matricát hozzáadhatsz a kedvenceid listájához, így könnyen megtalálod őket."
   }
 }

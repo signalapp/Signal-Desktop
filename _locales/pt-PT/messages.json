@@ -2964,28 +2964,28 @@
     "messageformat": "Autocolante sem emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Ver detalhes do autocolante"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Detalhes do autocolante"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Adicionar aos favoritos"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Remover dos favoritos"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Pacote de autocolantes de {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Autocolante adicionado aos favoritos"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Autocolante removido dos favoritos"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Só pode adicionar {count,number} autocolante aos favoritos} other {Só pode adicionar {count,number} autocolantes aos favoritos}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Ver pacote"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Agora pode adicionar qualquer autocolante à sua lista de favoritos, para ser mais fácil encontrar."
   }
 }

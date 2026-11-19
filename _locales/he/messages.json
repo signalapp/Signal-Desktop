@@ -2964,28 +2964,28 @@
     "messageformat": "סטיקר בלי אימוג׳י"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "הצגת פרטי סטיקר"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "פרטי סטיקר"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "הוספה למועדפים"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "הסרה ממועדפים"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "חבילת סטיקרים מאת {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "הסטיקר נוסף למועדפים"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "הסטיקר הוסר מהמועדפים"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {אפשר להוסיף רק סטיקר {count,number} למועדפים} two {אפשר להוסיף רק {count,number} סטיקרים למועדפים} many {אפשר להוסיף רק {count,number} סטיקרים למועדפים} other {אפשר להוסיף רק {count,number} סטיקרים למועדפים}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "הצגת חבילה"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "עכשיו אפשר להוסיף כל סטיקר לרשימת המועדפים שלך, ככה שיהיה קל למצוא אותו."
   }
 }

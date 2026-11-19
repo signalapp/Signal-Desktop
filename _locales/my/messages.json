@@ -2964,28 +2964,28 @@
     "messageformat": "အီမိုဂျီမပါသော စတစ်ကာ"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "စတစ်ကာ အသေးစိတ်ကို ကြည့်ရန်"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "စတစ်ကာ အသေးစိတ်"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "အကြိုက်ဆုံးများထဲသို့ ထည့်ရန်"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "အကြိုက်ဆုံးများထဲမှ ဖယ်ရှားရန်"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ၏ စတစ်ကာတွဲ"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "စတစ်ကာကို အကြိုက်ဆုံးများထဲသို့ ထည့်ပြီးပါပြီ"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "အကြိုက်ဆုံးများထဲမှ စတစ်ကာကို ဖယ်ရှားပြီးပါပြီ"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, other {အကြိုက်ဆုံးများထဲသို့ စတစ်ကာ {count,number} ခုသာ ထည့်နိုင်ပါသည်}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "စတစ်ကာတွဲကို ကြည့်ရှုရန်"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "ယခုအခါ မည်သည့်စတစ်ကာကိုမဆို အကြိုက်ဆုံးများထဲသို့ ထည့်သွင်းနိုင်ပြီဖြစ်သဖြင့် အလွယ်တကူ ရှာဖွေနိုင်ပါသည်။"
   }
 }

@@ -2964,28 +2964,28 @@
     "messageformat": "Налепница без емоџија"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Прикажи детаље о налепници"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Детаљи о налепници"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Додај у колекцију „Омиљено“"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Уклони из колекције „Омиљено“"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Пакет налепница од аутора: {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Налепница је додата у колекцију „Омиљено“"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Налепница је уклоњена из колекције „Омиљено“"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Број налепница које можете додати у колекцију „Омиљено“: {count,number}} other {Број налепница које можете додати у колекцију „Омиљено“: {count,number}}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Прикажи пакет"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Сада можете да додате било коју налепницу на листу омиљених како би вам била надохват руке."
   }
 }

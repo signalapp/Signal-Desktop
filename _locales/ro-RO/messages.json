@@ -2964,28 +2964,28 @@
     "messageformat": "Abțibild fără un emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Vezi detaliile abțibildului"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Detaliile abțibildului"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Adaugă la Preferate"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Elimină de la Preferate"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Pachet de abțibilduri de {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Abțibild adăugat la Preferate"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Abțibild eliminat de la Favorite"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Poți să adaugi doar {count,number} abțibild la Preferate} few {Poți să adaugi doar {count,number} abțibilduri la Preferate} other {Poți să adaugi doar {count,number} de abțibilduri la Preferate}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Vezi pachetul"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Abțibildurile tale preferate au acum un loc unde să rămână lipite. Adaugă orice abțibild la lista ta de favorite, astfel încât să le poți folosi cu ușurință pe cele care îți plac."
   }
 }

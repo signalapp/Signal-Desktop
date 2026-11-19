@@ -2964,28 +2964,28 @@
     "messageformat": "สติกเกอร์ที่ไม่มีอีโมจิ"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "ดูรายละเอียดของสติกเกอร์"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "รายละเอียดของสติกเกอร์"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "เพิ่มในรายการโปรด"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ลบออกจากรายการโปรด"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "ผู้สร้างชุดสติกเกอร์: {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "เพิ่มสติกเกอร์ในรายการโปรดแล้ว"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "ลบสติกเกอร์ออกจากรายการโปรดแล้ว"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, other {จำกัดการเพิ่มสติกเกอร์ในรายการโปรดได้ {count,number} ตัว}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ดูชุดสติกเกอร์"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "พัฒนาให้คุณเพิ่มสติกเกอร์ที่ถูกใจเป็นรายการโปรดได้ง่ายๆ เลือกใช้อย่างสะดวกยิ่งขึ้น"
   }
 }

@@ -2964,28 +2964,28 @@
     "messageformat": "Nálepka bez emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Pozrieť si podrobnosti nálepky"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Podrobnosti nálepky"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pridať do Obľúbených"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Odstrániť z Obľúbených"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Balíček nálepiek od {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Nálepka bola pridaná medzi Obľúbené"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Nálepka bola odstránená z Obľúbených"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Do Obľúbených môžete pridať iba {count,number} nálepku} few {Do Obľúbených môžete pridať iba {count,number} nálepky} many {Do Obľúbených môžete pridať iba {count,number} nálepiek} other {Do Obľúbených môžete pridať iba {count,number} nálepiek}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Zobraziť balíček"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Teraz si môžete pridať ľubovoľnú nálepku do zoznamu obľúbených, aby ste ju kedykoľvek ľahko našli."
   }
 }

@@ -2964,28 +2964,28 @@
     "messageformat": "Kibandiko bila emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Angalia maelezo ya kibandiko"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Maelezo ya kibandiko"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Weka kwa Favorites"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Ondoa kwa Favorites"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Kifurushi cha Vibandiko vya {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Umeweka kibandiko kwenye Favorites"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Umeondoa kibandiko kwenye Favorites"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Unaweza kuweka kibandiko {count,number} tu kwenye Vipendwa} other {Unaweza kuweka vibandiko {count,number} tu kwenye Vipendwa}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Tazama Kifurushi"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Vibandiko vyako maarufu sasa vina sehemu maalum. Weka kibandiko chochote kwenye orodha yako ya vipendwa ili iwe rahisi kuendelea vile unavyovipenda."
   }
 }

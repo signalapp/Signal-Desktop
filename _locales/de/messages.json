@@ -2964,28 +2964,28 @@
     "messageformat": "Sticker ohne Emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Sticker-Details anzeigen"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Sticker-Details"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Zu Favoriten hinzufügen"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Aus Favoriten entfernen"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Sticker-Set von {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Sticker zu Favoriten hinzugefügt"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Sticker aus Favoriten entfernt"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Du kannst nur {count,number} Sticker zu Favoriten hinzufügen} other {Du kannst nur {count,number} Sticker zu Favoriten hinzufügen}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Set anzeigen"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Deine Lieblingssticker haben jetzt einen Platz, an dem sie haften bleiben. Füge einen beliebigen Sticker zu deiner Favoritenliste hinzu, damit du deine Liebsten immer in der Nähe hast."
   }
 }

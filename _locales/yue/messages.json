@@ -2964,28 +2964,28 @@
     "messageformat": "冇表情符號嘅貼圖"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "睇睇貼圖詳情"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "貼圖詳情"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "加去「最愛」"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "喺「最愛」度移除"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "由{author}創作嘅貼圖包"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "已經將貼圖加咗入「最愛」"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "已經將貼圖喺「最愛」度剷走"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, other {你最多只可以加 {count,number} 張貼圖去「最愛」}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "睇下貼圖包"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "你常用嘅貼圖而家有固定位可以長期貼住啦。將任何貼圖加入「最愛」清單，咁你就可以輕輕鬆鬆繼續用心水貼圖。"
   }
 }

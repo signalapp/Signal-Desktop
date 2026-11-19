@@ -2964,28 +2964,28 @@
     "messageformat": "बिना इमोजी वाला स्टिकर"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "स्टिकर से जुड़ी जानकारी देखें"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "स्टिकर से जुड़ी जानकारी"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "'पसंदीदा' में जोड़ें"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "'पसंदीदा' से हटाएं"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} द्वारा स्टिकर पैक"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "स्टिकर को 'पसंदीदा' में जोड़ा गया"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "स्टिकर को 'पसंदीदा' से हटाया गया"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {'पसंदीदा' में सिर्फ़ {count,number} स्टिकर ही जोड़ा जा सकता है} other {'पसंदीदा' में सिर्फ़ {count,number} स्टिकर ही जोड़े जा सकते हैं}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "पैक देखें"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "आपके पसंदीदा स्टिकर्स के लिए अब एक खास ठिकाना बना दिया गया है। किसी भी स्टिकर को अपनी पसंदीदा सूची में जोड़ें, ताकि आपका जब मन करे तब अपने पसंदीदा स्टिकर का आसानी से इस्तेमाल कर सकें।"
   }
 }

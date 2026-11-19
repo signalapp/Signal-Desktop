@@ -2964,28 +2964,28 @@
     "messageformat": "ఎమోజీ లేని స్టిక్కర్"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "స్టిక్కర్ వివరాలను చూడండి"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "స్టిక్కర్ వివరాలు"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ఇష్టమైన వాటికి జోడించండి"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ఇష్టమైన వాటినుండి తొలగించండి"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ద్వారా స్టిక్కర్ ప్యాక్"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "ఇష్టమైన జాబితాకు స్టిక్కర్ జోడించబడింది"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "ఇష్టమైన జాబితా నుండి స్టిక్కర్ తొలగించబడింది"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {మీరు ఇష్టమైన జాబితాకు {count,number} స్టిక్కర్ మాత్రమే జోడించగలరు} other {మీరు ఇష్టమైన జాబితాకు {count,number} స్టిక్కర్లు మాత్రమే జోడించగలరు}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ప్యాక్‌ను వీక్షించండి"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "ఇప్పుడు మీ టాప్ స్టిక్కర్లను భద్రపరచుకోవడానికి ప్రత్యేక స్థానం ఉంది. మీకు నచ్చిన స్టిక్కర్లను సులభంగా మళ్ళీ ఉపయోగించుకోవడానికి వాటిలో దేనినైనా మీ ఇష్టమైన స్టిక్కర్ల జాబితాకు జోడించండి."
   }
 }

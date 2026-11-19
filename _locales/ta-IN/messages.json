@@ -2964,28 +2964,28 @@
     "messageformat": "எமோஜி அல்லாத ஸ்டிக்கர்"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "ஸ்டிக்கர் விவரங்களைக் காண்க"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "ஸ்டிக்கர் விவரங்கள்"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "பிடித்தவையில் சேர்"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "பிடித்தவையிலிருந்து அகற்று"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author}இன் ஸ்டிக்கர் பேக்"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "பிடித்தவையில் ஸ்டிக்கர் சேர்க்கப்பட்டது"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "பிடித்தவையிலிருந்து ஸ்டிக்கர் அகற்றப்பட்டது"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {பிடித்தவையில் உங்களால் {count,number} ஸ்டிக்கரை மட்டுமே சேர்க்க முடியும்} other {பிடித்தவையில் உங்களால் {count,number} ஸ்டிக்கர்களை மட்டுமே சேர்க்க முடியும்}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "பேக்கைக் காண்க"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "எளிதில் கண்டறியும் வகையில், இப்போது எந்தவொரு ஸ்டிக்கரையும் உங்களின் பிடித்தவை பட்டியலில் சேர்த்துக்கொள்ளலாம்."
   }
 }

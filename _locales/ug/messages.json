@@ -2964,28 +2964,28 @@
     "messageformat": "emoji يوق چاپلاق"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "چاپلاق تەپسىلاتلىرىنى كۆرۈش"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "چاپلاق تەپسىلاتلىرى"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ياقتۇرغان تاللانمىلارغا قوشۇش"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ياقتۇرغان تاللانمىلاردىن چىقىرىۋېتىش"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ئىجاد قىلغان چاپلاق بولىقى"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "چاپلاق، ياقتۇرغان تاللانمىلارغا قوشۇلدى"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "چاپلاق بولاقلىرى ياقتۇرغان تاللانمىلاردىن چىقىرىۋېتىلدى"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, other {سىز پەقەت {count,number} چاپلاقلارنىلا ياقتۇرغان تاللانمىلارغا قوشالايسىز}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "چاپلاق بولىقىنى كۆرۈش"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "ئەڭ كۆپ ئىشلىتىدىغان چاپلاقلىرىڭىز ئەمدى دائىم ساقلىنىپ تۇرىدىغان ئورۇنغا ئىگە بولدى. خالىغان چاپلىقىڭىزنى ياقتۇرىدىغانلىرىڭىز تىزىملىكىگە قوشۇڭ، شۇنداق قىلسىڭىز ئۆزىڭىز ياقتۇرىدىغان چاپلاقلارنى ئاسان تاپالايسىز."
   }
 }

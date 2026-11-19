@@ -2964,28 +2964,28 @@
     "messageformat": "Plakker sonder 'n emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Sien detail van plakker"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Detail van plakker"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Voeg by Gunstelinge"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Verwyder uit Gunstelinge"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Plakkerpakket deur {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Plakker by Gunstelinge gevoeg"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Plakker uit Gunstelinge verwyder"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Jy kan slegs {count,number} plakker by Gunstelinge byvoeg} other {Jy kan slegs {count,number} plakkers by Gunstelinge byvoeg}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Besigtig pakket"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Jy kan nou enige plakker by jou lys gunstelinge voeg sodat dit maklik is om te vind."
   }
 }

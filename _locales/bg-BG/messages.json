@@ -2964,28 +2964,28 @@
     "messageformat": "Стикер без емоджи"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Преглед на подробностите за стикера"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Подробности за стикера"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Добавяне в „Любими“"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Премахване от „Любими“"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Пакет със стикери от {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Стикерът е добавен към „Любими“"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Стикерът е премахнат от „Любими“"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Можете да добавите само {count,number} стикер в „Любими“} other {Можете да добавите само {count,number} стикера в „Любими“}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Преглед на пакета"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Вече можете да добавите всеки стикер към списъка в „Любими“, така че да го намирате лесно."
   }
 }

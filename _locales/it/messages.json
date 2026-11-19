@@ -2964,28 +2964,28 @@
     "messageformat": "Adesivo senza emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Vedi dettagli sticker"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Dettagli sticker"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Aggiungi ai Preferiti"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Rimuovi dai Preferiti"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Pacchetto di sticker di {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Sticker aggiunto ai Preferiti"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Sticker rimosso dai Preferiti"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Puoi aggiungere al massimo {count,number} sticker ai Preferiti} other {Puoi aggiungere al massimo {count,number} sticker ai Preferiti}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Vedi pacchetto"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "I tuoi sticker più utilizzati ora hanno un posto dove rimanere appiccicati, pronti per l'uso. Aggiungi qualsiasi sticker ai tuoi Preferiti così non dovrai rovistare per trovare quelli che usi sempre!"
   }
 }

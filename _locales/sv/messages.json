@@ -2964,28 +2964,28 @@
     "messageformat": "Klistermärke utan en emoji"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Visa stickerinformation"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Stickerinformation"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Lägg till i Favoriter"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Ta bort från Favoriter"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Klistermärkespaket från {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Stickern lades till i Favoriter"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Klistermärke togs bort från Favoriter"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Du kan bara lägga till {count,number} sticker i Favoriter} other {Du kan bara lägga till {count,number} stickers i Favoriter}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Visa paket"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Nu kan du lägga till vilken sticker som helst i din favoritlista så att den är lätt att hitta."
   }
 }

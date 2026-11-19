@@ -2964,28 +2964,28 @@
     "messageformat": "Быйтыкчасы жок стикер"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Стикердин чоо-жайын көрүү"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Стикердин чоо-жайы"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Тандалгандарга кошуу"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Тандалгандардан өчүрүү"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Стикерлер топтомунун автору: {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Стикер \"Тандалгандарга\" кошулду"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Стикер \"Тандалгандардан\" өчүрүлдү"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {\"Тандалгандарга\" {count,number} стикер гана кошо аласыз} other {\"Тандалгандарга\" {count,number} стикер гана кошо аласыз}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Топтомду карап көрүү"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Көп колдонгон стикерлериңиз эми бир жерде сакталат. Өзүңүзгө жаккан стикерлерди оңой таап, колдонуп туруу үчүн тандалмаларга кошуп алыңыз."
   }
 }

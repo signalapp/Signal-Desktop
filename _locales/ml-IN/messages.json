@@ -2964,28 +2964,28 @@
     "messageformat": "ഇമോജി ഇല്ലാത്ത സ്റ്റിക്കർ"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "സ്റ്റിക്കർ വിവരങ്ങൾ കാണുക"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "സ്റ്റിക്കർ വിവരങ്ങൾ"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിലേക്ക് ചേർക്കുക"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കംചെയ്യുക"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} രൂപകൽപ്പന ചെയ്ത സ്റ്റിക്കർ പായ്ക്ക്"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിലേക്ക് സ്റ്റിക്കർ ചേർത്തു"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിൽ നിന്ന് സ്റ്റിക്കർ നീക്കംചെയ്‌തു"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {നിങ്ങൾക്ക് പ്രിയപ്പെട്ടവയിലേക്ക് {count,number} സ്റ്റിക്കർ മാത്രമേ ചേർക്കാനാകൂ} other {നിങ്ങൾക്ക് പ്രിയപ്പെട്ടവയിലേക്ക് {count,number} സ്റ്റിക്കറുകൾ മാത്രമേ ചേർക്കാനാകൂ}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "പായ്ക്ക് കാണുക"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "എളുപ്പത്തിൽ കണ്ടെത്തുന്നതിനായി ഇപ്പോൾ നിങ്ങൾക്ക് ഏത് സ്റ്റിക്കറും പ്രിയപ്പെട്ടവയുടെ പട്ടികയിലേക്ക് ചേർക്കാം. നിങ്ങൾക്ക് ഇഷ്ടപ്പെട്ടവ എപ്പോഴും കൂടെയുണ്ടാകാൻ, ഏത് സ്റ്റിക്കറും പ്രിയപ്പെട്ടവയുടെ പട്ടികയിലേക്ക് ചേർക്കുക."
   }
 }

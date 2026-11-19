@@ -2964,28 +2964,28 @@
     "messageformat": "Uzlīme bez emocijzīmes"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Skatīt informāciju par uzlīmi"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Informācija par uzlīmi"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pievienot izlasei"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Noņemt no izlases"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Uzlīmju komplekts, ko izstrādājis {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Uzlīme pievienota izlasei"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Uzlīme noņemta no izlases"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, zero {Izlasei varat pievienot tikai {count,number} uzlīmes} one {Izlasei varat pievienot tikai {count,number} uzlīmi} other {Izlasei varat pievienot tikai {count,number} uzlīmes}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Skatīt komplektu"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Jūsu mīļākajām uzlīmēm tagad ir sava pastāvīga vieta. Pievienojiet jebkuru uzlīmi izlases sarakstam, lai atrast mīļākās uzlīmes ir vieglāk."
   }
 }

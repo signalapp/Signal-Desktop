@@ -2964,28 +2964,28 @@
     "messageformat": "ಎಮೋಜಿ ಇಲ್ಲದ ಸ್ಟಿಕ್ಕರ್"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ವಿವರಗಳನ್ನು ನೋಡಿ"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ವಿವರಗಳು"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸಿ"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ಅವರಿಂದ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಅನ್ನು ಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸಲಾಗಿದೆ"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಅನ್ನು ಮೆಚ್ಚಿನವುಗಳಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {ಮೆಚ್ಚಿನವುಗಳಿಗೆ ನೀವು {count,number} ಸ್ಟಿಕ್ಕರ್ ಅನ್ನು ಮಾತ್ರ ಸೇರಿಸಬಹುದು} other {ಮೆಚ್ಚಿನವುಗಳಿಗೆ ನೀವು {count,number} ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಮಾತ್ರ ಸೇರಿಸಬಹುದು}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ಪ್ಯಾಕ್ ವೀಕ್ಷಿಸಿ"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಈಗ ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ದೊರೆಯಲಿವೆ. ನಿಮಗೆ ಇಷ್ಟವಾದ ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಸುಲಭವಾಗಿ ಬಳಸುವಂತಾಗಲು, ಅವುಗಳನ್ನು ನಿಮ್ಮ ಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸಿ."
   }
 }

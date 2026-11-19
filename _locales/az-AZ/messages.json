@@ -2964,28 +2964,28 @@
     "messageformat": "Emojisiz stiker"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Stiker təfərrüatlarına baxın"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Stiker təfərrüatları"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Sevimlilərə əlavə et"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Sevimlilərdən sil"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} tərəfindən göndərilmiş Stiker Paketi"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Stiker Sevimlilərə əlavə edildi"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Stiker Sevimlilərdən silindi"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {\"Sevimlilər\" siyahısına yalnız {count,number} stiker əlavə edə bilərsiniz} other {\"Sevimlilər\" siyahısına yalnız {count,number} stiker əlavə edə bilərsiniz}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Paketə bax"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Ən sevdiyiniz stikerləri saxlamağın artıq asan bir yolu var. İstənilən stikeri \"Sevimlilər\" siyahısına əlavə edərək asanlıqla tapa bilərsiniz."
   }
 }

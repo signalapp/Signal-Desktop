@@ -2964,28 +2964,28 @@
     "messageformat": "Стикер без эмодзи"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Посмотреть информацию о стикере"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Информация о стикере"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Добавить в избранное"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Удалить из избранного"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Наборы стикеров от {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Стикер добавлен в избранное"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Стикер удалён из избранного"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Вы можете добавить в избранное только {count,number} стикер} few {Вы можете добавить в избранное только {count,number} стикера} many {Вы можете добавить в избранное только {count,number} стикеров} other {Вы можете добавить в избранное только {count,number} стикера}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Посмотреть набор"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Теперь у ваших любимых стикеров есть своё место. ★ Добавьте любой стикер в список избранного — чтобы потом легко найти среди других любимых стикеров."
   }
 }

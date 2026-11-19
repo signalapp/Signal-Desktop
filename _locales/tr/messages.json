@@ -2964,28 +2964,28 @@
     "messageformat": "Emojisiz çıkartma"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Çıkartma detaylarını gör"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Çıkartma detayları"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Sık Kullanılanlara Ekle"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Sık Kullanılanlardan Kaldır"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} kişisinden Çıkartma Paketi"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Çıkartma Sık Kullanılanlara eklendi"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Çıkartma Sık Kullanılanlardan kaldırıldı"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {Sık Kullanılanlara yalnızca {count,number} çıkartma ekleyebilirsin} other {Sık Kullanılanlara yalnızca {count,number} çıkartma ekleyebilirsin}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Paketi Görüntüle"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Sık Kullanılanlar listene istediğin çıkartmayı ekleyerek şimdi kolayca bulabilirsin. Bundan böyle en sevdiğin çıkartmaların bir arada durduğu bir yer var."
   }
 }

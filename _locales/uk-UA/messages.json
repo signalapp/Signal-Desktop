@@ -2964,28 +2964,28 @@
     "messageformat": "Стікер без емоджі"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Переглянути подробиці про стікер"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Подробиці про стікер"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Додати до улюблених"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Вилучити з улюблених"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Набір стікерів від {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Стікер додано до улюблених"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Стікер вилучено з улюблених"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {До улюблених можна додати до {count,number} стікера} few {До улюблених можна додати до {count,number} стікерів} many {До улюблених можна додати до {count,number} стікерів} other {До улюблених можна додати до {count,number} стікера}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Переглянути набір"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "• Тепер улюблені стікери можна додавати до… улюблених. Користуйтеся!"
   }
 }

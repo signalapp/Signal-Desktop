@@ -2964,28 +2964,28 @@
     "messageformat": "ઇમોજી વગરનું સ્ટીકર"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "સ્ટીકરની વિગતો જુઓ"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "સ્ટીકરની વિગતો"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "મનપસંદમાં ઉમેરો"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "મનપસંદમાંથી દૂર કરો"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} દ્વારા સ્ટીકર પેક"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "સ્ટીકરને મનપસંદમાં ઉમેર્યું"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "સ્ટીકરને મનપસંદમાંથી દૂર કર્યું"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {તમે ફક્ત {count,number} સ્ટીકર જ મનપસંદમાં ઉમેરી શકો છો} other {તમે ફક્ત {count,number} સ્ટીકર જ મનપસંદમાં ઉમેરી શકો છો}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "પેક જુઓ"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "હવે તમે કોઈ પણ સ્ટીકરને તમારી મનપસંદ લિસ્ટમાં ઉમેરી શકો છો, જેથી તેને સરળતાથી શોધી શકાય."
   }
 }

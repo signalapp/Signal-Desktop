@@ -2964,28 +2964,28 @@
     "messageformat": "Эмоджиі жоқ стикер"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "Стикер туралы мәліметті көріңіз"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "Стикер туралы мәліметтер"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "\"Таңдаулылар\" тізіміне қосу"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "\"Таңдаулылар\" тізімінен жою"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ұсынған стикерлер жинағы"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "Стикер \"Таңдаулылар\" тізіміне қосылды"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "Стикер \"Таңдаулылар\" тізімінен жойылды"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {\"Таңдаулылар\" тізіміне тек {count,number} стикер қоса аласыз} other {\"Таңдаулылар\" тізіміне тек {count,number} стикер қоса аласыз}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Жинақты көру"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "Енді өзіңізге ұнайтын стикерлерді бір жерге сақтап қоюыңызға болады. Сүйікті стикерлеріңізді оңай тауып, үнемі пайдалану үшін оларды таңдаулылар тізіміне қосып қойыңыз."
   }
 }

@@ -2964,28 +2964,28 @@
     "messageformat": "სტიკერი ემოჯის გარეშე"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "ნახე სტიკერის დეტალები"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "სტიკერის დეტალები"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ფავორიტებში დამატება"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ფავორიტებიდან წაშლა"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "სტიკერების ნაკრები {author}-(ი)სგან"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "სტიკერი ფავორიტებში დაემატა"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "სტიკერი ფავორიტებიდან წაიშალა"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {ფავორიტებში მხოლოდ {count,number} სტიკერის დამატება შეგიძლია} other {ფავორიტებში მხოლოდ {count,number} სტიკერის დამატება შეგიძლია}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ნაკრების ნახვა"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "ახლა შეგიძლია ნებისმიერი სტიკერი რჩეულებში დაამატო, რათა შემდეგ მარტივად იპოვო. დაამატე ნებისმიერი სტიკერი ფავორიტების სიაში, რომ მარტივად იპოვო."
   }
 }

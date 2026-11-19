@@ -2964,28 +2964,28 @@
     "messageformat": "이모지 없는 스티커"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "스티커 자세히 보기"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "스티커 상세 정보"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "즐겨찾기에 추가하기"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "즐겨찾기에서 삭제하기"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} 님의 스티커 팩"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "즐겨찾기에 스티커를 추가했습니다"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "즐겨찾기에서 스티커를 삭제했습니다."
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, other {즐겨찾기에 추가할 수 있는 스티커는 최대 {count,number}개입니다.}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "팩 보기"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "이제 어떤 스티커든 즐겨찾기에 추가해 쉽게 찾아보세요."
   }
 }

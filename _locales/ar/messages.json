@@ -2964,28 +2964,28 @@
     "messageformat": "مُلصَق بدون رمز تعبيري (إيموجي)"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "عرض تفاصيل المُلصَق"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "تفاصيل المُلصَق"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "إضافة إلى المفضلة"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "إزالة من المفضلة"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "حزمة المُلصَقات من طرف {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "تمَّت إضافة المُلصَق إلى المفضلة"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "تمَّت إزالة المُلصَق من المفضلة"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, zero {لا يمكنك سوى إضافة {count,number} مُلصَقات إلى المفضلة} one {لا يمكنك سوى إضافة {count,number} مُلصَق إلى المفضلة} two {لا يمكنك سوى إضافة {count,number} مُلصَقين إلى المفضلة} few {لا يمكنك سوى إضافة {count,number} مُلصَقات إلى المفضلة} many {لا يمكنك سوى إضافة {count,number} مُلصَقًا إلى المفضلة} other {لا يمكنك سوى إضافة {count,number} مُلصَق إلى المفضلة}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "عرض الحزمة"
@@ -9377,5 +9377,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "تتمتع مُلصَقاتك المفضلة الآن بمكان تلتصق فيه. أضف أي مُلصَق إلى قائمة مفضلاتك ليسهل عليك التمسك بما تحب."
   }
 }
