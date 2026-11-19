@@ -692,9 +692,6 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal چیٹس میں انکرپشن کی خودکار تصدیق صرف اس وقت کر سکتا ہے جب آپ کسی کے ساتھ فون نمبر کے ذریعے مربوط ہوں۔ اگر چیٹ کسی یوزر نیم کے ساتھ یا کسی مشترکہ گروپ میں شروع کی گئی تھی، تو پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "ٹھیک ہے"
-  },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "اس شخص کے ساتھ میسجز کا تبادلہ کرنے کے بعد اس کے ساتھ ایک حفاظتی نمبر تخلیق کیا جائے گا۔"
   },
@@ -721,9 +718,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "اب Signal خودکار طور پر انکرپشن کی تصدیق کر سکتا ہے"
-  },
-  "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی نامی طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔ اضافی تحفظ کے لیے، آپ اب بھی کنیکشنز کی دستی طور پر QR کوڈ یا حفاظتی نمبر کا موازنہ کر کے تصدیق کر سکتے ہیں۔"
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
     "messageformat": "<paragraph>ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی نامی طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔</paragraph><paragraph>اضافی تحفظ کے لیے، آپ اب بھی دستی طور پر QR کوڈ استعمال کر کے یا حفاظتی نمبرز کا موازنہ کر کے کنیکشنز کی تصدیق کر سکتے ہیں۔</paragraph>"
@@ -808,6 +802,18 @@
   },
   "icu:Toast--ChatFolderCreated": {
     "messageformat": "{chatFolderName} فولڈر شامل کیا گیا"
+  },
+  "icu:Toast--LinkedDeviceAdded": {
+    "messageformat": "New device \"{name}\" successfully linked"
+  },
+  "icu:Toast--LinkedDeviceRemoved": {
+    "messageformat": "\"{name}\" unlinked"
+  },
+  "icu:Toast--LinkedDeviceNameUpdated": {
+    "messageformat": "Device name updated"
+  },
+  "icu:Toast--LinkedDeviceSyncComplete": {
+    "messageformat": "Message sync complete"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "آپ فائلز کے ساتھ تصاویر اور ویڈیوز منتخب نہیں کر سکتے۔"
@@ -976,24 +982,6 @@
   },
   "icu:sendMessageToContact": {
     "messageformat": "پیغام بھیج دیا"
-  },
-  "icu:home": {
-    "messageformat": "گھر"
-  },
-  "icu:work": {
-    "messageformat": "کام"
-  },
-  "icu:mobile": {
-    "messageformat": "موبائل"
-  },
-  "icu:email": {
-    "messageformat": "ای میل"
-  },
-  "icu:phone": {
-    "messageformat": "فون"
-  },
-  "icu:address": {
-    "messageformat": "پتہ"
   },
   "icu:poBox": {
     "messageformat": "پی او باکس"
@@ -1405,9 +1393,6 @@
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
     "messageformat": "جب غائب ہونے والے میسجز کا ٹائمر ختم ہو جائے گا اور میسج چیٹ سے ہٹا دیا جائے گا تو وہ اَن پِن ہو جائیں گے۔"
-  },
-  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "ٹھیک ہے"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {پِن کردہ میسج} other {پِن کردہ میسجز}}"
@@ -2915,17 +2900,38 @@
   "icu:stickers--StickerManager--UninstallWarning": {
     "messageformat": "اگر آپ کے پاس پیغام کا ذریعہ نہیں ہے تو آپ اس اسٹیکر پیک کو دوبارہ انسٹال نہیں کرسکتے ہیں۔"
   },
+  "icu:stickers--StickerManager--UninstallWarning--Title": {
+    "messageformat": "Remove Sticker Pack?"
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message."
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Remove": {
+    "messageformat": "Remove"
+  },
   "icu:stickers--StickerManagerHeader--All": {
     "messageformat": "تمام"
   },
   "icu:stickers--StickerManagerHeader--MyStickers": {
     "messageformat": "میرے اسٹیکرز"
   },
+  "icu:stickers--StickerManagerHidePackDialog--Title": {
+    "messageformat": "Hide Sticker Pack?"
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message."
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Hide": {
+    "messageformat": "Hide"
+  },
   "icu:stickers--StickerManagerPackContextMenu--Add": {
     "messageformat": "شامل کریں"
   },
   "icu:stickers--StickerManagerPackContextMenu--Remove": {
     "messageformat": "ہٹا دیں"
+  },
+  "icu:stickers--StickerManagerPackContextMenu--Hide": {
+    "messageformat": "Hide"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
     "messageformat": "اسٹیکر پیک کو دوبارہ ترتیب دینے کے لیے ڈریگ کریں"
@@ -2964,28 +2970,40 @@
     "messageformat": "ایموجی کے بغیر اسٹیکر"
   },
   "icu:stickers--StickerPreview--SeeStickerDetails": {
-    "messageformat": "See sticker details"
+    "messageformat": "اسٹیکر کی تفصیلات دیکھیں"
   },
   "icu:stickers--StickerPreview--StickerDetailsTitle": {
-    "messageformat": "Sticker details"
+    "messageformat": "اسٹیکر کی تفصیلات"
   },
   "icu:stickers--StickerPreview--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "پسندیدہ میں شامل کریں"
   },
   "icu:stickers--StickerPreview--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "پسندیدہ میں سے ہٹائیں"
   },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "اسٹیکر پیک منجانب {author}"
   },
   "icu:stickers--Toast--StickerFavoriteAdded": {
-    "messageformat": "Sticker added to Favorites"
+    "messageformat": "پسندیدہ میں اسٹیکر شامل کیا گیا"
   },
   "icu:stickers--Toast--StickerFavoriteRemoved": {
-    "messageformat": "Sticker removed from Favorites"
+    "messageformat": "پسندیدہ میں سے اسٹیکر ہٹا دیا گیا"
+  },
+  "icu:stickers--Toast--StickerFavoritesHint": {
+    "messageformat": "Right click a sticker to add to Favorites"
   },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
-    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
+    "messageformat": "{count, plural, one {آپ پسندیدہ میں صرف {count,number} اسٹیکر شامل کر سکتے ہیں} other {آپ پسندیدہ میں صرف {count,number} اسٹیکرز شامل کر سکتے ہیں}}"
+  },
+  "icu:stickers--Toast--StickerPackHidden": {
+    "messageformat": "Sticker pack hidden"
+  },
+  "icu:stickers--Toast--StickerPackHidden--Undo": {
+    "messageformat": "Undo"
+  },
+  "icu:stickers--Toast--StickerPackUnhidden": {
+    "messageformat": "Sticker pack unhidden"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "پیک دیکھیں"
@@ -4162,9 +4180,6 @@
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
     "messageformat": "نہیں شکریہ"
-  },
-  "icu:Confirmation--confirm": {
-    "messageformat": "ٹھیک ہے"
   },
   "icu:MessageMaxEditsModal__Title": {
     "messageformat": "میسج میں ترمیم نہیں کی سکتی"
@@ -5628,9 +5643,6 @@
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "حذف کریں"
   },
-  "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "منسوخ کریں"
-  },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "آپ صرف 30 میسجز تک فارورڈ کر سکتے ہیں"
   },
@@ -6274,6 +6286,9 @@
   "icu:Preferences__button--account": {
     "messageformat": "اکاؤنٹ"
   },
+  "icu:Preferences__button--linked-devices": {
+    "messageformat": "Linked Devices"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "عام"
   },
@@ -6342,6 +6357,186 @@
   },
   "icu:Preferences--system": {
     "messageformat": "نظام"
+  },
+  "icu:LinkDevice--OSPrompt--Mac": {
+    "messageformat": "link a new device"
+  },
+  "icu:LinkDevice--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to link a new device."
+  },
+  "icu:LinkDevice--OSPrompt--description--Linux": {
+    "messageformat": "Link a device"
+  },
+  "icu:LinkDevice--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to link a new device."
+  },
+  "icu:Preferences--LinkedDevices--title": {
+    "messageformat": "Linked devices"
+  },
+  "icu:Preferences--LinkedDevices--description": {
+    "messageformat": "Use Signal on another device. Your messages will sync to your linked devices. <learnMore>Learn more</learnMore>"
+  },
+  "icu:Preferences--LinkedDevices--button": {
+    "messageformat": "Link a new device"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--title": {
+    "messageformat": "Linked devices"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--defaultName": {
+    "messageformat": "Linked device"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--createdAt": {
+    "messageformat": "Linked {date}"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--lastSeenAt": {
+    "messageformat": "Last active {date}"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--openMenu": {
+    "messageformat": "Open menu"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--rename": {
+    "messageformat": "Rename"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--unlink": {
+    "messageformat": "Unlink"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--footer": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption on all devices"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--title": {
+    "messageformat": "Signal on a linked device"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet1": {
+    "messageformat": "All messaging on linked devices is private"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet2": {
+    "messageformat": "Signal messages are synchronized with Signal on your desktop after it is linked."
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet3": {
+    "messageformat": "On your other device, visit <linkToSignal>signal.org/download</linkToSignal> to install Signal"
+  },
+  "icu:Preferences--LinkedDevices--EditDeviceNameDialog--title": {
+    "messageformat": "Edit device name"
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--title": {
+    "messageformat": "Unlink \"{name}\""
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--description": {
+    "messageformat": "This device will no longer be able to send or receive messages if it is unlinked."
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--unlinkButton": {
+    "messageformat": "Unlink"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--title": {
+    "messageformat": "Scan QR code"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--description": {
+    "messageformat": "Scan the QR code displayed on the device to link"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--title": {
+    "messageformat": "Linking device failed"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--description": {
+    "messageformat": "Make sure you are on the latest version of Signal, and scanning a QR code from within Signal and not another app."
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--retry-button": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--title": {
+    "messageformat": "Finish linking"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--title": {
+    "messageformat": "Transfer Message History"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--description": {
+    "messageformat": "Transfer your text messages and your last 45 days of media"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--title": {
+    "messageformat": "Don't transfer"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--description": {
+    "messageformat": "No old messages or media will be transferred to your linked device"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--title": {
+    "messageformat": "Syncing messages..."
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--progress": {
+    "messageformat": "{percentage,number,percent} complete"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--do-not-close": {
+    "messageformat": "Do not close Signal"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--title": {
+    "messageformat": "Linking device"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--progress": {
+    "messageformat": "Your device is being linked..."
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--title": {
+    "messageformat": "Linking device failed"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--description": {
+    "messageformat": "Something went wrong! Please ensure that both devices are connected to the internet and try again."
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--contact-support": {
+    "messageformat": "Contact support"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--title": {
+    "messageformat": "Not enough storage space"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--description": {
+    "messageformat": "You don’t have enough free storage space on your device to transfer your messages. Free up some space and try again, or link your device without transferring your messages."
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--title": {
+    "messageformat": "Message sync failed"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--description": {
+    "messageformat": "Your device was successfully linked, but your messages could not be transferred."
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--contact-support": {
+    "messageformat": "Contact support"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--continue": {
+    "messageformat": "Continue"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--title": {
+    "messageformat": "Message sync failed"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--description": {
+    "messageformat": "Your messages couldn’t be transferred to your linked device. You can try re-linking and transferring again, or continue without transferring your message history."
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--continue-no-transfer": {
+    "messageformat": "Continue without transferring"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--title": {
+    "messageformat": "Include a debug log?"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--description": {
+    "messageformat": "Including your debug log helps us diagnose and fix the issue, and does not contain identifying information. This is optional."
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--include-log-checkbox": {
+    "messageformat": "Include debug log"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--view": {
+    "messageformat": "View"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--no-thanks": {
+    "messageformat": "No thanks"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--contact-support": {
+    "messageformat": "Contact support"
   },
   "icu:Preferences--signal-login": {
     "messageformat": "Signal Login"
@@ -8248,6 +8443,9 @@
   "icu:StoryDetailsModal__download-attachment": {
     "messageformat": "منسلک مواد ڈاؤن لوڈ کریں"
   },
+  "icu:StoryDetailsModal__more-actions": {
+    "messageformat": "More actions"
+  },
   "icu:StoryViewsNRepliesModal__read-receipts-off": {
     "messageformat": "میسج پڑھنے کا ثبوت فعال کریں تاکہ دیکھ سکیں کس نے آپ کی سٹوریز دیکھی ہیں۔ اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور سیٹنگز > سٹوریز پر نیویگیٹ کریں۔"
   },
@@ -9360,15 +9558,6 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.32--0": {
-    "messageformat": "اب غیر پڑھے گئے میسج کا فلٹر میسج فولڈرز اور سرچ انٹرفیس میں بھی سپورٹ کردہ ہے تاکہ آپ کو فوری پتہ چل جائے کہ آپ سے کیا چھوٹ گیا ہے۔"
-  },
-  "icu:WhatsNew__8.32--1": {
-    "messageformat": "خراب نیٹ ورک کی صورتِ حال اپ لوڈ کے عمل کو مزید قابلِ اعتماد بنایا گیا ہے۔ شکریہ، <GH3mmmbulus></GH3mmmbulus>!"
-  },
-  "icu:WhatsNew__8.32--2": {
-    "messageformat": "&quot;(N)&quot; شارٹ کٹ اب درست طور پر ناپسندیدگی کے اظہار والے ایموجی (thumbs down) پر لے جاتا ہے۔ نقص ٹھیک کرنے پر <lnicola></lnicola> کو داد۔"
-  },
   "icu:WhatsNew__8.34--0": {
     "messageformat": "Signal ڈیسک ٹاپ اب رابطے شیئر کرنے کے لیے معاونت کرتا ہے، تاکہ آپ کی نظریں کمپیوٹر سکرین پر رہیں اور آپ کو سمارٹ فون نہ اٹھانا پڑے۔"
   },
@@ -9377,5 +9566,8 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
+  },
+  "icu:WhatsNew__8.36--0--fix": {
+    "messageformat": "اب آپ کے پسندیدہ اسٹیکرز ایک نئی جگہ پر ہوں گے۔ کسی بھی اسٹیکر کو اپنی پسندیدہ کی فہرست میں شامل کریں تاکہ آپ آسانی سے شیئر کر سکیں۔"
   }
 }

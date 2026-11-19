@@ -934,10 +934,6 @@
     "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device.",
     "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification is unavailable"
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay",
-    "description": "(Deleted 2026/10/20) A dismiss button text for an education modal in Key Transparency section"
-  },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "A safety number will be created with this person after you exchange messages with them.",
     "description": "Body of SafetyNumberNotReady modal"
@@ -973,10 +969,6 @@
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal can now auto-verify encryption",
     "description": "Key Transparency Onboarding Dialog > Title"
-  },
-  "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers.",
-    "description": "(Deleted 2026/10/20) Key Transparency Onboarding Dialog > Description"
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
     "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>",
@@ -1325,30 +1317,6 @@
   "icu:sendMessageToContact": {
     "messageformat": "Send Message",
     "description": "Shown when you are sent a contact and that contact has a signal account"
-  },
-  "icu:home": {
-    "messageformat": "home",
-    "description": "(Deleted 2026/10/15) Shown on contact detail screen as a label for an address/phone/email"
-  },
-  "icu:work": {
-    "messageformat": "work",
-    "description": "(Deleted 2026/10/15) Shown on contact detail screen as a label for an address/phone/email"
-  },
-  "icu:mobile": {
-    "messageformat": "mobile",
-    "description": "(Deleted 2026/10/15) Shown on contact detail screen as a label for a phone or email"
-  },
-  "icu:email": {
-    "messageformat": "email",
-    "description": "(Deleted 2026/10/15) Generic label shown if contact email has custom type but no label"
-  },
-  "icu:phone": {
-    "messageformat": "phone",
-    "description": "(Deleted 2026/10/15) Generic label shown if contact phone has custom type but no label"
-  },
-  "icu:address": {
-    "messageformat": "address",
-    "description": "(Deleted 2026/10/15) Generic label shown if contact address has custom type but no label"
   },
   "icu:poBox": {
     "messageformat": "PO Box",
@@ -1885,10 +1853,6 @@
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
     "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat.",
     "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Description"
-  },
-  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay",
-    "description": "(Deleted 2026/10/20) Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Okay Button"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}",
@@ -5586,10 +5550,6 @@
     "messageformat": "No thanks",
     "description": "Secondary button text in the dialog shown when an unexpected user interface or coding bug occurs. Clicking the button will dismiss the error dialog."
   },
-  "icu:Confirmation--confirm": {
-    "messageformat": "Okay",
-    "description": "(Deleted 2026/10/20) Button to dismiss popup dialog when user-initiated task has gone wrong"
-  },
   "icu:MessageMaxEditsModal__Title": {
     "messageformat": "Can't edit message",
     "description": "Title in popup dialog when attempting to edit a message too many times."
@@ -7538,10 +7498,6 @@
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Delete",
     "description": "Text of a button in confirmation modal when deleting an attachment from media gallery"
-  },
-  "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2026/10/20) Text of a button in confirmation modal when deleting an attachment from media gallery"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "You can only forward up to 30 messages",
@@ -12757,18 +12713,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing.",
-    "description": "(Deleted 2026/10/20) Release notes for 8.32"
-  },
-  "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!",
-    "description": "(Deleted 2026/10/20) Release notes for 8.32"
-  },
-  "icu:WhatsNew__8.32--2": {
-    "messageformat": "The \"(N)\" shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix.",
-    "description": "(Deleted 2026/10/20) Release notes for 8.32"
-  },
   "icu:WhatsNew__8.34--0": {
     "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone.",
     "description": "(Deleted 2026/11/05) Release notes for 8.34"
@@ -12779,10 +12723,10 @@
   },
   "icu:WhatsNew__8.36--0": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love.",
-    "description": "Release notes for 8.36"
+    "description": "(Deleted 2026/11/19) Release notes for 8.36"
   },
   "icu:WhatsNew__8.36--0--fix": {
     "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker to your list of favorites so it's easy to stick with the ones you love.",
-    "description": "Release notes for 8.36"
+    "description": "(Deleted 2026/11/19) Release notes for 8.36"
   }
 }
