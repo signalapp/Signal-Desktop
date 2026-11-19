@@ -706,7 +706,8 @@ export async function downloadEphemeralPack(
     existingPack &&
     (existingPack.status === 'downloaded' ||
       existingPack.status === 'installed' ||
-      existingPack.status === 'pending')
+      existingPack.status === 'pending' ||
+      existingPack.status === 'known')
   ) {
     if (existingPack.status === 'pending') {
       log.info(
