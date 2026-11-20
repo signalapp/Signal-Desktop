@@ -170,6 +170,7 @@ function DeleteMessagesSelectDeleteTypeDialog(props: {
           <AxoAlertDialog.Action
             variant="subtle-destructive"
             onClick={props.onSelectDeleteForMe}
+            autoFocus
           >
             {props.isMe
               ? i18n('icu:DeleteMessagesModal--noteToSelf--deleteSync')
