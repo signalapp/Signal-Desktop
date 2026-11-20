@@ -25,6 +25,7 @@ import {
   deleteAvatar,
   writeNewAvatarData,
 } from '../../util/migrations.preload.ts';
+import { TEMP_PATH } from '../../util/basePaths.preload.ts';
 import type { DurationInSeconds } from '../../util/durations/index.std.ts';
 import * as universalExpireTimer from '../../util/universalExpireTimer.preload.ts';
 import * as Attachment from '../../util/Attachment.std.ts';
@@ -1241,6 +1242,7 @@ export const actions = {
   saveAttachment,
   saveAttachments,
   saveAttachmentFromMessage,
+  dragAttachment,
   saveAvatarToDisk,
   scrollToMessage,
   scrollToOldestUnreadMention,
@@ -4153,6 +4155,26 @@ function saveAttachment(
           },
         },
       });
+    }
+  };
+}
+
+export type DragAttachmentActionCreatorType = ReadonlyDeep<
+  (attachment: AttachmentType, timestamp?: number) => unknown
+>;
+
+function dragAttachment(
+  attachment: AttachmentType,
+  timestamp = Date.now()
+): AsyncStateThunk<ShowToastActionType> {
+  return async () => {
+    const fullPath = await doSaveAttachment({
+      attachment,
+      timestamp,
+      baseDir: TEMP_PATH,
+    });
+    if (fullPath) {
+      ipcRenderer.send('start-attachment-drag', fullPath);
     }
   };
 }
