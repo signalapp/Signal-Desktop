@@ -23,7 +23,7 @@
             img-src 'self' blob: data: emoji: attachment:;
             media-src 'self' blob: attachment:;
             object-src 'none';
-            script-src 'self' 'sha256-Qu05oqDmBO5fZacm7tr/oerJcqsW0G/XqP4PRCziovc=' 'sha256-eLeGwSfPmXJ+EUiLfIeXABvLiUqDbiKgNLpHITaabgQ=';
+            script-src 'self' 'sha256-gcJFfNmWDc8lESTQLGpK7NKJoPgl5xmBa3oK8oJbXu8=' 'sha256-PAD1btTV1YblRqc+il22ezqkU3DQF63KXyv+STMrxbY=';
             style-src 'self' 'unsafe-inline';"
     />
     <title>Signal</title>
@@ -111,20 +111,20 @@
         </div>
         <div class="message-placeholder"></div>
       </div>
-    </div>
 
-    <script type="text/javascript">
-      document
-        .querySelector('.app-loading-screen')
-        .addEventListener('dblclick', () => window.showDebugLog());
-    </script>
+      <script type="text/javascript">
+        document
+          .querySelector('.app-loading-screen')
+          .addEventListener('dblclick', () => window.showDebugLog());
+      </script>
 
-    <!--
+      <!--
     Note: this inline script cannot be changed without also changing the hash in
     the CSP at the top of this file
     -->
-    <script type="text/javascript">
-      window.startApp();
-    </script>
+      <script type="text/javascript">
+        window.startApp();
+      </script>
+    </div>
   </body>
 </html>
