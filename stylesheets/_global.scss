@@ -72,6 +72,7 @@ audio {
 
 button {
   -webkit-app-region: no-drag;
+  user-select: none;
 }
 button:not(:disabled, [aria-disabled='true']) {
   cursor: pointer;
