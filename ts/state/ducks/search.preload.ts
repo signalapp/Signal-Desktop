@@ -30,6 +30,12 @@ import {
 } from '../selectors/search.preload.ts';
 import { getAllConversations } from '../selectors/conversations.dom.ts';
 import {
+  getSelectedChatFolder,
+  getStableSelectedConversationIdInChatFolder,
+} from '../selectors/chatFolders.std.ts';
+import { isConversationInChatFolder } from '../../types/ChatFolder.std.ts';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.ts';
+import {
   getIntl,
   getRegionCode,
   getUserConversationId,
@@ -404,6 +410,9 @@ const doSearch = debounce(
     const filterByUnread = getFilterByUnread(state);
     const i18n = getIntl(state);
     const allConversations = getAllConversations(state);
+    const selectedChatFolder = getSelectedChatFolder(state);
+    const stableSelectedConversationIdInChatFolder =
+      getStableSelectedConversationIdInChatFolder(state);
     const regionCode = getRegionCode(state);
     const noteToSelf = i18n('icu:noteToSelf').toLowerCase();
     const ourConversationId = getUserConversationId(state);
@@ -458,6 +467,8 @@ const doSearch = debounce(
             noteToSelf,
             regionCode,
             allConversations,
+            selectedChatFolder,
+            stableSelectedConversationIdInChatFolder,
             /**
              * If filter by unread is enabled, the selected conversation
              * is read, and it's already in the list, we don't want to remove it
@@ -534,6 +545,8 @@ async function queryConversationsAndContacts(
     noteToSelf: string;
     regionCode: string | undefined;
     allConversations: ReadonlyArray<ConversationType>;
+    selectedChatFolder: CurrentChatFolder | null;
+    stableSelectedConversationIdInChatFolder: string | null;
     conversationToInject?: ConversationType;
   }
 ): Promise<{
@@ -547,6 +560,8 @@ async function queryConversationsAndContacts(
     noteToSelf,
     regionCode,
     allConversations,
+    selectedChatFolder,
+    stableSelectedConversationIdInChatFolder,
   } = options;
 
   const normalizedQuery = removeDiacritics(query);
@@ -583,8 +598,27 @@ async function queryConversationsAndContacts(
     return !messagesDeleted;
   });
 
+  // When filtering by unread, stay inside the selected chat folder, mirroring
+  // the no-query path in getSearchResults. Without a folder selected (or
+  // without the unread filter) this is a no-op.
+  const conversationsToSearch =
+    filterByUnread && selectedChatFolder != null
+      ? visibleConversations.filter(conversation => {
+          if (
+            stableSelectedConversationIdInChatFolder != null &&
+            conversation.id === stableSelectedConversationIdInChatFolder
+          ) {
+            return true;
+          }
+          return isConversationInChatFolder(
+            selectedChatFolder,
+            conversation
+          );
+        })
+      : visibleConversations;
+
   const searchResults: Array<ConversationType> = filterAndSortConversations(
-    visibleConversations,
+    conversationsToSearch,
     normalizedQuery,
     regionCode,
     filterByUnread,
