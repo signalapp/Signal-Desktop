@@ -113,6 +113,7 @@ import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
 import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.dom.tsx';
 import { CallingDeviceSelectionItems } from './CallingDeviceSelectionItems.dom.tsx';
 import { PreferencesList } from './preferences/PreferencesList.dom.tsx';
+import { CallingDeviceTestItems } from './CallingDeviceTestItems.dom.tsx';
 import { PreferencesLanguageDialog } from './preferences/PreferencesLanguageDialog.dom.tsx';
 import { DeleteAccountConfirmDialog } from './preferences/DeleteAccountConfirmDialog.dom.tsx';
 
@@ -138,6 +139,7 @@ export type PropsDataType = {
   pauseBackupMediaDownload: VoidFunction;
   cancelBackupMediaDownload: VoidFunction;
   resumeBackupMediaDownload: VoidFunction;
+  requestMicrophoneAccess: () => Promise<boolean>;
   blockedContactCount: number;
   blockedGroupCount: number;
   customChatColors: ReadonlyArray<ChatStyle.CustomChatColor>;
@@ -453,6 +455,7 @@ export function Preferences({
   backupMediaDownloadStatus,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
+  requestMicrophoneAccess,
   cancelBackupMediaDownload,
   backupFreeMediaDays,
   backupKey,
@@ -1466,6 +1469,12 @@ export function Preferences({
             onSelectedCameraChange={onSelectedCameraChange}
             onSelectedMicrophoneChange={onSelectedMicrophoneChange}
             onSelectedSpeakerChange={onSelectedSpeakerChange}
+          />
+          <CallingDeviceTestItems
+            i18n={i18n}
+            selectedMicrophone={selectedMicrophone}
+            selectedSpeaker={selectedSpeaker}
+            requestMicrophoneAccess={requestMicrophoneAccess}
           />
         </PreferencesList>
         <PreferencesList label={i18n('icu:Preferences--advanced')}>

@@ -711,6 +711,7 @@ export default {
     refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),
     removeCustomColor: action('removeCustomColor'),
     resumeBackupMediaDownload: action('resumeBackupMediaDownload'),
+    requestMicrophoneAccess: async () => true,
     pauseBackupMediaDownload: action('pauseBackupMediaDownload'),
     cancelBackupMediaDownload: action('cancelBackupMediaDownload'),
     resetAllChatColors: action('resetAllChatColors'),
