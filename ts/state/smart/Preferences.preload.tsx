@@ -60,6 +60,7 @@ import {
 import { calling } from '../../services/calling.preload.ts';
 import { drop } from '../../util/drop.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
+import { requestMicrophonePermissions } from '../../util/requestMicrophonePermissions.dom.ts';
 import { backupsService } from '../../services/backups/index.preload.ts';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.ts';
@@ -269,7 +270,8 @@ export function SmartPreferences(): JSX.Element | null {
   const { internalAddDonationReceipt } = useDonationsActions();
   const { startPlaintextExport, startLocalBackupExport } = useBackupActions();
   const { addVisibleMegaphone } = useMegaphonesActions();
-  const { showPinChangeModal } = useGlobalModalActions();
+  const { showPinChangeModal, ensureSystemMediaPermissions } =
+    useGlobalModalActions();
 
   // Selectors
 
@@ -913,6 +915,19 @@ export function SmartPreferences(): JSX.Element | null {
     getDefaultAudioPreference(OS.isWindows())
   );
 
+  const requestMicrophoneAccess = useCallback(async (): Promise<boolean> => {
+    const hasPermission = await requestMicrophonePermissions(true);
+    if (!hasPermission) {
+      return false;
+    }
+    try {
+      await ensureSystemMediaPermissions('microphone', 'call');
+    } catch {
+      return false;
+    }
+    return true;
+  }, [ensureSystemMediaPermissions]);
+
   const [sentMediaQualitySetting, onSentMediaQualityChange] = createItemsAccess(
     'sent-media-quality',
     'standard'
@@ -1220,6 +1235,7 @@ export function SmartPreferences(): JSX.Element | null {
         resolvedLocale={resolvedLocale}
         savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
         resumeBackupMediaDownload={resumeBackupMediaDownload}
+        requestMicrophoneAccess={requestMicrophoneAccess}
         pauseBackupMediaDownload={pauseBackupMediaDownload}
         cancelBackupMediaDownload={cancelBackupMediaDownload}
         selectedCamera={selectedCamera ?? null}

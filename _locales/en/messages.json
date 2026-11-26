@@ -9780,6 +9780,42 @@
     "messageformat": "Devices",
     "description": "Label for Device list in call settings pane"
   },
+  "icu:Preferences__test-microphone": {
+    "messageformat": "Test microphone",
+    "description": "Call settings > Devices > Label for the toggle that starts a microphone test"
+  },
+  "icu:Preferences__test-microphone--description": {
+    "messageformat": "Speak to check that your microphone is working.",
+    "description": "Call settings > Devices > Description under the microphone test toggle"
+  },
+  "icu:Preferences__test-microphone--level": {
+    "messageformat": "Microphone level",
+    "description": "Call settings > Devices > Label for the meter that shows the current microphone volume while testing"
+  },
+  "icu:Preferences__test-microphone--permission-denied": {
+    "messageformat": "Signal doesn't have permission to use your microphone.",
+    "description": "Call settings > Devices > Shown under the microphone test toggle when microphone access was denied"
+  },
+  "icu:Preferences__test-microphone--failed": {
+    "messageformat": "Couldn't start your microphone. Try selecting a different device.",
+    "description": "Call settings > Devices > Shown under the microphone test toggle when the microphone could not be started"
+  },
+  "icu:Preferences__test-device--fallback": {
+    "messageformat": "{deviceName} couldn't be tested, so your system default device is being used instead.",
+    "description": "Call settings > Devices > Shown when the selected microphone or speaker can't be used for a test and the system default device is used instead"
+  },
+  "icu:Preferences__test-speakers": {
+    "messageformat": "Test speakers",
+    "description": "Call settings > Devices > Label for the row with a button that plays a test sound"
+  },
+  "icu:Preferences__test-speakers--play": {
+    "messageformat": "Play test sound",
+    "description": "Call settings > Devices > Button that plays a test sound on the selected speakers"
+  },
+  "icu:Preferences__test-speakers--stop": {
+    "messageformat": "Stop",
+    "description": "Call settings > Devices > Button that stops the test sound"
+  },
   "icu:Preferences__turn-stories-on": {
     "messageformat": "Turn on stories",
     "description": "Label to enable stories"
